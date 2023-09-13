@@ -597,8 +597,8 @@ Deletes an existing spot.
 * Require Authentication: true
 * Require proper authorization: Spot must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `DELETE`
+  * URL: `/spots/:spotId`
   * Body: none
 
 * Successful Response
@@ -689,8 +689,8 @@ Returns all the reviews that belong to a spot specified by id.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `GET`
+  * URL: `spots/:spotId/reviews`
   * Body: none
 
 * Successful Response
@@ -744,8 +744,8 @@ Create and return a new review for a spot specified by id.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `POST`
+  * URL: `/spots/:spotId/reviews`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -822,8 +822,8 @@ Create and return a new image for a review specified by id.
 * Require Authentication: true
 * Require proper authorization: Review must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `POST`
+  * URL: `users/:userId/reviews/:reviewId`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -879,8 +879,8 @@ Update and return an existing review.
 * Require Authentication: true
 * Require proper authorization: Review must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `PATCH`
+  * URL: `users/:userId/reviews/:reviewId`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -945,8 +945,8 @@ Delete an existing review.
 * Require Authentication: true
 * Require proper authorization: Review must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `DELETE`
+  * URL: `/users/:userId/reviews/:reviewId`
   * Body: none
 
 * Successful Response
@@ -981,8 +981,8 @@ Return all the bookings that the current user has made.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `GET`
+  * URL: `users/:userId/bookings`
   * Body: none
 
 * Successful Response
@@ -1026,8 +1026,8 @@ Return all the bookings for a spot specified by id.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `GET`
+  * URL: `spots/:spotId/bookings`
   * Body: none
 
 * Successful Response: If you ARE NOT the owner of the spot.
