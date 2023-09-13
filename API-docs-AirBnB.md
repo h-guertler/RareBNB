@@ -2,7 +2,8 @@
 
 ## Database Schema Design
 
-`<insert database schema design here>`
+`https://dbdiagram.io/d/6501bd8402bd1c4a5e80bf29`
+
 
 ## API Documentation
 
@@ -287,7 +288,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: `GET`
-  * URL: `/spots/:userId`
+  * URL: `/users/:userId/spots`
   * Body: none
 
 * Successful Response
@@ -1352,7 +1353,7 @@ Delete an existing image for a Review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: `DELETE`
-  * URL: `/spots/:spotId/reviews/:reviewId/:imgId`
+  * URL: `/users/:userId/reviews/:reviewId/:imgId`
   * Body: none
 
 * Successful Response
