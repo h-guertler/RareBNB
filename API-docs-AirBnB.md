@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-`https://dbdiagram.io/d/6501bd8402bd1c4a5e80bf29`
+[Schema-Diagram](/RareBNB/RareBNB-Schema-v1.png)
 
 
 ## API Documentation
