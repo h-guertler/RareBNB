@@ -287,7 +287,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: `GET`
-  * URL: `/spots/:currentUserId`
+  * URL: `/spots/:userId`
   * Body: none
 
 * Successful Response
@@ -511,7 +511,7 @@ Updates and returns an existing spot.
 * Require Authentication: true
 * Require proper authorization: Spot must belong to the current user
 * Request
-  * Method: `PUT` // because the entire resource, including fields that aren't updated, are sent (?)
+  * Method: `PATCH`
   * URL: `/spots/:spotId`
   * Headers:
     * Content-Type: application/json
@@ -823,7 +823,7 @@ Create and return a new image for a review specified by id.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: `POST`
-  * URL: `users/:userId/reviews/:reviewId`
+  * URL: `spots/:spotId/reviews/:reviewId`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -880,7 +880,7 @@ Update and return an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: `PATCH`
-  * URL: `users/:userId/reviews/:reviewId`
+  * URL: `spots/:spotId/reviews/:reviewId`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -946,7 +946,7 @@ Delete an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: `DELETE`
-  * URL: `/users/:userId/reviews/:reviewId`
+  * URL: `/spots/:spotId/reviews/:reviewId`
   * Body: none
 
 * Successful Response
@@ -1095,7 +1095,7 @@ Create and return a new booking from a spot specified by id.
 * Require proper authorization: Spot must NOT belong to the current user
 * Request
   * Method: `POST`
-  * URL: `spots/:spotId/bookings`
+  * URL: `/spots/:spotId/bookings`
   * Body:
 
     ```json
@@ -1352,7 +1352,7 @@ Delete an existing image for a Review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: `DELETE`
-  * URL: `/users/:userId/reviews/:reviewId/:imgId`
+  * URL: `/spots/:spotId/reviews/:reviewId/:imgId`
   * Body: none
 
 * Successful Response
