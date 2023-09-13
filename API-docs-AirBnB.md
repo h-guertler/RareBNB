@@ -1094,8 +1094,8 @@ Create and return a new booking from a spot specified by id.
 * Require Authentication: true
 * Require proper authorization: Spot must NOT belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `POST`
+  * URL: `spots/:spotId/bookings`
   * Body:
 
     ```json
@@ -1173,8 +1173,8 @@ Update and return an existing booking.
 * Require Authentication: true
 * Require proper authorization: Booking must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `PUT`
+  * URL: `/spots/:spotId/bookings/:bookingId`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1267,8 +1267,8 @@ Delete an existing booking.
 * Require proper authorization: Booking must belong to the current user or the
   Spot must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `DELETE`
+  * URL: `/spots/:spotId/bookings/:bookingId`
   * Body: none
 
 * Successful Response
@@ -1316,8 +1316,8 @@ Delete an existing image for a Spot.
 * Require Authentication: true
 * Require proper authorization: Spot must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `DELETE`
+  * URL: `/spots/:spotId/:imgId`
   * Body: none
 
 * Successful Response
@@ -1351,8 +1351,8 @@ Delete an existing image for a Review.
 * Require Authentication: true
 * Require proper authorization: Review must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `DELETE`
+  * URL: `/users/:userId/reviews/:reviewId/:imgId`
   * Body: none
 
 * Successful Response
@@ -1385,8 +1385,8 @@ Return spots filtered by query parameters.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: `GET`
+  * URL: `/spots/filtered` // maybe delete /filtered because this is just the first requent but more specific?
   * Query Parameters
     * page: integer, minimum: 1, maximum: 10, default: 1
     * size: integer, minimum: 1, maximum: 20, default: 20
