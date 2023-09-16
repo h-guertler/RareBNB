@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-[Schema-Diagram](/RareBNB/rarebnb-schema-v2.png)
+[db-schema](https://github.com/h-guertler/RareBNB/blob/main/images/rarebnb-schema-v2.JPG)
 
 
 ## API Documentation
