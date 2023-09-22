@@ -14,17 +14,25 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      username: {
-        type: Sequelize.STRING(30),
+      firstName: {
         allowNull: false,
-        unique: true,
+        type: Sequelize.STRING(30),
+      },
+      lastName: {
+        allowNull: false,
+        type: Sequelize.STRING(30),
       },
       email: {
         allowNull: false,
         unique: true,
         type: Sequelize.STRING(256)
+      },
+      username: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+        unique: true,
       },
       hashedPassword: {
         allowNull: false,
@@ -43,7 +51,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = Users;
+    options.tableName = `Users`;
     await queryInterface.dropTable(options);
   }
 };
