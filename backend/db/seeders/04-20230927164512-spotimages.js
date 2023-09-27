@@ -48,10 +48,10 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = "SpotImages";
+    options.tableName = "SpotImage";
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      username: { [Op.in]: ["a-hobbit"] },
+      url: { [Op.in]: ["spot1img.com/img1", "spot2img.com/img1", "spot3img.com/img1"] },
     }, {});
   }
 };
