@@ -26,5 +26,11 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'ReviewImage',
   });
+
+  ReviewImage.associate = models => {
+    const Review = models.Review;
+    ReviewImage.belongsTo(Review, { foreignKey: 'reviewId' });
+  };
+
   return ReviewImage;
 };

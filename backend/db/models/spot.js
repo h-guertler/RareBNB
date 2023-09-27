@@ -58,5 +58,20 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Spot',
   });
+
+  Spot.associate = models => {
+    const User = models.User;
+    Spot.belongsTo(User, { foreignKey: 'ownerId' });
+
+    const Booking = models.Booking;
+    Spot.hasMany(Booking, { foreignKey: 'spotId' });
+
+    const Review = models.Review;
+    Spot.hasMany(Review, { foreignKey: 'spotId' });
+
+    const ReviewImage = models.ReviewImage;
+    Spot.hasMany(ReviewImage, { foreignKey: 'spotId' });
+  };
+
   return Spot;
 };

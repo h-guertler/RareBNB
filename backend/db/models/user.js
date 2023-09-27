@@ -3,6 +3,10 @@ const {
   Model,
   Validator
 } = require('sequelize');
+
+const Spot = require("./spot");
+const Review = require("./review");
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -11,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
     }
   }
   User.init({
@@ -61,5 +64,16 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
+
+  User.associate = models => {
+    const Booking = models.Booking;
+    User.hasMany(Booking, { foreignKey: 'userId' });
+
+    const Review = models.Review;
+    User.hasMany(Review, { foreignKey: 'userId' });
+
+    const Spot = models.Spot;
+    User.hasMany(Spot, { foreignKey: 'ownerId' });
+  }
   return User;
 };

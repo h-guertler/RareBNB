@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       allowNull: false,
       type: DataTypes.INTEGER,
+      references: { model: 'Users' },
     },
     startDate: {
       allowNull: false,
@@ -34,5 +35,14 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Booking',
   });
+
+  Booking.associate = models => {
+    const User = models.User;
+    Booking.belongsTo(User, { foreignKey: 'userId' });
+
+    const Spot = models.Spot;
+    Booking.belongsTo(Spot, { foreignKey: 'spotId' });
+  }
+
   return Booking;
 };

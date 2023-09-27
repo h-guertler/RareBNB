@@ -30,5 +30,11 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'SpotImage',
   });
+
+  SpotImage.associate = models => {
+    const Spot = models.Spot;
+    SpotImage.belongsTo(Spot, { foreignKey: 'spotId' });
+  }
+
   return SpotImage;
 };
