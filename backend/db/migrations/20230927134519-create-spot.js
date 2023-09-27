@@ -50,6 +50,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DECIMAL
       },
+      avgRating: {
+        type: Sequelize.DECIMAL
+      },
+      previewImage: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         allowNull: false,
