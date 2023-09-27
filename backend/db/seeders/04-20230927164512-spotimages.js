@@ -1,10 +1,11 @@
 'use strict';
 
-const { User } = require("../models");
+const { SpotImage } = require("../models");
 const bcrypt = require("bcryptjs");
 
 let options = {};
 
+ // defines schema in options object
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
@@ -21,20 +22,21 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await User.bulkCreate([
+   await SpotImage.bulkCreate([
     {
-      firstName: "Jon",
-      lastName: "Snow",
-      email: "jon.snow@snow.com",
-      username: "jon-snow",
-      hashedPassword: bcrypt.hashSync("password"),
+      spotId: 1,
+      url: "spot1img.com/img1",
+      preview: true,
     },
     {
-      firstName: "Digory",
-      lastName: "Kirke",
-      email: "digory.kirke@kirke.com",
-      username: "digory-kirke",
-      hashedPassword: bcrypt.hashSync("password"),
+      spotId: 2,
+      url: "spot2img.com/img1",
+      preview: true,
+    },
+    {
+      spotId: 3,
+      url: "spot3img.com/img1",
+      preview: false,
     }
    ], { validate: true });
   },
@@ -46,10 +48,10 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = "User";
+    options.tableName = "SpotImages";
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      username: { [Op.in]: ["jon-snow", "digory-kirke"] },
+      username: { [Op.in]: ["a-hobbit"] },
     }, {});
   }
 };
