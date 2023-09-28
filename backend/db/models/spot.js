@@ -60,6 +60,15 @@ module.exports = (sequelize, DataTypes) => {
     previewImage: {
       type: DataTypes.DECIMAL,
     },
+    numReviews: {
+      type: DataTypes.INTEGER,
+    },
+    SpotImages: {
+      type: DataTypes.ARRAY (DataTypes.JSON),
+    },
+    Owner: {
+      type: DataTypes.JSON,
+    },
   }, {
     sequelize,
     modelName: 'Spot',
