@@ -87,9 +87,59 @@ router.get("/:spotId/reviews", async (req, res, next) => {
     return res.json(reviews);
 });
 
-router.post("/:spotId/reviews", async (req, res, next) => {
-    return res.json({ message: "this is post /:spotId/reviews" });
+router.post("/:spotId/reviews",
+    requireAuth,
+    async (req, res, next) => {
+        const spot = await Spot.findByPk(req.params.spotId);
+        if (!spot) return res.json({ message: "Spot couldn't be found" });
+        const userId = req.user.id;
+        const spotId = req.params.spotId;
+        const { review, stars } = req.body;
+        const newReview = await Review.create({ userId, spotId, review, stars });
+    return res.json(newReview);
 });
+
+router.put("/:spotId",
+requireAuth,
+(req, res, next) => {
+    // find a spot based on spotid
+    let spot = Spot.findByPk(req.params.spotId);
+    // destructure the req.body w all poss fields
+    const { address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price } = req.body;
+    // call the update method on the spot w this info?
+    if (address) spot.address = address;
+    // spot = { address,
+    //     city,
+    //     state,
+    //     country,
+    //     lat,
+    //     lng,
+    //     name,
+    //     price,
+    //     description }
+        return res.json(spot)
+});
+
+router.delete("/:spotId",
+    requireAuth,
+    async (req, res, next) => {
+        // add auth later
+        const doomedSpot = await Spot.findByPk(req.params.spotId);
+        if (doomedSpot) {
+            await doomedSpot.destroy();
+            return res.json({ message: "Successfully deleted. "})
+        } else {
+            return res.status(404).json({ message: "Spot couldn't be found" });
+        }
+    });
 
 router.get("/:spotId", async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId);
@@ -103,7 +153,7 @@ router.get("/:spotId", async (req, res, next) => {
         preview: true,
     }});
 
-    spot.previewImage = previewImg.url;
+    if (previewImg) spot.previewImage = previewImg.url;
 
     spot.numReviews = await calculateNumReviews(spot.id);
 
@@ -182,10 +232,6 @@ router.post("/", async (req, res, next) => {
         price } = req.body;
         const ownerId = req.user.id;
         const spot = await Spot.create({ ownerId, address, city, state, country, lat, lng, name, description, price });
-
-
-    // then return w all above fields -- now w id, CA, UA
-
     return res.json(spot);
 });
 

@@ -1,7 +1,8 @@
-const { ReviewImage, Review } = require("../../db/models");
+const { ReviewImage, Review, User } = require("../../db/models");
 const express = require('express');
 
 const router = express.Router();
+
 
 router.delete("/:imageId", async (req, res, next) => {
     const doomedImage = await ReviewImage.findByPk(req.params.imageId);
