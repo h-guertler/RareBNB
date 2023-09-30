@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
     SpotImages: {
-      type: DataTypes.ARRAY (DataTypes.JSON),
+      type: DataTypes.ARRAY(DataTypes.JSON),
     },
     Owner: {
       type: DataTypes.JSON,

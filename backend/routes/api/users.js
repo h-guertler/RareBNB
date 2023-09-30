@@ -13,6 +13,16 @@ const validateSignup = [
         .exists({ checkFalsy: true })
         .isEmail()
         .withMessage("Please provide a valid email."),
+    check("email")
+        .custom(value => {
+            const existingUser = User.findOne({where:
+            {
+                email: value
+            }});
+            // if the user exists, include the error message User already exists
+            // didnt work res.error.message = "User already exists"
+        })
+        .withMessage("User with that email already exists"),
     check("username")
         .exists({ checkFalsy: true})
         .isLength({ min: 4 })
