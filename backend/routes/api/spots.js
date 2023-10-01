@@ -161,11 +161,14 @@ requireAuth,
 router.delete("/:spotId",
     requireAuth,
     async (req, res, next) => {
-        // add auth later
         const doomedSpot = await Spot.findByPk(req.params.spotId);
         if (doomedSpot) {
-            await doomedSpot.destroy();
-            return res.json({ message: "Successfully deleted. "})
+            if (req.user.id === doomedSpot.ownerId) {
+                await doomedSpot.destroy();
+                return res.json({ message: "Successfully deleted. "})
+            } else {
+                return res.status(403).json({ message: "Forbidden" });
+            }
         } else {
             return res.status(404).json({ message: "Spot couldn't be found" });
         }
