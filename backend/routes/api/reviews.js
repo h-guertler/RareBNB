@@ -62,10 +62,5 @@ router.delete("/:reviewId",
         return res.json({ message: "Successfully deleted"})
 });
 
-router.get("/current",
-    requireAuth,
-    async (req, res, next) => {
-    return res.json({ message: " this is get /current" });
-});
 
 module.exports = router;
