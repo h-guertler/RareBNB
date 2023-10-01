@@ -68,8 +68,10 @@ router.delete("/:reviewId",
         const doomedReview = await Review.findByPk(req.params.reviewId);
 
         if (!doomedReview) return res.status(404).json({ message: "Review couldn't be found" });
-        await doomedReview.destroy();
-        return res.json({ message: "Successfully deleted"})
+        if (doomedReview.userId === req.user.id) {
+            await doomedReview.destroy();
+            return res.json({ message: "Successfully deleted"});
+        }
 });
 
 
