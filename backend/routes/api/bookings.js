@@ -33,8 +33,20 @@ router.get("/current",
 });
 
 
-router.put("/:bookingId", async (req, res, next) => {
-    return res.json({ message: "this is /:bookingId"} );
+router.put("/:bookingId",
+    requireAuth,
+    async (req, res, next) => {
+        const userId = req.user.id;
+        const booking = await Booking.findByPk(req.params.bookingId);
+
+        if (!booking) return res.status(404).json({ message: "Booking couldn't be found" });
+
+        if (booking.userId === userId) {
+            const { startDate, endDate } = req.body;
+            booking.startDate = startDate;
+            booking.endDate = endDate;
+            return res.json(booking);
+        }
 });
 
 router.delete("/:bookingId", async (req, res, next) => {
