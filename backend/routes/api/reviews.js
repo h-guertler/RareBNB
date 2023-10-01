@@ -42,18 +42,22 @@ router.post("/:reviewId/images",
         }
 });
 
-router.put("/:reviewId", async (req, res, next) => {
-    const review = await Review.findOne({where: {
-        id: req.params.reviewId
-    }});
+router.put("/:reviewId",
+    requireAuth,
+    async (req, res, next) => {
+        const review = await Review.findOne({where: {
+            id: req.params.reviewId
+        }});
 
-    review.id = req.params.reviewId;
-    review.userId = req.user.id;
-    review.spotId = review.spotId;
-    review.stars = req.body.stars;
-    review.review = req.body.review;
-    review.createdAt = review.createdAt;
-    review.updatedAt = new Date();
+        if (review && review.userId === req.user.id) {
+            review.id = req.params.reviewId;
+            review.userId = req.user.id;
+            review.spotId = review.spotId;
+            review.stars = req.body.stars;
+            review.review = req.body.review;
+            review.createdAt = review.createdAt;
+            review.updatedAt = new Date();
+        }
 
     return res.json(review);
 });
