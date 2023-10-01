@@ -67,18 +67,18 @@ router.get("/current",
 });
 
 router.post("/:spotId/images",
-requireAuth,
-async (req, res, next) =>{
-    const spot = await Spot.findByPk(req.params.spotId);
-    const { url, preview } = req.body;
-    const spotId = req.params.spotId;
+    requireAuth,
+    async (req, res, next) =>{
+        const spot = await Spot.findByPk(req.params.spotId);
+        const { url, preview } = req.body;
+        const spotId = req.params.spotId;
 
-    const newImage = await SpotImage.create({ spotId, url, preview });
+        const newImage = await SpotImage.create({ spotId, url, preview });
 
-    const imageRep  = {};
-    imageRep.id = newImage.id;
-    imageRep.url = newImage.url;
-    imageRep.preview = newImage.preview;
+        const imageRep  = {};
+        imageRep.id = newImage.id;
+        imageRep.url = newImage.url;
+        imageRep.preview = newImage.preview;
 
     return res.json(imageRep);
 });
@@ -222,7 +222,9 @@ router.get("/", async (req, res, next) => {
     res.json(allSpots);
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/",
+    requireAuth,
+    async (req, res, next) => {
     const { address,
         city,
         state,

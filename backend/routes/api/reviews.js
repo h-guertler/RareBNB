@@ -4,24 +4,27 @@ const { requireAuth } = require("../../utils/auth");
 
 const router = express.Router();
 
-router.get("/current", async (req, res, next) => {
-    const userId = req.user.id;
-    const myReviews = await Review.findAll({where: { userId: userId },
-    include: [
-        {
-            model: User,
-            as: "User",
-            attributes: ["id", "firstName", "lastName"],
-        },
-        {
-            model: ReviewImage,
-            as: "ReviewImages",
-            attributes: ["id", "url"]
-        },
-    ],
-    });
+router.get("/current",
+    requireAuth,
+    async (req, res, next) => {
+        const userId = req.user.id;
+        const myReviews = await Review.findAll({where: { userId: userId },
+            include: [
+                {
+                    model: User,
+                    as: "User",
+                    attributes: ["id", "firstName", "lastName"],
+                },
+                {
+                    model: ReviewImage,
+                as: "ReviewImages",
+                attributes: ["id", "url"]
+                },
+            ],
+        }
+    );
 
-    return res.json({myReviews});
+    return res.json({ myReviews });
 });
 
 router.post("/:reviewId/images", async (req, res, next) => {
@@ -59,7 +62,9 @@ router.delete("/:reviewId",
         return res.json({ message: "Successfully deleted"})
 });
 
-router.get("/current", async (req, res, next) => {
+router.get("/current",
+    requireAuth,
+    async (req, res, next) => {
     return res.json({ message: " this is get /current" });
 });
 
