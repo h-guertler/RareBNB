@@ -132,6 +132,8 @@ requireAuth,
 (req, res, next) => {
     // find a spot based on spotid
     let spot = Spot.findByPk(req.params.spotId);
+    const spotOwnerId = spot.ownerId;
+    if (req.user.id !== spotOwnerId) return res.status(403).json({ message: "Forbidden" });
     // destructure the req.body w all poss fields
     const { address,
         city,
