@@ -70,6 +70,9 @@ router.post("/:spotId/images",
     requireAuth,
     async (req, res, next) =>{
         const spot = await Spot.findByPk(req.params.spotId);
+        const spotOwnerId = spot.ownerId;
+        if (req.user.id !== spotOwnerId) return res.status(403).json({ message: "Forbidden" });
+
         const { url, preview } = req.body;
         const spotId = req.params.spotId;
 
