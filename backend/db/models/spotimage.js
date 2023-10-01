@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     spotId: {
       allowNull: false,
       type: DataTypes.INTEGER,
+      references: { model: "Spots" },
     },
     url: {
       allowNull: false,

@@ -41,6 +41,31 @@ const calculateNumReviews = async spotId => {
 
 const router = express.Router();
 
+router.get("/current",
+    requireAuth,
+    async (req, res, next) => {
+        const userId = req.user.id;
+        const mySpots = await Spot.findAll({
+            where: {
+                ownerId: userId,
+            },
+            attributes: {
+                exclude: [ 'Owner', 'numReviews', 'SpotImages' ]
+            }
+        });
+        for (let i = 0; i < mySpots.length; i++) {
+            const spot = mySpots[i];
+            spot.avgRating = await calculateAvgRating(spot.id);
+
+            const previewImg = await SpotImage.findOne({ where: {
+                spotId: spot.id,
+                preview: true
+            }});
+        if (previewImg) spot.previewImage = previewImg.url;
+        }
+        res.json(mySpots);
+});
+
 router.post("/:spotId/images",
 requireAuth,
 async (req, res, next) =>{
@@ -175,29 +200,6 @@ router.get("/:spotId", async (req, res, next) => {
     spot.Owner.lastName = ownerUser.lastName;
 
     return res.json(spot);
-});
-
-router.get("/current", requireAuth, async (req, res, next) => {
-    const userId = req.user.id;
-    const mySpots = await Spot.findAll({
-        where: {
-            ownerId: userId,
-        },
-        attributes: {
-            exclude: [ 'Owner', 'numReviews', 'SpotImages' ]
-        }
-    });
-    for (let i = 0; i < mySpots.length; i++) {
-        const spot = mySpots[i];
-        spot.avgRating = await calculateAvgRating(spot.id);
-
-        const previewImg = await SpotImage.findOne({ where: {
-            spotId: spot.id,
-            preview: true
-        }});
-        if (previewImg) spot.previewImage = previewImg.url;
-    }
-    res.json(mySpots)
 });
 
 router.get("/", async (req, res, next) => {

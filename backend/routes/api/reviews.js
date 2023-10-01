@@ -1,33 +1,62 @@
-const { Review, ReviewImage } = require("../../db/models");
+const { Review, ReviewImage, User, Spot } = require("../../db/models");
 const express = require('express');
 const { requireAuth } = require("../../utils/auth");
 
 const router = express.Router();
 
-router.post("/:reviewId/images",
+router.get("/current", async (req, res, next) => {
+    const userId = req.user.id;
+    const myReviews = await Review.findAll({where: { userId: userId },
+    include: [
+        {
+            model: User,
+            as: "User",
+            attributes: ["id", "firstName", "lastName"],
+        },
+        {
+            model: ReviewImage,
+            as: "ReviewImages",
+            attributes: ["id", "url"]
+        },
+    ],
+    });
+
+    return res.json({myReviews});
+});
+
+router.post("/:reviewId/images", async (req, res, next) => {
+    const reviewId = req.params.reviewId;
+    const { url } = req.body;
+    const newImg = await ReviewImage.create({reviewId, url});
+    const imgRep = {};
+    imgRep.id = newImg.id;
+    imgRep.url = newImg.url
+    return res.json(imgRep);
+});
+
+router.put("/:reviewId", async (req, res, next) => {
+    const review = await Review.findOne({where: {
+        id: req.params.reviewId
+    }});
+
+    review.id = req.params.reviewId;
+    review.userId = req.user.id;
+    review.spotId = review.spotId;
+    review.stars = req.body.stars;
+    review.review = req.body.review;
+    review.createdAt = review.createdAt;
+    review.updatedAt = new Date();
+
+    return res.json(review);
+});
+
+router.delete("/:reviewId",
     requireAuth,
     async (req, res, next) => {
-    const review = await Review.findByPk(req.params.reviewId);
-    console.log("rev : " + review)
-    if (review) {
-        const { url } = req.body;
-        const reviewId = req.params;
-        const newImg = await ReviewImage.create({ reviewId, url });
-        const imageRep = {};
-        imageRep.id = newImg.id;
-        imageRep.url = newImg.url;
-        return res.json(imageRep);
-    } else {
-        return res.json({ message: "Review couldn't be found"});
-    }
-});
-
-router.put("/:reviewId", (req, res, next) => {
-    return res.json("this is put /:reviewId");
-});
-
-router.delete("/:reviewId", (req, res, next) => {
-    return res.json("this is delete /:reviewId");
+        const doomedReview = await Review.findByPk(req.params.reviewId);
+        if (!doomedReview) return res.status(404).json({ message: "Review couldn't be found" });
+        await doomedReview.destroy();
+        return res.json({ message: "Successfully deleted"})
 });
 
 router.get("/current", async (req, res, next) => {

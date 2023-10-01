@@ -60,9 +60,9 @@ const restoreUser = (req, res, next) => {
     })
 };
 
-const requireAuth = function (req, _res, next) {
+const requireAuth = function (req, res, next) {
     if (req.user) return next();
-
+    res.status(401).send({ message: "Authentication required" });
     const err = new Error("Authentication required");
     err.title = "Authentication required";
     err.errors =  { message: "Authentication required" };
