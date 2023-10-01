@@ -116,8 +116,22 @@ router.get("/:spotId/bookings",
         return res.json({ Bookings });
 });
 
-router.post("/:spotId/bookings", async (req, res, next) => {
-    return res.json({ message: "this is post /:spotId/bookings"});
+router.post("/:spotId/bookings",
+    requireAuth,
+    async (req, res, next) => {
+        const spot = await Spot.findByPk(req.params.spotId);
+        if (!spot) return res.status(404).json({ message: "Spot couldn't be found" });
+
+        const userId = req.user.id;
+
+        if (spot.ownerId !== userId) {
+            const spotId = spot.id;
+            const { startDate, endDate } = req.body;
+            const newBooking = await Booking.create({ userId, spotId, startDate, endDate });
+            return res.json(newBooking);
+        } else {
+            return res.status(403).json({ message: "Forbidden" })
+        }
 });
 
 router.get("/:spotId/reviews", async (req, res, next) => {
