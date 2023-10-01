@@ -27,14 +27,19 @@ router.get("/current",
     return res.json({ myReviews });
 });
 
-router.post("/:reviewId/images", async (req, res, next) => {
-    const reviewId = req.params.reviewId;
-    const { url } = req.body;
-    const newImg = await ReviewImage.create({reviewId, url});
-    const imgRep = {};
-    imgRep.id = newImg.id;
-    imgRep.url = newImg.url
-    return res.json(imgRep);
+router.post("/:reviewId/images",
+    requireAuth,
+    async (req, res, next) => {
+        const reviewId = req.params.reviewId;
+        const review = await Review.findByPk(reviewId);
+        if (review && req.user.id === review.userId) {
+            const { url } = req.body;
+            const newImg = await ReviewImage.create({reviewId, url});
+            const imgRep = {};
+            imgRep.id = newImg.id;
+            imgRep.url = newImg.url
+            return res.json(imgRep);
+        }
 });
 
 router.put("/:reviewId", async (req, res, next) => {
@@ -57,6 +62,7 @@ router.delete("/:reviewId",
     requireAuth,
     async (req, res, next) => {
         const doomedReview = await Review.findByPk(req.params.reviewId);
+
         if (!doomedReview) return res.status(404).json({ message: "Review couldn't be found" });
         await doomedReview.destroy();
         return res.json({ message: "Successfully deleted"})
