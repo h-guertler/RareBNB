@@ -29,8 +29,9 @@ router.get("/current",
                 booking.Spot.previewImage = spotImage.url;
             }
         }
-        return res.json(myBookings);
-    });
+    return res.json(myBookings);
+});
+
 
 router.put("/:bookingId", async (req, res, next) => {
     return res.json({ message: "this is /:bookingId"} );
