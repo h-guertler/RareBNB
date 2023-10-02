@@ -192,34 +192,43 @@ router.post("/:spotId/reviews",
 });
 
 router.put("/:spotId",
-requireAuth,
-(req, res, next) => {
-    // find a spot based on spotid
-    let spot = Spot.findByPk(req.params.spotId);
+    requireAuth,
+    validateSpot,
+    async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId);
+
+    if (!spot) return res.status(404).json({ message: "Spot couldn't be found" });
+
     const spotOwnerId = spot.ownerId;
     if (req.user.id !== spotOwnerId) return res.status(403).json({ message: "Forbidden" });
-    // destructure the req.body w all poss fields
-    const { address,
-        city,
-        state,
-        country,
-        lat,
-        lng,
-        name,
-        description,
-        price } = req.body;
-    // call the update method on the spot w this info?
-    if (address) spot.address = address;
-    // spot = { address,
-    //     city,
-    //     state,
-    //     country,
-    //     lat,
-    //     lng,
-    //     name,
-    //     price,
-    //     description }
-        return res.json(spot)
+
+    spot.address = req.body.address;
+    spot.city = req.body.city;
+    spot.state = req.body.state;
+    spot.country = req.body.country;
+    spot.lat = req.body.lat;
+    spot.lng = req.body.lng;
+    spot.name = req.body.name;
+    spot.description = req.body.description;
+    spot.price = req.body.price;
+
+    //"avgRating": null "previewImage": null, "numReviews": null, "SpotImages": null, "Owner": null,
+    const repSpot = {};
+    repSpot.id = spot.id;
+    repSpot.ownerId = spot.ownerId;
+    repSpot.address = spot.address;
+    repSpot.city = spot.city;
+    repSpot.state = spot.state;
+    repSpot.country = spot.country;
+    repSpot.lat = spot.lat;
+    repSpot.lng = spot.lng;
+    repSpot.name = spot.name;
+    repSpot.description = spot.description;
+    repSpot.price = spot.price;
+    repSpot.createdAt = spot.createdAt;
+    repSpot.updatedAt = spot.updatedAt;
+
+    return res.json(repSpot);
 });
 
 router.delete("/:spotId",
