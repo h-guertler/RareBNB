@@ -49,8 +49,17 @@ router.put("/:bookingId",
         }
 });
 
-router.delete("/:bookingId", async (req, res, next) => {
-    return res.json({ message: "this is /:bookingId" });
+router.delete("/:bookingId",
+    requireAuth,
+    async (req, res, next) => {
+        const doomedBooking = Booking.findByPk(req.params.bookingId);
+
+        if (!doomedBooking) return res.status(404).json({ message: "Booking couldn't be found" });
+
+        if (doomedBooking.userId === req.user.id) {
+            await doomedBooking.destroy();
+            return res.json({ message: "Successfully deleted" });
+        }
 });
 
 module.exports = router;
