@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      // unique: true,
       validate: {
         len: [4, 30],
         isNotEmail(value) {
@@ -38,12 +38,20 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
       },
+      unique: {
+        args: true,
+        msg: "User with that username already exists"
+      }
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        args: true,
+        msg: "User with that email already exists"
+      },
       validate: {
+
         len: [3, 256],
         isEmail: true,
       },
