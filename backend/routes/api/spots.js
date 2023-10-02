@@ -5,16 +5,6 @@ const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const { requireAuth } = require("../../utils/auth");
 
-// const validateSpotImage = [
-//     check("url")
-//         .exists({ checkFalsy: true })
-//         .withMessage(""),
-//     check("preview")
-//         .exists({ checkFalsy: true })
-//         .withMessage(),
-//     handleValidationErrors
-// ];
-
 const calculateAvgRating = async spotId => {
     const spot = await Spot.findByPk(spotId);
     const reviews = await Review.findAll({ where:
@@ -40,6 +30,40 @@ const calculateNumReviews = async spotId => {
 };
 
 const router = express.Router();
+
+const validateSpot = [
+    check("address")
+        .exists({ checkFalsy: true })
+        .withMessage("Street address is required"),
+    check("city")
+        .exists({ checkFalsy: true })
+        .withMessage("City is required"),
+    check("state")
+        .exists({ checkFalsy: true })
+        .withMessage("State is required"),
+    check("country")
+        .exists({ checkFalsy: true })
+        .withMessage("Country is required"),
+    check("lat")
+        .exists({ checkFalsy: true })
+        .isDecimal()
+        .withMessage("Latitude is not valid"),
+    check("lng")
+        .exists({ checkFalsy: true })
+        .isDecimal()
+        .withMessage("Longitude is not valid"),
+    check("name")
+        .exists({ checkFalsy: true })
+        .isLength({ max: 50 })
+        .withMessage("Name must be less than 50 characters"),
+    check("description")
+        .exists({ checkFalsy: true })
+        .withMessage("Description is required"),
+    check("price")
+        .exists({ checkFalsy: true })
+        .withMessage("Price per day is required"),
+    handleValidationErrors
+]
 
 router.get("/current",
     requireAuth,
@@ -69,6 +93,7 @@ router.post("/:spotId/images",
     requireAuth,
     async (req, res, next) =>{
         const spot = await Spot.findByPk(req.params.spotId);
+        if (!spot) return res.status(404).json({ message: "Spot couldn't be found" });
         const spotOwnerId = spot.ownerId;
         if (req.user.id !== spotOwnerId) return res.status(403).json({ message: "Forbidden" });
 
@@ -270,6 +295,7 @@ router.get("/", async (req, res, next) => {
 });
 
 router.post("/",
+    validateSpot,
     requireAuth,
     async (req, res, next) => {
     const { address,
