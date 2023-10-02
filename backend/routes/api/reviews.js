@@ -32,7 +32,9 @@ router.post("/:reviewId/images",
     async (req, res, next) => {
         const reviewId = req.params.reviewId;
         const review = await Review.findByPk(reviewId);
-        if (review && req.user.id === review.userId) {
+        if (!review) return res.status(404).json({ message: "Review couldn't be found" });
+
+        if (req.user.id === review.userId) {
             const { url } = req.body;
             const newImg = await ReviewImage.create({reviewId, url});
             const imgRep = {};
