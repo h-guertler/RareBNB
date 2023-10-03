@@ -69,6 +69,18 @@ const validateSpot = [
     handleValidationErrors
 ]
 
+const validateReview = [
+    check("review")
+        .exists({ checkFalsy: true })
+        .withMessage("Review text is required"),
+    check("stars")
+        .exists({ checkFalsy: true })
+        .custom(value => value >= 1 && value <= 5)
+        .isInt()
+        .withMessage("Stars must be an integer from 1 to 5"),
+        handleValidationErrors
+]
+
 router.get("/current",
     requireAuth,
     async (req, res, next) => {
@@ -166,7 +178,7 @@ router.get("/:spotId/reviews", async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId);
     if (!spot) res.status(404).json({ message: "Spot couldn't be found" });
 
-    const reviews = await Review.findAll({ where: {
+    const Reviews = await Review.findAll({ where: {
         spotId: spot.id
     },
     include: [
@@ -180,19 +192,7 @@ router.get("/:spotId/reviews", async (req, res, next) => {
         }
     ]
     })
-    return res.json(reviews);
-});
-
-router.post("/:spotId/reviews",
-    requireAuth,
-    async (req, res, next) => {
-        const spot = await Spot.findByPk(req.params.spotId);
-        if (!spot) return res.json({ message: "Spot couldn't be found" });
-        const userId = req.user.id;
-        const spotId = req.params.spotId;
-        const { review, stars } = req.body;
-        const newReview = await Review.create({ userId, spotId, review, stars });
-    return res.json(newReview);
+    return res.json({ Reviews });
 });
 
 router.put("/:spotId",
@@ -233,6 +233,21 @@ router.put("/:spotId",
     repSpot.updatedAt = spot.updatedAt;
 
     return res.json(repSpot);
+});
+
+router.post("/:spotId/reviews",
+    requireAuth,
+    validateReview,
+    async (req, res, next) => {
+        const spot = await Spot.findByPk(req.params.spotId);
+        if (!spot) return res.status(404).json({ message: "Spot couldn't be found" });
+        const existingReview = await Review.findOne({ where: { userId: req.user.id }});
+        if (existingReview) return res.status(500).json({ message: "You have already left a review for this spot"})
+        const userId = req.user.id;
+        const spotId = parseInt(req.params.spotId);
+        const { review, stars } = req.body;
+        const newReview = await Review.create({ userId, spotId, review, stars });
+    return res.status(201).json(newReview);
 });
 
 router.delete("/:spotId",

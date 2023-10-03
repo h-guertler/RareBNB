@@ -8,7 +8,7 @@ router.get("/current",
     requireAuth,
     async (req, res, next) => {
         const userId = req.user.id;
-        const myReviews = await Review.findAll({ where: { userId: userId },
+        const Reviews = await Review.findAll({ where: { userId: userId },
             include: [
                 {
                     model: User,
@@ -29,19 +29,13 @@ router.get("/current",
         }
     );
 
-    for (const review of myReviews) {
-        const spot = await Spot.findByPk(review.spotId);
-        const prevImg = await SpotImage.findOne({ where: {
-            spotId: spot.id,
-            preview: true
-        }});
-
-        if (prevImg) {
-            spot.previewImage = prevImg.url;
-        }
+    for (const review of Reviews) {
+        const spot = await Spot.findByPk(review.Spot.id);
+        const prevImg = await SpotImage.findOne({ where: { spotId: spot.id }})
+        spot.previewImage = prevImg.url;
     }
 
-    return res.json({ myReviews });
+    return res.json({ Reviews });
 });
 
 router.post("/:reviewId/images",
@@ -52,12 +46,17 @@ router.post("/:reviewId/images",
         if (!review) return res.status(404).json({ message: "Review couldn't be found" });
 
         if (req.user.id === review.userId) {
+            const reviewImages = await ReviewImage.findAll();
+        //     console.log(reviewImages.length)
+
             const { url } = req.body;
             const newImg = await ReviewImage.create({reviewId, url});
             const imgRep = {};
             imgRep.id = newImg.id;
             imgRep.url = newImg.url
             return res.json(imgRep);
+        } else {
+            return res.status(403).json({ message: "Forbidden" });
         }
 });
 
@@ -81,6 +80,7 @@ router.put("/:reviewId",
     return res.json(review);
 });
 
+
 router.delete("/:reviewId",
     requireAuth,
     async (req, res, next) => {
@@ -90,6 +90,8 @@ router.delete("/:reviewId",
         if (doomedReview.userId === req.user.id) {
             await doomedReview.destroy();
             return res.json({ message: "Successfully deleted"});
+        } else {
+            return res.status(403).json({ message: "Forbidden" });
         }
 });
 
