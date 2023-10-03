@@ -1,4 +1,4 @@
-const { Review, ReviewImage, User, Spot } = require("../../db/models");
+const { Review, ReviewImage, SpotImage, User, Spot } = require("../../db/models");
 const express = require('express');
 const { requireAuth } = require("../../utils/auth");
 
@@ -8,7 +8,7 @@ router.get("/current",
     requireAuth,
     async (req, res, next) => {
         const userId = req.user.id;
-        const myReviews = await Review.findAll({where: { userId: userId },
+        const myReviews = await Review.findAll({ where: { userId: userId },
             include: [
                 {
                     model: User,
@@ -16,13 +16,30 @@ router.get("/current",
                     attributes: ["id", "firstName", "lastName"],
                 },
                 {
+                    model: Spot,
+                    as: "Spot",
+                    attributes: ["id", "ownerId", "address", "city", "state", "country", "lat", "lng", "name", "price", "previewImage"]
+                },
+                {
                     model: ReviewImage,
-                as: "ReviewImages",
-                attributes: ["id", "url"]
+                    as: "ReviewImages",
+                    attributes: ["id", "url"]
                 },
             ],
         }
     );
+
+    for (const review of myReviews) {
+        const spot = await Spot.findByPk(review.spotId);
+        const prevImg = await SpotImage.findOne({ where: {
+            spotId: spot.id,
+            preview: true
+        }});
+
+        if (prevImg) {
+            spot.previewImage = prevImg.url;
+        }
+    }
 
     return res.json({ myReviews });
 });

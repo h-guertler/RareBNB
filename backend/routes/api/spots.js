@@ -61,6 +61,8 @@ const validateSpot = [
         .withMessage("Description is required"),
     check("price")
         .exists({ checkFalsy: true })
+        .custom(
+            checkPriceIsPositive = value => value > 0)
         .withMessage("Price per day is required"),
     handleValidationErrors
 ]
@@ -235,16 +237,15 @@ router.delete("/:spotId",
     requireAuth,
     async (req, res, next) => {
         const doomedSpot = await Spot.findByPk(req.params.spotId);
-        if (doomedSpot) {
-            if (req.user.id === doomedSpot.ownerId) {
-                await doomedSpot.destroy();
-                return res.json({ message: "Successfully deleted. "})
-            } else {
-                return res.status(403).json({ message: "Forbidden" });
-            }
-        } else {
-            return res.status(404).json({ message: "Spot couldn't be found" });
+
+        if (!doomedSpot) return res.status(404).json({ message: "Spot couldn't be found" });
+
+        if (req.user.id === doomedSpot.ownerId) {
+            await doomedSpot.destroy();
+            return res.json({ message: "Successfully deleted"})
         }
+
+        return res.status(403).json({ message: "Forbidden" });
     });
 
 router.get("/:spotId", async (req, res, next) => {
@@ -318,7 +319,7 @@ router.post("/",
         price } = req.body;
         const ownerId = req.user.id;
         const spot = await Spot.create({ ownerId, address, city, state, country, lat, lng, name, description, price });
-    return res.json(spot);
+    return res.status(201).json(spot);
 });
 
 module.exports = router;
