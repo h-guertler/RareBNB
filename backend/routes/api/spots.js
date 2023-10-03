@@ -47,10 +47,12 @@ const validateSpot = [
     check("lat")
         .exists({ checkFalsy: true })
         .isDecimal()
+        .custom(value => value >= -90 && value <= 90)
         .withMessage("Latitude is not valid"),
     check("lng")
         .exists({ checkFalsy: true })
         .isDecimal()
+        .custom(value => value >= -180 && value <= 180)
         .withMessage("Longitude is not valid"),
     check("name")
         .exists({ checkFalsy: true })
