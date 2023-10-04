@@ -8,11 +8,21 @@ router.delete("/:imageId",
     requireAuth,
     async (req, res, next) => {
 
-        const doomedImage = await ReviewImage.findByPk(req.params.imageId);
+        const doomedImage = await ReviewImage.findOne({ where: { id: req.params.imageId},
+            attributes: ["id", "reviewId"]
+        });
 
         if (!doomedImage) return res.status(404).json({ message: "Spot Image couldn't be found" });
 
-        return res.json(doomedImage)
+        const reviewId = doomedImage.reviewId;
+        const review = await Review.findByPk(reviewId);
+
+        if (review.userId === req.user.id) {
+            await doomedImage.destroy();
+            return res.json({ message: "Successfully deleted" });
+        } else {
+            return res.status(403).json({ message: "Forbidden" });
+        }
 })
 
 module.exports = router;
