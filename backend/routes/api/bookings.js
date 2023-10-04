@@ -8,7 +8,7 @@ const router = express.Router();
 router.get("/current",
     requireAuth,
     async (req, res, next) => {
-        const myBookings = await Booking.findAll({ where: { userId: req.user.id },
+        const Bookings = await Booking.findAll({ where: { userId: req.user.id },
             include: [
                 {
                 model: Spot,
@@ -18,7 +18,7 @@ router.get("/current",
             ]
         });
 
-        for (const booking of myBookings) {
+        for (const booking of Bookings) {
             const spot = await Spot.findByPk(booking.spotId);
             const spotImage = await SpotImage.findOne({ where: {
                 preview: true,
@@ -29,7 +29,7 @@ router.get("/current",
                 booking.Spot.previewImage = spotImage.url;
             }
         }
-    return res.json(myBookings);
+    return res.json({ Bookings });
 });
 
 
@@ -52,14 +52,18 @@ router.put("/:bookingId",
 router.delete("/:bookingId",
     requireAuth,
     async (req, res, next) => {
-        const doomedBooking = Booking.findByPk(req.params.bookingId);
+        const doomedBooking = await Booking.findByPk(parseInt(req.params.bookingId));
 
         if (!doomedBooking) return res.status(404).json({ message: "Booking couldn't be found" });
 
-        if (doomedBooking.userId === req.user.id) {
+        const spot = Spot.findByPk(doomedBooking.spotId);
+
+        if ((doomedBooking.userId = req.user.id) || (spot.ownerId = req.user.id)) {
             await doomedBooking.destroy();
             return res.json({ message: "Successfully deleted" });
         }
+
+        return res.status(403).json({ message: "Forbidden" });
 });
 
 module.exports = router;

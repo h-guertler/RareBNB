@@ -31,6 +31,20 @@ const calculateNumReviews = async spotId => {
 
 const router = express.Router();
 
+const validateBooking = [
+    // make sure end is after start
+    check("startDate"),
+    check("endDate")
+        .custom((endDate, { req }) => {
+            const startStr = req.startDate.split("-").join();
+            const endStr = endDate.split("-").join();
+            if (parseInt(endStr) <= parseInt(startStr)) throw new Error("endDate cannot be on or before startDate")
+        })
+
+
+
+]
+
 const validateSpot = [
     check("address")
         .exists({ checkFalsy: true })
@@ -143,7 +157,7 @@ router.get("/:spotId/bookings",
                     attributes: ["id", "firstName", "lastName"]
                 }
             });
-            return res.json(Bookings);
+            return res.json({ Bookings });
         }
 
         const Bookings = await Booking.findAll({ where: {
@@ -158,20 +172,19 @@ router.get("/:spotId/bookings",
 
 router.post("/:spotId/bookings",
     requireAuth,
+    validateBooking,
     async (req, res, next) => {
+        const { startDate, endDate } = req.body;
+
         const spot = await Spot.findByPk(req.params.spotId);
         if (!spot) return res.status(404).json({ message: "Spot couldn't be found" });
 
         const userId = req.user.id;
+        if (spot.ownerId === userId) return res.status(403).json({ message: "Forbidden" });
 
-        if (spot.ownerId !== userId) {
-            const spotId = spot.id;
-            const { startDate, endDate } = req.body;
-            const newBooking = await Booking.create({ userId, spotId, startDate, endDate });
-            return res.json(newBooking);
-        } else {
-            return res.status(403).json({ message: "Forbidden" })
-        }
+        const spotId = spot.id;
+        const newBooking = await Booking.create({ userId, spotId, startDate, endDate });
+        return res.json(newBooking);
 });
 
 router.get("/:spotId/reviews", async (req, res, next) => {
@@ -339,4 +352,4 @@ router.post("/",
     return res.status(201).json(spot);
 });
 
-module.exports = router;
+module.exports = router, validateReview;
