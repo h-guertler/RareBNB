@@ -4,6 +4,8 @@ const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require("../../d
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const { requireAuth } = require("../../utils/auth");
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 const calculateAvgRating = async spotId => {
     const spot = await Spot.findByPk(spotId);
@@ -32,10 +34,41 @@ const calculateNumReviews = async spotId => {
 const router = express.Router();
 
 const validateBooking = [
-    check("startDate"),
+    check("startDate")
+        .exists({ checkFalsy: true})
+        .withMessage("Start date must exist"),
+    check("startDate")
+        .custom(async (startDate, { req }) => {
+            const spotId = req.params.spotId;
+            const existingBookings = await Booking.findAll({where: {
+                spotId: spotId,
+                startDate: {
+                    [Op.gte]: new Date(startDate),
+                    [Op.lte]: new Date(req.params.endDate)
+                }
+            }});
+            return (!existingBookings);
+        })
+        .withMessage("Start date conflicts with an existing booking"),
+    check("endDate")
+        .exists({ checkFalsy: true })
+        .withMessage("End date must exist"),
+    check("endDate")
+        .custom(async (endDate, { req }) => {
+            const spotId = req.params.spotId;
+            const existingBookings = await Booking.findAll({where: {
+                spotId: spotId,
+                endDate: {
+                    [Op.gte]: new Date(req.params.startDate),
+                    [Op.lte]: new Date(endDate)
+                }
+            }});
+            console.log("errors here!!!!!: ")
+            return (!existingBookings);
+        })
+        .withMessage("End date conflicts with an existing booking"),
     check("endDate")
         .custom((endDate, { req }) => {
-            console.log(" in validator")
             return req.body.startDate < endDate;
         })
         .withMessage("endDate cannot be on or before startDate"),
@@ -181,13 +214,8 @@ router.post("/:spotId/bookings",
 
         const spotId = spot.id;
 
-        // find all bookings for that spot
-        // where startDate is after startDate and before endDate
-        // or endDate is after startDate and before endDate
-
         const newBooking = await Booking.create({ userId, spotId, startDate, endDate });
-        await newBooking.destroy();
-        return res.json({ message: "made it to the end"});
+        return res.json(newBooking);
 });
 
 router.get("/:spotId/reviews", async (req, res, next) => {
