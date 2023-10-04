@@ -32,17 +32,14 @@ const calculateNumReviews = async spotId => {
 const router = express.Router();
 
 const validateBooking = [
-    // make sure end is after start
     check("startDate"),
     check("endDate")
         .custom((endDate, { req }) => {
-            const startStr = req.startDate.split("-").join();
-            const endStr = endDate.split("-").join();
-            if (parseInt(endStr) <= parseInt(startStr)) throw new Error("endDate cannot be on or before startDate")
+            console.log(" in validator")
+            return req.body.startDate < endDate;
         })
-
-
-
+        .withMessage("endDate cannot be on or before startDate"),
+        handleValidationErrors
 ]
 
 const validateSpot = [
@@ -183,8 +180,14 @@ router.post("/:spotId/bookings",
         if (spot.ownerId === userId) return res.status(403).json({ message: "Forbidden" });
 
         const spotId = spot.id;
+
+        // find all bookings for that spot
+        // where startDate is after startDate and before endDate
+        // or endDate is after startDate and before endDate
+
         const newBooking = await Booking.create({ userId, spotId, startDate, endDate });
-        return res.json(newBooking);
+        await newBooking.destroy();
+        return res.json({ message: "made it to the end"});
 });
 
 router.get("/:spotId/reviews", async (req, res, next) => {
@@ -315,13 +318,22 @@ router.get("/:spotId", async (req, res, next) => {
 });
 
 router.get("/", async (req, res, next) => {
+    // querys to add :
+    // page: int: 1-10. default 1
+    // size: int: 1-20. default 20
+    // minLat: dec, optional
+    // maxLat: dec, optional
+    // minLng: dec, optional
+    // maxLat: dec, optional
+    // minPrice: dec, optional: min: 0
+    // maxPrice: decimal, optional: min: minPrice
+
     const Spots = await Spot.findAll({
         attributes: {
             exclude: [ 'Owner', 'numReviews', 'SpotImages' ]
         }
     });
-    for (let i = 0; i < Spots.length; i++) {
-        const spot = Spots[i];
+    for (let spot of Spots) {
         spot.avgRating = await calculateAvgRating(spot.id);
 
         const previewImg = await SpotImage.findOne({ where: {
