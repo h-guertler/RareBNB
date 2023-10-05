@@ -58,6 +58,12 @@ router.delete("/:bookingId",
 
         const spot = Spot.findByPk(doomedBooking.spotId);
 
+        // check to see whether it's already started
+        // so, if doomedBooking.startDate to Date < new Date
+        if (new Date(doomedBooking.startDate) < new Date()) {
+            return res.status(403).json({ message: "Bookings that have been started can't be deleted" });
+        }
+
         if ((doomedBooking.userId = req.user.id) || (spot.ownerId = req.user.id)) {
             await doomedBooking.destroy();
             return res.json({ message: "Successfully deleted" });
