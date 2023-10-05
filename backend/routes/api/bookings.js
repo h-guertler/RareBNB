@@ -1,5 +1,53 @@
 const { Booking, Spot, SpotImage } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
+const { check } = require("express-validator");
+const { handleValidationErrors } = require("../../utils/validation");
+
+const validateBooking = [
+    check("startDate")
+        .exists({ checkFalsy: true})
+        .withMessage("Start date must exist"),
+    check("startDate")
+        .custom(async (startDate, { req }) => {
+            const spotId = req.params.spotId;
+            const existingBookings = await Booking.findAll({where: {
+                spotId: spotId,
+                startDate: {
+                    [Op.and]: [
+                    { [Op.gte]: new Date(startDate) },
+                    { [Op.lte]: new Date(req.params.endDate) }
+                    ]
+                }
+            }});
+            return (!existingBookings);
+        })
+        .withMessage("Start date conflicts with an existing booking"),
+    check("endDate")
+        .exists({ checkFalsy: true })
+        .withMessage("End date must exist"),
+    check("endDate")
+        .custom(async (endDate, { req }) => {
+            const spotId = req.params.spotId;
+            const existingBookings = await Booking.findAll({where: {
+                spotId: spotId,
+                endDate: {
+                    [Op.and]: [
+                    { [Op.gte]: new Date(req.params.startDate) },
+                    { [Op.lte]: new Date(endDate) }
+                    ]
+                }
+            }});
+            console.log("errors here!!!!!: ")
+            return (!existingBookings);
+        })
+        .withMessage("End date conflicts with an existing booking"),
+    check("endDate")
+        .custom((endDate, { req }) => {
+            return req.body.startDate < endDate;
+        })
+        .withMessage("endDate cannot be on or before startDate"),
+        handleValidationErrors
+]
 
 const express = require('express');
 
@@ -35,11 +83,14 @@ router.get("/current",
 
 router.put("/:bookingId",
     requireAuth,
+    validateBooking,
     async (req, res, next) => {
         const userId = req.user.id;
         const booking = await Booking.findByPk(req.params.bookingId);
 
         if (!booking) return res.status(404).json({ message: "Booking couldn't be found" });
+
+        if (new Date(booking.endDate) < new Date()) return res.status(403).json({ message: "Past bookings can't be modified" });
 
         if (booking.userId === userId) {
             const { startDate, endDate } = req.body;
