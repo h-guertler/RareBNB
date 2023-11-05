@@ -19,7 +19,6 @@ function LoginFormPage() {
     useEffect(() => {
         const currErrors = {};
 
-        // why is submit not disabled?
         if (credential.length < 4) {
             currErrors.credential = "Username or email should contain 4 or more characters.";
         }
