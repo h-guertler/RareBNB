@@ -4,6 +4,7 @@ import ProfileButton from "./ProfileButton";
 import { useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 import './Navigation.css';
 
 function Navigation({isLoaded}) {
@@ -21,8 +22,14 @@ function Navigation({isLoaded}) {
       } else {
         sessionLinks = (
             <li>
-                <OpenModalButton buttonText={"Log In"} modalComponent={<LoginFormModal/>}/>
-                <NavLink to="/signup">Sign Up</NavLink>
+                <OpenModalButton
+                    buttonText="Log In"
+                    modalComponent={<LoginFormModal />}
+                />
+                <OpenModalButton
+                    buttonText="Sign Up"
+                    modalComponent={<SignupFormModal />}
+                />
             </li>
         );
       }
@@ -35,6 +42,6 @@ function Navigation({isLoaded}) {
             {isLoaded && sessionLinks}
         </ul>
     );
-};
+}
 
 export default Navigation;
