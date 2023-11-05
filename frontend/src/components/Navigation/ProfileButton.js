@@ -1,24 +1,47 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import * as sessionActions from "../../store/session";
+import "./Navigation.css";
 
 function ProfileButton({user}) {
     const dispatch = useDispatch();
+    const ulRef = useRef();
+
+    const [showMenu, setShowMenu] = useState(false);
 
     const logout = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout());
       };
 
-    const ulClassName = "profile-dropdown";
+      const openMenu = () => {
+        if (showMenu) return;
+        setShowMenu(true);
+      };
+
+      useEffect(() => {
+        if (!showMenu) return;
+
+        const closeMenu = e => {
+            if (!ulRef.current.contains(e.target)) {
+                setShowMenu(false);
+            }
+        };
+
+        document.addEventListener("click", closeMenu);
+
+        return () => document.removeEventListener("click", closeMenu);
+      }, [showMenu]);
+
+    const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
 
     return (
         <>
-            <button>
-                <i className="fa-solid fa-user"></i>
+            <button onClick={openMenu}>
+                <i className="fas fa-user-circle"></i>
             </button>
-            <ul className="profile-dropdown">
+            <ul className={ulClassName} ref={ulRef}>
                 <li>{user.username}</li>
                 <li>{user.firstName} {user.lastName}</li>
                 <li>{user.email}</li>
