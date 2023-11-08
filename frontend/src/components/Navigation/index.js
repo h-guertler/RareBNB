@@ -19,7 +19,7 @@ function Navigation({isLoaded}) {
             id="logo-home-button"
             onClick={navigateToHome}
             >
-                Home
+                <i className="fas fa-building"/>
             </button>
         <ul>
             { // <li>
@@ -35,5 +35,10 @@ function Navigation({isLoaded}) {
         </div>
     );
 }
+
+// find a sandwich icon for the menu
+// this will be grouped in a div with profilebutton component
+// they will then have a border, black, 1px, rounded edges around them
+//
 
 export default Navigation;
