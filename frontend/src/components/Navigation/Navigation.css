@@ -6,6 +6,7 @@
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #CCCCCC;
+    align-items: center;
 }
 
 .fa-building {
@@ -14,12 +15,34 @@
 
 #logo-home-button {
     height: 80px;
-    width: 120px;
-    background-color: purple;
+    width: 185px;
+    background-image: url(./RedUnicornLogo.JPG);
+    background-size: cover;
+    background-position: center;
     margin: 10px;
     display: inline;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0px;
 }
 
 #profile-button {
     margin-right: 10px;
+}
+
+.menu-button {
+    background-image: url("./updatedSandwichLogo.JPG");
+    background-size: cover;
+    background-position: center;
+    height: 45px;
+    width: 85px;
+    border-radius: 12px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.clickable {
+    cursor: pointer;
 }

@@ -13,32 +13,29 @@ function Navigation({isLoaded}) {
         return history.push("/");
     }
 
+    // <i className="fas fa-building"/>
+
     return (
         <div id="nav">
         <button
             id="logo-home-button"
+            className="clickable"
             onClick={navigateToHome}
             >
-                <i className="fas fa-building"/>
-            </button>
-        <ul>
+        </button>
+        <>
             { // <li>
                 // <NavLink exact to="/">Home</NavLink>
             // </li>
              }
             {isLoaded && (
-                <li id="profile-button">
+                <div id="profile-button">
                     <ProfileButton user={currUser}/>
-                </li>
+                </div>
             )}
-        </ul>
+        </>
         </div>
     );
 }
-
-// find a sandwich icon for the menu
-// this will be grouped in a div with profilebutton component
-// they will then have a border, black, 1px, rounded edges around them
-//
 
 export default Navigation;
