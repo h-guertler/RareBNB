@@ -1,4 +1,3 @@
-// get all spots
 import { csrfFetch } from "./csrf";
 
 const GET_SPOTS = "spots/getSpots";
@@ -10,7 +9,6 @@ export const getSpots = (spots) => {
     }
 }
 
-// change to one that returns all spots
 export const fetchAllSpots = () => async (dispatch) => {
     const response = await csrfFetch("/api/spots");
     const data = await response.json();
@@ -18,7 +16,6 @@ export const fetchAllSpots = () => async (dispatch) => {
     return response;
   };
 
-// should there be all spots in the initial state?
 const initialState = {};
 
 const spotsReducer = (state = initialState, action) => {
