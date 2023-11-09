@@ -2,7 +2,6 @@
 
 const { SpotImage } = require("../models");
 const bcrypt = require("bcryptjs");
-
 let options = {};
 
  // defines schema in options object
@@ -22,21 +21,24 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+   // 1:
+   // 2:
+   // 3:
    await SpotImage.bulkCreate([
     {
       spotId: 1,
-      url: "spot1img.com/img1",
+      url: "../../images/hobbitbnb.JPG",
       preview: true,
     },
     {
       spotId: 2,
-      url: "spot2img.com/img1",
+      url: "winterfellimghere",
       preview: true,
     },
     {
       spotId: 3,
-      url: "spot3img.com/img1",
-      preview: false,
+      url: "wardrobeimghere",
+      preview: true,
     }
    ], { validate: true });
   },
