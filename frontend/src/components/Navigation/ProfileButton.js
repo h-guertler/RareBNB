@@ -39,8 +39,6 @@ function ProfileButton({user}) {
     const closeMenu = () => setShowMenu(false);
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
-    // <i className="fas fa-user-circle"/>
-
     return (
         <>
             <button
