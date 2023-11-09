@@ -5,7 +5,7 @@
 #nav {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #CCCCCC;
+    border-bottom: 2px solid #CCCCCC;
     align-items: center;
 }
 
@@ -43,6 +43,23 @@ ul {
     list-style-type: none;
 }
 
+li {
+    margin-left: -2.5em;
+}
+
 .clickable {
     cursor: pointer;
+}
+
+.profile-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logout-button {
+    color: white;
+    background-color: #999999;
+    border: 1px solid black;
+    border-radius: 12px;
 }

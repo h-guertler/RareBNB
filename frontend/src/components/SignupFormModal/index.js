@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
@@ -14,14 +14,28 @@ function SignupFormModal() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const { closeModal } = useModal();
 
+  useEffect(() => {
+    if (username.length >= 4
+      && password.length >= 6
+      && email
+      && firstName
+      && lastName
+      && confirmPassword) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [username, password, email, firstName, lastName, confirmPassword]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrors({}); // moved from password comp block
 
     if (password === confirmPassword) {
-      setErrors({});
       return dispatch(
         sessionActions.signup({
           email,
@@ -33,9 +47,32 @@ function SignupFormModal() {
       )
         .then(closeModal)
         .catch(async (res) => {
+          console.log("fetching data...")
+
+          if (!res.ok) { //
+            res.text()
+              .then((resText) => {
+                console.log("resText: " + resText);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+            return;
+          } //
+
           const data = await res.json();
+
+          if (!res.ok) {
+            console.log("response to str: " + Object.keys(res) + Object.values(res))
+            return
+          }
+          // getting Uncaught (in promise) SyntaxError: JSON.parse: unexpected character at line 1 column 1 of the JSON data
+          console.log("data message: " + data.message)
+          console.log("keys: " + Object.keys(data) + " vals: " + Object.values(data))
+          console.log("errors before: " + errors)
           if (data && data.errors) {
             setErrors(data.errors);
+            console.log("errors: " + errors)
           }
         });
     }
@@ -45,74 +82,62 @@ function SignupFormModal() {
   };
 
   return (
-    <>
+    <div id="signup-modal-div">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Email
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
             required
           />
-        </label>
         {errors.email && <p>{errors.email}</p>}
-        <label>
-          Username
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
             required
           />
-        </label>
         {errors.username && <p>{errors.username}</p>}
-        <label>
-          First Name
           <input
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
+            placeholder="First Name"
             required
           />
-        </label>
         {errors.firstName && <p>{errors.firstName}</p>}
-        <label>
-          Last Name
           <input
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            placeholder="Last Name"
             required
           />
-        </label>
         {errors.lastName && <p>{errors.lastName}</p>}
-        <label>
-          Password
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
             required
           />
-        </label>
         {errors.password && <p>{errors.password}</p>}
-        <label>
-          Confirm Password
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm Password"
             required
           />
-        </label>
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={isDisabled}>Sign Up</button>
       </form>
-    </>
+    </div>
   );
 }
 
