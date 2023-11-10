@@ -1,14 +1,26 @@
 .spot-tile {
-    background-color: lightblue;
-    padding: 10px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
     flex-direction: column;
+    align-items: flex-start;
     border: 1px solid red;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 12px;
     margin: 15px;
-  }
+}
+
+.previewImage {
+    width: 100%;
+}
+
+.first-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.second-row {
+    align-self: flex-end;
+}
 
 .city-and-state {
     align-self: flex-start;
@@ -18,17 +30,20 @@
     align-self: flex-start;
 }
 
-.previewImage {
-    max-width: 100%;
-    display: block;
-    justify-self: center;
+.rating-div {
+    display: flex;
+    align-items: center;
+    margin-right: 7px;
 }
 
 i {
-    height: 16px;
-    width: 16px;
+    margin-right: 5px;
 }
 
-span {
-    font-family: "Comic Sans MS", "Comic Sans", cursive;
-}
+.tile-text {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+    margin-left: 5px;
+  }
