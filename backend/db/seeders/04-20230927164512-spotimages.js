@@ -27,17 +27,17 @@ module.exports = {
    await SpotImage.bulkCreate([
     {
       spotId: 1,
-      url: "../../images/hobbitbnb.JPG",
+      url: "../images/hobbitbnb.JPG",
       preview: true,
     },
     {
       spotId: 2,
-      url: "winterfellimghere",
+      url: "../images/winterfellpreview.JPG",
       preview: true,
     },
     {
       spotId: 3,
-      url: "wardrobeimghere",
+      url: "../images/wardrobepreview.JPG",
       preview: true,
     }
    ], { validate: true });

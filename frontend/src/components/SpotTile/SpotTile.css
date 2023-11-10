@@ -1,0 +1,34 @@
+.spot-tile {
+    background-color: lightblue;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    border: 1px solid red;
+    margin: 15px;
+  }
+
+.city-and-state {
+    align-self: flex-start;
+}
+
+.price {
+    align-self: flex-start;
+}
+
+.previewImage {
+    max-width: 100%;
+    display: block;
+    justify-self: center;
+}
+
+i {
+    height: 16px;
+    width: 16px;
+}
+
+span {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}

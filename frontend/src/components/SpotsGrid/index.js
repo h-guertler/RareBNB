@@ -2,6 +2,7 @@ import * as spotsActions from "../../store/spots";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import SpotTile from "../SpotTile";
+import "./SpotsGrid.css";
 
 function SpotsGrid() {
     const dispatch = useDispatch();
@@ -14,12 +15,12 @@ function SpotsGrid() {
     // <li key={index}>{spot.name}</li> replace this w tile
 
     return (
-        <ul>
+        <div className="spots-grid">
             {allSpots && allSpots.Spots &&
                 allSpots.Spots.map((spot) => (
-                    <SpotTile spot={spot} key={spot.id} />
+                    <SpotTile spot={spot} key={spot.id} className="spot-tile"/>
                 ))}
-        </ul>
+        </div>
     )
 }
 
