@@ -4,7 +4,12 @@ import testImg from "./hobbitbnb.JPG";
 import { useHistory } from "react-router-dom";
 
 function SpotTile({spot}) {
-    const { previewImage, city, state, price, avgRating, name } = spot;
+    const { previewImage, city, state, price, avgRating, name, id } = spot;
+    const history = useHistory();
+
+    const directToSpotDetails = () => {
+        return history.push(`/spots/${id}`);
+    };
 
     let ratingString;
     if (typeof avgRating === "number" && avgRating > 0) {
@@ -18,7 +23,7 @@ function SpotTile({spot}) {
     }
 
     return (
-        <div className="spot-tile clickable tooltip">
+        <div className="spot-tile clickable tooltip" onClick={directToSpotDetails}>
             <span className="tooltiptext">{name}</span>
             <img src={testImg} className="previewImage" alt="spot preview"/>
             <div className="tile-text">

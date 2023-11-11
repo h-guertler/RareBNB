@@ -5,6 +5,7 @@ import * as sessionActions from "./store/session";
 // import * as spotsActions from "./store/spots";
 import Navigation from "./components/Navigation";
 import SpotsGrid from "./components/SpotsGrid";
+import SpotDetails from "./components/SpotDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,7 +18,10 @@ function App() {
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Switch>
-        <Route exact to="/">
+        <Route path="/spots/:spotId">
+          <SpotDetails />
+        </Route>
+        <Route exact path="/">
           <SpotsGrid />
         </Route>
         </Switch>}
