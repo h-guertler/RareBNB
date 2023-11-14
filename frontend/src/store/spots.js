@@ -10,10 +10,10 @@ export const getSpots = (spots) => {
     }
 }
 
-export const getOneSpot = (spotId) => {
+export const getOneSpot = (spot) => {
     return {
         type: GET_ONE_SPOT,
-        payload: spotId
+        payload: spot
     }
 }
 
@@ -27,7 +27,7 @@ export const fetchAllSpots = () => async (dispatch) => {
 export const fetchOneSpot = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`);
     const data = await response.json();
-    dispatch(getOneSpot(spotId));
+    dispatch(getOneSpot(data));
     return response;
 };
 

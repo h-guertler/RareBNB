@@ -1,0 +1,40 @@
+.callout-box {
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 20%;
+}
+
+
+.first-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .price-div {
+    align-self: flex-start;
+  }
+
+  .ratings-reviews-div {
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+  }
+
+  .num-reviews {
+    padding: 4px;
+  }
+
+
+  .button-div {
+    align-self: flex-end;
+  }
+
+  * {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+  }

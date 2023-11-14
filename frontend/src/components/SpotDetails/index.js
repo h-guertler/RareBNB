@@ -1,13 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import fetchOneSpot from "../../store/spots";
-
-// to select the spot, do a fetch to get spot details
+import { useDispatch, useSelector } from "react-redux";
+import * as spotsActions from "../../store/spots";
+// import * as images from "../images";
+import "./SpotDetails.css";
 
 function SpotDetails() {
-    const spotId = useParams();
-    const spot = fetchOneSpot(spotId);
-    const { name, city, state, country, description, Owner } = spot;
+    const dispatch = useDispatch();
+    const { spotId } = useParams();
+
+    useEffect(() => {
+        dispatch(spotsActions.fetchOneSpot(spotId))
+    }, [dispatch, spotId]);
+
+    const spot = useSelector(state => state.spots.currentSpot);
+
+    if (!spot) return <h1>Loading...</h1>
+
+    console.log("spot keys: " + Object.keys(spot))
+    const { name, city, state, country, description, Owner, price, numReviews, avgRating, previewImage } = spot;
+
+    let ratingString;
+    console.log(avgRating + " is avgRating")
+    if (typeof avgRating === "number" && avgRating > 0) {
+        if (avgRating % 1 === 0) {
+            ratingString = `${avgRating}.0`;
+        } else {
+            let longRatingString = avgRating.toString();
+            ratingString = longRatingString.slice(0, 3);
+        }
+    } else {
+        ratingString = "new"
+    }
+
+    const showAlert = () => {
+        alert("Feature coming soon");
+    }
 
     return (
         <div className="spot-details">
@@ -18,6 +46,19 @@ function SpotDetails() {
             </div>
             <h2>Hosted by {`${Owner.firstName} ${Owner.lastName}`}</h2>
             <p>{`${description}`}</p>
+            <div className="callout-box">
+                <div className="first-row">
+                    <div className="price-div">{`$${price}/night`}</div>
+                    <div className="ratings-reviews-div">
+                        <i className="fas fa-star"></i>
+                        <div>{ratingString}</div>
+                        <div className="num-reviews">{`${numReviews}`}</div>
+                    </div>
+                    <div className="button-div">
+                        <button onClick={showAlert}>Reserve</button>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
