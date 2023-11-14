@@ -18,7 +18,9 @@ function SpotDetails() {
     if (!spot) return <h1>Loading...</h1>
 
     console.log("spot keys: " + Object.keys(spot))
-    const { name, city, state, country, description, Owner, price, numReviews, avgRating, previewImage } = spot;
+    const { name, city, state, country, description, Owner, price, numReviews, avgRating, previewImage, SpotImages } = spot;
+    const nonPreviewImages = SpotImages.map((image) => image.previewImage = false);
+    const spotImagesToUse = nonPreviewImages.slice(0, 4);
 
     let ratingString;
     console.log(avgRating + " is avgRating")
@@ -42,7 +44,16 @@ function SpotDetails() {
             <h2>{name}</h2>
             <h4>{`${city}, ${state}, ${country}`}</h4>
             <div className="spot-detail-images">
-                <h4>Images here</h4>
+                <div className="main-image">
+                    <img src={previewImage}/>
+                </div>
+                <div className="spot-image-grid">
+                {spotImagesToUse.map((image) => (
+                    <div key={image.id}>
+                        <img src={image.url} alt={`${spot.name} preview`}/>
+                    </div>
+                ))}
+                </div>
             </div>
             <h2>Hosted by {`${Owner.firstName} ${Owner.lastName}`}</h2>
             <p>{`${description}`}</p>

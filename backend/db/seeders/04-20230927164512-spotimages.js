@@ -27,17 +27,17 @@ module.exports = {
    await SpotImage.bulkCreate([
     {
       spotId: 1,
-      url: "../images/hobbitbnb.JPG",
+      url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FBag_End&psig=AOvVaw2_s-hxi1z2u37iu686BZfq&ust=1700090084647000&source=images&cd=vfe&ved=0CBIQjRxqFwoTCNCBuZ_PxIIDFQAAAAAdAAAAABAJ",
       preview: true,
     },
     {
       spotId: 2,
-      url: "../images/winterfellpreview.JPG",
+      url: "https://i.pinimg.com/originals/53/05/fa/5305fa41cd55ec7ddf9ea7e3561275d0.jpg",
       preview: true,
     },
     {
       spotId: 3,
-      url: "../images/wardrobepreview.JPG",
+      url: "https://static.wikia.nocookie.net/narnia/images/6/6e/Wardrobe.jpg/revision/latest?cb=20161029215350",
       preview: true,
     }
    ], { validate: true });
