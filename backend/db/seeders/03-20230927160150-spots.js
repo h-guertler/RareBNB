@@ -49,7 +49,7 @@ module.exports = {
     {
       ownerId: 3,
       address: "123 Country Lane",
-      city: "Magikton",
+      city: "Selby",
       state: "North Yorkshire",
       country: "England",
       lat: 11.11,
