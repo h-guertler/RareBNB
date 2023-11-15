@@ -1,5 +1,4 @@
 .callout-box {
-    border: 1px solid red;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -33,6 +32,10 @@
 
   .button-div {
     align-self: flex-end;
+  }
+
+  .review-div {
+    border-top: 1px solid black;
   }
 
   * {

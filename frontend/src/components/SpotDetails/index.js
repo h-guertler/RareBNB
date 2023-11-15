@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as spotsActions from "../../store/spots";
-// import * as images from "../images";
+import * as reviewsActions from "../../store/reviews";
 import "./SpotDetails.css";
 
 function SpotDetails() {
@@ -70,15 +70,22 @@ function SpotDetails() {
                     </div>
                 </div>
             </div>
+            <div className="review-div">
+                    <h3>reviews</h3>
+            </div>
         </div>
     )
 }
 
+// in reviews: write a thunk/action to get the reviews by spot
+// h3 with star icon, ratingStr, tiny bullet point, numReviews, text "reviews"
+// post your review button
+    // this can only be visible if: state's user is not null,
+    // and user.id is not Owner.id
+    // and none of the reviews retrieved has a userId of user.id
+// then, map that array.
+// h4 with the user's firstName
+// grey h3 with createdAt, or part of it
+// p with the review text
+// a gap before the next review
 export default SpotDetails;
-
-// On the spot's detail page, the following information should be present:
-    // Images (1 large image and 4 small images),
-    // and the callout information box on the right, below the images.
-        // aligned right
-        // on top: price/night, star icon, rating as decimal, number of reviews
-        // below: big reserve button
