@@ -25,7 +25,7 @@ module.exports = {
     {
       userId: 2,
       spotId: 1,
-      review: "Beautiful area, though a bit warm for my liking.",
+      review: "Beautiful area; hotter climate than expected.",
       stars: 4,
     },
     {

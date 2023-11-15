@@ -85,8 +85,8 @@ module.exports = (sequelize, DataTypes) => {
     const Review = models.Review;
     Spot.hasMany(Review, { foreignKey: 'spotId' });
 
-    const ReviewImage = models.ReviewImage;
-    Spot.hasMany(ReviewImage, { foreignKey: 'spotId' });
+    // const ReviewImage = models.ReviewImage;
+    // Spot.hasMany(ReviewImage, { foreignKey: 'spotId' });
   };
 
   return Spot;
