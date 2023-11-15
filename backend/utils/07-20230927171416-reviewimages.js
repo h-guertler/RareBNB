@@ -1,6 +1,6 @@
 'use strict';
 
-const { ReviewImage } = require("../models");
+const { ReviewImage } = require("../db/models");
 const bcrypt = require("bcryptjs");
 
 let options = {};
