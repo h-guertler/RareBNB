@@ -1,6 +1,6 @@
 import React from "react";
 import "./SpotTile.css";
-import testImg from "./hobbitbnb.JPG";
+// import testImg from "./hobbitbnb.JPG";
 import { useHistory } from "react-router-dom";
 
 function SpotTile({spot}) {
@@ -25,16 +25,16 @@ function SpotTile({spot}) {
     return (
         <div className="spot-tile clickable tooltip" onClick={directToSpotDetails}>
             <span className="tooltiptext">{name}</span>
-            <img src={testImg} className="previewImage" alt="spot preview"/>
+            <img src={previewImage} className="previewImage" alt="spot preview"/>
             <div className="tile-text">
                 <div className="first-row">
                     <div className="city-and-state">{`${city}, ${state} `}</div>
                     <div className="rating-div">
-                        <i class="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
                         {ratingString}
                     </div>
                 </div>
-                <div classname="second-row">
+                <div className="second-row">
                     <div className="price">{` $${price}/night `}</div>
                 </div>
             </div>

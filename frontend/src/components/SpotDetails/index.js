@@ -45,7 +45,7 @@ function SpotDetails() {
             <h4>{`${city}, ${state}, ${country}`}</h4>
             <div className="spot-detail-images">
                 <div className="main-image">
-                    <img src={previewImage}/>
+                    <img src={previewImage} alt="preview"/>
                 </div>
                 <div className="spot-image-grid">
                 {spotImagesToUse.map((image) => (

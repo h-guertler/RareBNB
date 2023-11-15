@@ -1,6 +1,6 @@
 'use strict';
 
-const { ReviewImage } = require("../db/models");
+const { ReviewImage } = require("../models/ReviewImage"); // updated
 const bcrypt = require("bcryptjs");
 
 let options = {};
@@ -47,7 +47,7 @@ module.exports = {
     options.tableName = "ReviewImages";
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      reviewId: { [Op.in]: [8,9,10] },
+      reviewId: { [Op.in]: [1,2,3,8,9,10] },
     }, {});
   }
 };
