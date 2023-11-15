@@ -1,6 +1,6 @@
 'use strict';
 
-const { ReviewImage } = require("../db/models"); //updated to add db
+const { ReviewImage } = require("../models"); //updated to add db
 const bcrypt = require("bcryptjs");
 
 let options = {};
