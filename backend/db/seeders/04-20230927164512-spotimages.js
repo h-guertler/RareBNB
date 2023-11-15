@@ -27,7 +27,7 @@ module.exports = {
    await SpotImage.bulkCreate([
     {
       spotId: 1,
-      url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FBag_End&psig=AOvVaw2_s-hxi1z2u37iu686BZfq&ust=1700090084647000&source=images&cd=vfe&ved=0CBIQjRxqFwoTCNCBuZ_PxIIDFQAAAAAdAAAAABAJ",
+      url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Baggins_residence_%27Bag_End%27_with_party_sign.jpg/540px-Baggins_residence_%27Bag_End%27_with_party_sign.jpg",
       preview: true,
     },
     {
@@ -37,7 +37,7 @@ module.exports = {
     },
     {
       spotId: 3,
-      url: "https://static.wikia.nocookie.net/narnia/images/6/6e/Wardrobe.jpg/revision/latest?cb=20161029215350",
+      url: "https://static.wikia.nocookie.net/narnia/images/6/6e/Wardrobe.jpg",
       preview: true,
     }
    ], { validate: true });
