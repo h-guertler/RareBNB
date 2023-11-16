@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import './CreateSpot.css';
+import * as spotsActions from "../../store/spots";
 
 function CreateSpot() {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const currUser = useSelector(state => state.session.user);
+
     const [country, setCountry] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -23,7 +26,7 @@ function CreateSpot() {
     const [spotImgFour, setSpotImgFour] = useState("");
     const [errors, setErrors] = useState({});
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
 
@@ -62,21 +65,42 @@ function CreateSpot() {
 
         setErrors(currErrors);
 
-        if (Object.keys(errors) === 0) {
-            // submit the form
-            // log submitting form
-            // if ok: copy paste from create user
-            // if res.ok: redirect to new page and return
-            // else: set errors to data.errors
+        if (Object.keys(errors).length === 0) {
+
+            let newSpotInfo = {
+                country,
+                address,
+                city,
+                state,
+                lat,
+                lng,
+                description,
+                name,
+                price,
+                // previewImgUrl
+            }
+
+            dispatch(spotsActions.createSpot(newSpotInfo))
+                .then((data) => {
+                    console.log("get one spot completed");
+                    console.log("res keys: " + Object.keys(data));
+                    console.log("res.vals: " + Object.values(data))
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    setErrors(error);
+                })
         }
 
         return;
     };
 
+    const createdSpot = useSelector(state => state.spots.currentSpot);
+    history.push(`/spots/${createdSpot.id}`);
+
+    if (!currUser) return (<h1>Please log in to access this resource</h1>)
+
     return (
-
-
-
         <>
             <form onSubmit={handleSubmit}>
                 <h2>Create a New Spot</h2>
@@ -172,7 +196,6 @@ function CreateSpot() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Name of your spot"
-
                     >
                     </input>
                 </div>

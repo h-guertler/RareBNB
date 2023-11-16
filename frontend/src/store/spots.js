@@ -1,7 +1,5 @@
 import { csrfFetch } from "./csrf";
 
-// goal: do a thunk that posts a new spot. make it similar to setUser
-
 const GET_SPOTS = "spots/getSpots";
 const GET_ONE_SPOT = "spots/getOneSpot";
 
@@ -13,6 +11,7 @@ export const getSpots = (spots) => {
 }
 
 export const getOneSpot = (spot) => {
+    console.log("get one spot tiny function")
     return {
         type: GET_ONE_SPOT,
         payload: spot
@@ -34,7 +33,7 @@ export const fetchOneSpot = (spotId) => async (dispatch) => {
 };
 
 export const createSpot = (spot) => async (dispatch) => {
-    const { address, city, state, country, name, description, price } = spot;
+    const { address, city, state, country, lat, lng, name, description, price } = spot;
     const response = await csrfFetch("/api/spots/", {
         method: "POST",
         body: JSON.stringify({
@@ -42,38 +41,25 @@ export const createSpot = (spot) => async (dispatch) => {
             city,
             state,
             country,
-            // lat and lng
+            lat,
+            lng,
             name,
             description,
             price
         })
     });
     // should dispatch something here?
-    return response
-    // from here, if not 200, display errors
-    // if 200, redirect to /spots/:spotId using spotId from res
-    // or just dispatch getOneSpot like to nav to spotDetails page?
+    const data = await response.json();
+    console.log("response from inside: " + response)
+    console.log("data from spots file: " + data)
+    console.log("data: " + Object.keys(data) + Object.values(data))
+
+    console.log("about to dispatch(?)")
+    dispatch(getOneSpot(data)); // if (response.ok)  this may not be right, shoudl redirect in cmponent?
+    console.log("get one spot completed")
+
+    return data;
 }
-
-// export const signup = (user) => async (dispatch) => {
-//     const { username, email, firstName, lastName, password } = user;
-//     const response = await csrfFetch("/api/users", {
-//         method: "POST",
-//         body: JSON.stringify({
-//             username,
-//             firstName,
-//             lastName,
-//             email,
-//             password
-//         })
-//     });
-
-//     console.log("res from thunk: " + Object.keys(response) + Object.values(response)) // logs nothing
-//     const data = await response.json(); // returns the user obj if successful
-//     console.log("data from thunk: " + Object.keys(data) + Object.values(data))
-//     dispatch(setUser(data.user));
-//     return response;
-//   }
 
 const initialState = {};
 
@@ -86,6 +72,7 @@ const spotsReducer = (state = initialState, action) => {
             return newState;
         }
         case GET_ONE_SPOT: {
+            console.log("get one dispatched in reducer")
             newState = Object.assign({}, state);
             newState.currentSpot = action.payload;
             return newState;

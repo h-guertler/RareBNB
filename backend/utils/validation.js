@@ -16,11 +16,11 @@ const handleValidationErrors =
                 errors[error.path] = error.msg
                 console.log("err message: " + error.msg)
                 // if the meessage is one to side, set err.status = 403
-                if (error.msg = ("Start date conflicts with an existing booking"
-                || "End date conflicts with an existing booking")) {
-                    err.status = 403;
-                    err.message = "Sorry, this spot is already booked for the specified dates"
-                }
+                // if (error.msg = ("Start date conflicts with an existing booking"
+                // || "End date conflicts with an existing booking")) {
+                //     err.status = 403;
+                //     err.message = "Sorry, this spot is already booked for the specified dates"
+                // }
             }
             );
 
