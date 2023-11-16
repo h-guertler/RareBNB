@@ -10,12 +10,16 @@ function SpotDetails() {
     const { spotId } = useParams();
 
     useEffect(() => {
-        dispatch(spotsActions.fetchOneSpot(spotId))
+        dispatch(spotsActions.fetchOneSpot(spotId));
+        dispatch(reviewsActions.fetchReviewsBySpot(spotId));
     }, [dispatch, spotId]);
 
     const spot = useSelector(state => state.spots.currentSpot);
+    const reviews = useSelector(state => state.reviews.currentSpotReviews);
+    const user = useSelector(state => state.session.user);
 
     if (!spot) return <h1>Loading...</h1>
+    console.log("reviews length: " + Object.keys(reviews).length)
 
     console.log("spot keys: " + Object.keys(spot))
     const { name, city, state, country, description, Owner, price, numReviews, avgRating, previewImage, SpotImages } = spot;
@@ -23,7 +27,6 @@ function SpotDetails() {
     const spotImagesToUse = nonPreviewImages.slice(0, 4);
 
     let ratingString;
-    console.log(avgRating + " is avgRating")
     if (typeof avgRating === "number" && avgRating > 0) {
         if (avgRating % 1 === 0) {
             ratingString = `${avgRating}.0`;
@@ -32,11 +35,47 @@ function SpotDetails() {
             ratingString = longRatingString.slice(0, 3);
         }
     } else {
-        ratingString = "new"
+        ratingString = "New";
+    }
+
+    let reviewString;
+    if (Object.keys(reviews).length === 0) {
+        reviewString = "New";
+    } else if (Object.keys(reviews).length === 1) {
+        reviewString = "Review";
+    } else {
+        reviewString = "Reviews";
+    }
+
+    let reviewInfo;
+    if (Object.keys(reviews).length === 0) {
+        reviewInfo = "";
+    } else {
+        reviewInfo = `∙ ${numReviews} ${reviewString}`;
+    }
+
+    let existingReviewByUser;
+
+    if (user) {
+        existingReviewByUser = reviews.Reviews.find(review => review.userId = user.id);
+    }
+    console.log("ex rev: " + Object.keys(existingReviewByUser))
+    console.log("ex rev values:" + Object.values(existingReviewByUser))
+
+    let createReviewIsHidden;
+    if (!user || (user && user.id === Owner.id) || existingReviewByUser) {
+        createReviewIsHidden = "hidden";
+    } else  {
+        createReviewIsHidden = "";
     }
 
     const showAlert = () => {
         alert("Feature coming soon");
+    }
+
+    const makeDateString = (date) => {
+        let dateString;
+        return dateString = date.slice(5, 7) + " " + date.slice(0, 4);
     }
 
     return (
@@ -63,7 +102,7 @@ function SpotDetails() {
                     <div className="ratings-reviews-div">
                         <i className="fas fa-star"></i>
                         <div>{ratingString}</div>
-                        <div className="num-reviews">{`${numReviews}`}</div>
+                        <div className="num-reviews">{`  ${numReviews}`}</div>
                     </div>
                     <div className="button-div">
                         <button onClick={showAlert}>Reserve</button>
@@ -71,21 +110,29 @@ function SpotDetails() {
                 </div>
             </div>
             <div className="review-div">
-                    <h3>reviews</h3>
+                    <h3><i className="fas fa-star"></i>{ratingString} {reviewInfo}</h3>
+                    <div className={`clickable ${createReviewIsHidden}`}>
+                        <button>Post Your Review</button>
+                    </div>
+                    {reviews.Reviews.length > 0 ? (
+                        <div className="reviews-list">
+                            {reviews.Reviews.map(review => (
+                                <div key={review.id}>
+                                    <h4>{review.User.firstName}</h4>
+                                    <h5>{makeDateString(review.createdAt)}</h5>
+                                    <p>{review.review}</p>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p>Be the first to post a review!</p>
+                    )}
             </div>
         </div>
     )
 }
 
-// in reviews: write a thunk/action to get the reviews by spot
-// h3 with star icon, ratingStr, tiny bullet point, numReviews, text "reviews"
 // post your review button
     // this can only be visible if: state's user is not null,
     // and user.id is not Owner.id
-    // and none of the reviews retrieved has a userId of user.id
-// then, map that array.
-// h4 with the user's firstName
-// grey h3 with createdAt, or part of it
-// p with the review text
-// a gap before the next review
 export default SpotDetails;

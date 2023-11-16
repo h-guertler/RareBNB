@@ -12,8 +12,6 @@ function SpotsGrid() {
         dispatch(spotsActions.fetchAllSpots())
     }, [dispatch])
 
-    // <li key={index}>{spot.name}</li> replace this w tile
-
     return (
         <div className="spots-grid">
             {allSpots && allSpots.Spots &&
