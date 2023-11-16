@@ -1,5 +1,7 @@
 import { csrfFetch } from "./csrf";
 
+// goal: do a thunk that posts a new spot. make it similar to setUser
+
 const GET_SPOTS = "spots/getSpots";
 const GET_ONE_SPOT = "spots/getOneSpot";
 
@@ -32,13 +34,25 @@ export const fetchOneSpot = (spotId) => async (dispatch) => {
 };
 
 export const createSpot = (spot) => async (dispatch) => {
-    const {} = spot;
-    const response = await csrfFetch("/api/spots/new", {
+    const { address, city, state, country, name, description, price } = spot;
+    const response = await csrfFetch("/api/spots/", {
         method: "POST",
         body: JSON.stringify({
-            // stuff here and above
+            address,
+            city,
+            state,
+            country,
+            // lat and lng
+            name,
+            description,
+            price
         })
     });
+    // should dispatch something here?
+    return response
+    // from here, if not 200, display errors
+    // if 200, redirect to /spots/:spotId using spotId from res
+    // or just dispatch getOneSpot like to nav to spotDetails page?
 }
 
 // export const signup = (user) => async (dispatch) => {

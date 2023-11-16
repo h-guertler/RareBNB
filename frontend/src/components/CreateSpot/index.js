@@ -12,7 +12,7 @@ function CreateSpot() {
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [description, setDescription] = useState("");
-    const [title, setTitle] = useState("");
+    const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [previewImgUrl, setPreviewImgUrl] = useState("");
     const [spotImgOne, setSpotImgOne] = useState("");
@@ -42,8 +42,8 @@ function CreateSpot() {
         if (!description || description.length < 30) {
             currErrors.description = "Description needs 30 or more characters";
         }
-        if (!title) {
-            currErrors.title = "Title is required";
+        if (!name) {
+            currErrors.name = "Title is required";
         }
         if (!price || price < 1 || (typeof price !== "number")) {
             currErrors.price = "Price must be 1 or greater";
@@ -137,11 +137,11 @@ function CreateSpot() {
                 <div className="title-div">
                     <h3>Create a title for your spot</h3>
                     <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
-                    {errors.title && <p>{errors.title}</p>}
+                    {errors.name && <p>{errors.name}</p>}
                     <input
                         type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         placeholder="Name of your spot"
 
                     >
