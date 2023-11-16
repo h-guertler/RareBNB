@@ -1,7 +1,7 @@
 import { csrfFetch } from "./csrf";
 
 const GET_SPOTS = "spots/getSpots";
-const GET_ONE_SPOT = "spots/getOneSpot"
+const GET_ONE_SPOT = "spots/getOneSpot";
 
 export const getSpots = (spots) => {
     return {
@@ -30,6 +30,36 @@ export const fetchOneSpot = (spotId) => async (dispatch) => {
     dispatch(getOneSpot(data));
     return response;
 };
+
+export const createSpot = (spot) => async (dispatch) => {
+    const {} = spot;
+    const response = await csrfFetch("/api/spots/new", {
+        method: "POST",
+        body: JSON.stringify({
+            // stuff here and above
+        })
+    });
+}
+
+// export const signup = (user) => async (dispatch) => {
+//     const { username, email, firstName, lastName, password } = user;
+//     const response = await csrfFetch("/api/users", {
+//         method: "POST",
+//         body: JSON.stringify({
+//             username,
+//             firstName,
+//             lastName,
+//             email,
+//             password
+//         })
+//     });
+
+//     console.log("res from thunk: " + Object.keys(response) + Object.values(response)) // logs nothing
+//     const data = await response.json(); // returns the user obj if successful
+//     console.log("data from thunk: " + Object.keys(data) + Object.values(data))
+//     dispatch(setUser(data.user));
+//     return response;
+//   }
 
 const initialState = {};
 

@@ -63,3 +63,14 @@ li {
     border: 1px solid black;
     border-radius: 12px;
 }
+
+.create-new-spot-profile-button {
+    display: flex;
+    flex-direction: row;
+}
+
+#create-spot-button {
+    background-color: white;
+    border: 1px solid white;
+    padding-top: 5px;
+}

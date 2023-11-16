@@ -33,7 +33,7 @@ function SignupFormModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({}); // moved from password comp block
+    setErrors({});
 
     if (password === confirmPassword) {
       return dispatch(
