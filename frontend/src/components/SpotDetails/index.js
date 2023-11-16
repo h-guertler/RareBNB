@@ -57,13 +57,13 @@ function SpotDetails() {
     let existingReviewByUser;
 
     if (user) {
-        existingReviewByUser = reviews.Reviews.find(review => review.userId = user.id);
+        existingReviewByUser = reviews.Reviews.find(review => review.userId === user.id);
     }
-    console.log("ex rev: " + Object.keys(existingReviewByUser))
-    console.log("ex rev values:" + Object.values(existingReviewByUser))
+    // console.log("ex rev: " + Object.keys(existingReviewByUser))
+    // console.log("ex rev values:" + Object.values(existingReviewByUser))
 
     let createReviewIsHidden;
-    if (!user || (user && user.id === Owner.id) || existingReviewByUser) {
+    if (!user || ( user && user.id === Owner.id) || existingReviewByUser) {
         createReviewIsHidden = "hidden";
     } else  {
         createReviewIsHidden = "";
@@ -133,6 +133,7 @@ function SpotDetails() {
 }
 
 // post your review button
-    // this can only be visible if: state's user is not null,
+    // this can only be visible if:
+    // there is no existing review by the user
     // and user.id is not Owner.id
 export default SpotDetails;

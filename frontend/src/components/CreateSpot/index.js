@@ -11,6 +11,8 @@ function CreateSpot() {
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
+    const [lat, setLat] = useState("");
+    const [lng, setLng] = useState("");
     const [description, setDescription] = useState("");
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
@@ -35,6 +37,12 @@ function CreateSpot() {
         }
         if (!state) {
             currErrors.state = "State is required";
+        }
+        if (!lat) {
+            currErrors.lat = "Latitude is required";
+        }
+        if (!lng) {
+            currErrors.lng = "Longitude is required";
         }
         if (!address) {
             currErrors.address = "Address is required";
@@ -70,7 +78,6 @@ function CreateSpot() {
 
 
         <>
-            <h1>Hello from CreateSpot</h1>
             <form onSubmit={handleSubmit}>
                 <h2>Create a New Spot</h2>
                 <div className="location-div">
@@ -118,6 +125,28 @@ function CreateSpot() {
                         value={state}
                         onChange={(e) => setState(e.target.value)}
                         placeholder="State"
+                        >
+                    </input>
+                </label>
+                <label>
+                    Latitude
+                    {errors.lat && <p>{errors.lat}</p>}
+                    <input
+                        type="text"
+                        value={lat}
+                        onChange={(e) => setLat(e.target.value)}
+                        placeholder="Latitude"
+                        >
+                    </input>
+                </label>
+                <label>
+                    Longitude
+                    {errors.lng && <p>{errors.lng}</p>}
+                    <input
+                        type="text"
+                        value={lng}
+                        onChange={(e) => setLng(e.target.value)}
+                        placeholder="Longitude"
                         >
                     </input>
                 </label>
