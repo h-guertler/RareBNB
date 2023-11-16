@@ -1,6 +1,6 @@
-// import { NavLink } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import './CreateSpot.css';
 
 function CreateSpot() {
@@ -25,33 +25,45 @@ function CreateSpot() {
         e.preventDefault();
         setErrors({});
 
+        const currErrors = {};
+
         if (!country) {
-            errors.country = "Country is required"
+            currErrors.country = "Country is required";
         }
         if (!city) {
-            errors.city = "City is required"
+            currErrors.city = "City is required";
         }
         if (!state) {
-            errors.state = "State is required"
+            currErrors.state = "State is required";
         }
         if (!address) {
-            errors.address = "Address is required"
+            currErrors.address = "Address is required";
         }
         if (!description || description.length < 30) {
-            errors.description = "Description needs 30 or more characters"
+            currErrors.description = "Description needs 30 or more characters";
         }
         if (!title) {
-            errors.title = "Title is required"
+            currErrors.title = "Title is required";
         }
         if (!price || price < 1 || (typeof price !== "number")) {
-            errors.price = "Price must be 1 or greater"
+            currErrors.price = "Price must be 1 or greater";
         }
         if (!previewImgUrl) {
-            errors.previewImgUrl = "Preview Image URL is required"
+            currErrors.previewImgUrl = "Preview Image URL is required";
         }
 
+        setErrors(currErrors);
 
-    }
+        if (Object.keys(errors) === 0) {
+            // submit the form
+            // log submitting form
+            // if ok: copy paste from create user
+            // if res.ok: redirect to new page and return
+            // else: set errors to data.errors
+        }
+
+        return;
+    };
 
     return (
 
@@ -66,43 +78,47 @@ function CreateSpot() {
                 <p>Guests will only get your exact address once they booked a reservation.</p>
                 <label>
                     Country
+                    {errors.country && <p>{errors.country}</p>}
                     <input
                         type="text"
                         value={country}
                         onChange={(e) => setCountry(e.target.value)}
                         placeholder="Country"
-                        required>
+                        >
                     </input>
                 </label>
                 <label>
+                {errors.address && <p>{errors.address}</p>}
                     Street Address
                     <input
                         type="text"
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                         placeholder="Address"
-                        required>
+                        >
                     </input>
                 </label>
                 <div className="city-state-div">
                 <label>
                     City
+                    {errors.city && <p>{errors.city}</p>}
                     <input
                         type="text"
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
                         placeholder="City"
-                        required>
+                        >
                     </input>
                 </label>
                 <label>
                     State
+                    {errors.state && <p>{errors.state}</p>}
                     <input
                         type="text"
                         value={state}
                         onChange={(e) => setState(e.target.value)}
                         placeholder="State"
-                        required>
+                        >
                     </input>
                 </label>
                 </div>
@@ -110,46 +126,50 @@ function CreateSpot() {
                 <div className="description-div">
                     <h3>Describe your place to guests</h3>
                     <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
+                    {errors.description && <p>{errors.description}</p>}
                     <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="Please write at least 30 characters"
-                        required>
+                        >
                     </textarea>
                 </div>
                 <div className="title-div">
                     <h3>Create a title for your spot</h3>
                     <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
+                    {errors.title && <p>{errors.title}</p>}
                     <input
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Name of your spot"
-                        required
+
                     >
                     </input>
                 </div>
                 <div className="pricing-div">
                     <h3>Set a base price for your spot</h3>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
+                    {errors.price && <p>{errors.price}</p>}
                     <input
                         type="number"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         placeholder="Price per night (USD)"
-                        required
+
                     >
                     </input>
                 </div>
                 <div className="photos-div">
                     <h3>Liven up your spot with photos</h3>
                     <p>Submit a link to at least one photo to publish your spot</p>
+                    {errors.previewImgUrl && <p>{errors.previewImgUrl}</p>}
                     <input
                         type="text"
                         value={previewImgUrl}
                         onChange={(e) => setPreviewImgUrl(e.target.value)}
                         placeholder="Preview Image URL"
-                        required
+
                     >
                     </input>
                     <input
