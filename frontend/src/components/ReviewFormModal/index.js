@@ -11,13 +11,35 @@ function ReviewFormModal() {
     // state variables here
     const [reviewText, setReviewText] = useState("");
     const [stars, setStars] = useState("");
+    const [isDisabled, setIsDisabled] = useState(true);
+    const [errors, setErrors] = useState({});
+
     const { closeModal } = useModal();
+
+    useEffect(() => {
+        if (reviewText.length < 10
+            || !stars) {
+                setIsDisabled(true);
+            } else {
+                setIsDisabled(false);
+            }
+
+    }, [reviewText, stars]);
+
+    // how to handle shading?
 
     const handleStars = (e) => {
         setStars(e.target.value);
     };
 
     // make a handleSubmit here
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        setErrors({});
+        const currErrors = {};
+
+    }
 
     // return a form here
     return (
@@ -30,7 +52,6 @@ function ReviewFormModal() {
             onChange={(e) => setReviewText(e.target.value)}
             ></input>
             <label>
-                Stars
                 <input
                     type="radio"
                     value="1"
@@ -61,9 +82,10 @@ function ReviewFormModal() {
                     onChange={handleStars}
                     checked={stars == 5}
                 />
+                Stars
             </label>
             <button
-            type="submit">
+            type="submit" disabled={isDisabled}>
             Submit Your Review
             </button>
         </div>
