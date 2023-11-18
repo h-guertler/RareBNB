@@ -1,9 +1,15 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import OpenModalButton from "../OpenModalButton";
+import ReviewFormModal from "../ReviewFormModal";
 import * as spotsActions from "../../store/spots";
 import * as reviewsActions from "../../store/reviews";
 import "./SpotDetails.css";
+
+// How to use OpenModalMenuItem? Make it the onClick for the leave a review button?
+// Compare to signup modal
+//
 
 function SpotDetails() {
     const dispatch = useDispatch();
@@ -112,7 +118,10 @@ function SpotDetails() {
             <div className="review-div">
                     <h3><i className="fas fa-star"></i>{ratingString} {reviewInfo}</h3>
                     <div className={`clickable ${createReviewIsHidden}`}>
-                        <button>Post Your Review</button>
+                        <OpenModalButton
+                        buttonText="Post Your Review"
+                        modalComponent={<ReviewFormModal/>}
+                        />
                     </div>
                     {reviews.Reviews.length > 0 ? (
                         <div className="reviews-list">
