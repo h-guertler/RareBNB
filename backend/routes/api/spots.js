@@ -285,7 +285,7 @@ router.post("/:spotId/reviews",
     async (req, res, next) => {
         const spot = await Spot.findByPk(req.params.spotId);
         if (!spot) return res.status(404).json({ message: "Spot couldn't be found" });
-        const existingReview = await Review.findOne({ where: { userId: req.user.id }});
+        const existingReview = await Review.findOne({ where: { userId: req.user.id, spotId: spot.id }}); // added spotid part
         if (existingReview) return res.status(500).json({ message: "You have already left a review for this spot"})
         const userId = req.user.id;
         const spotId = parseInt(req.params.spotId);

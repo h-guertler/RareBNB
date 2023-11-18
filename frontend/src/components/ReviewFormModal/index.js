@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as reviewsActions from "../../store/reviews";
 import * as sessionActions from "../../store/session";
@@ -7,8 +7,8 @@ import "./ReviewFormModal.css";
 
 function ReviewFormModal() {
     const dispatch = useDispatch();
+    const spot = useSelector(state => state.spots.currentSpot);
 
-    // state variables here
     const [reviewText, setReviewText] = useState("");
     const [stars, setStars] = useState("");
     const [isDisabled, setIsDisabled] = useState(true);
@@ -38,13 +38,32 @@ function ReviewFormModal() {
 
         setErrors({});
         const currErrors = {};
+        const spotId = spot.id;
 
-    }
+        console.log("about to dispatch from handleSubmit")
+        return dispatch(
+            reviewsActions.addReview(spotId, {
+              review: reviewText,
+              stars
+            })
+          )
+            .then(closeModal)
+            .catch(async (res) => {
+                console.log("inside catch")
+              const data = await res.json();
+              if (data) {
+                console.log("data: " + Object.keys(data))
+                console.log("data: " + Object.values(data))
+              } else {
+                console.log("no data");
+              }
+            });
+        }
 
-    // return a form here
     return (
-        <div className="review-form-div">
+        <form className="review-form" onSubmit={handleSubmit}>
             <h1>How was your stay?</h1>
+            {Object.keys(errors).length !== 0 && <p>{`Errors: ${Object.keys(errors)}`}</p>}
             <input
             type="textarea"
             placeholder="Leave your review here..."
@@ -88,7 +107,7 @@ function ReviewFormModal() {
             type="submit" disabled={isDisabled}>
             Submit Your Review
             </button>
-        </div>
+        </form>
     )
 }
 
