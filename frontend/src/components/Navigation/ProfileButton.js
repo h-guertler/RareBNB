@@ -42,6 +42,11 @@ function ProfileButton({user}) {
     const closeMenu = () => setShowMenu(false);
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
+    const navToManageSpots = () => {
+        // push the page to the history
+        history.push("/spots/current");
+    }
+
     return (
         <>
             <button
@@ -57,6 +62,7 @@ function ProfileButton({user}) {
                     <li>{user.firstName} {user.lastName}</li>
                     <li>{user.email}</li>
                     <li>
+                        <button onClick={navToManageSpots} className="clickable">Manage Spots</button>
                         <button onClick={logout} className="logout-button clickable">Log Out</button>
                     </li>
                     </>

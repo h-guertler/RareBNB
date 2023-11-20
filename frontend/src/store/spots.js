@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const GET_SPOTS = "spots/getSpots";
 const GET_ONE_SPOT = "spots/getOneSpot";
+const GET_USERS_SPOTS = "spots/getUsersSpots";
 
 export const getSpots = (spots) => {
     return {
@@ -18,12 +19,29 @@ export const getOneSpot = (spot) => {
     }
 }
 
+export const getUsersSpots = (spots) => {
+    console.log("in get users spots")
+    return {
+        type: GET_USERS_SPOTS,
+        payload: spots
+    }
+}
+
 export const fetchAllSpots = () => async (dispatch) => {
     const response = await csrfFetch("/api/spots");
     const data = await response.json();
     dispatch(getSpots(data));
     return response;
 };
+
+export const fetchUsersSpots = () => async (dispatch) => {
+    console.log("in fetchUsersSpots")
+    const response = await csrfFetch("/api/spots/current");
+    const data = await response.json();
+    console.log(data.keys)
+    dispatch(getUsersSpots(data));
+    return response;
+}
 
 export const fetchOneSpot = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`);
@@ -75,6 +93,11 @@ const spotsReducer = (state = initialState, action) => {
             console.log("get one dispatched in reducer")
             newState = Object.assign({}, state);
             newState.currentSpot = action.payload;
+            return newState;
+        }
+        case GET_USERS_SPOTS: {
+            newState = Object.assign({}, state);
+            newState.currentUsersSpots = action.payload;
             return newState;
         }
         default:
