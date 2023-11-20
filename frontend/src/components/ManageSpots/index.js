@@ -37,7 +37,8 @@ function ManageSpots() {
                     <UsersSpotsGrid usersSpots={spotsArray}/>
                 </div>
             ) : (
-                <><h1>hello</h1></>
+                <><h1>hello, you have no spots yet</h1></>
+                // add the link to create a spot here
             )
 
         )

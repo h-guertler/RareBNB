@@ -2,7 +2,7 @@ import * as spotsActions from "../../store/spots";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../SpotsGrid/SpotsGrid.css";
-import OwnedSpotTile from "../../components/SpotTile";
+import OwnedSpotTile from "../../components/OwnedSpotTile";
 
 function UsersSpotsGrid(usersSpots) {
     console.log("usersspots: " + usersSpots) // an obj

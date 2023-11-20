@@ -5,7 +5,7 @@
     border: 1px solid red;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     width: 206px;
-    height: 260px;
+    height: 280px;
     font-size: 12px;
     margin: 15px;
 }
@@ -52,7 +52,7 @@ i {
     margin-left: 5px;
   }
 
-button {
-    border: 1px solid purple;
-    height: 10px;
-}
+  .button-div {
+    padding-right: 5px;
+    align-self: flex-start;
+  }
