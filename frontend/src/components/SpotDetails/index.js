@@ -7,10 +7,6 @@ import * as spotsActions from "../../store/spots";
 import * as reviewsActions from "../../store/reviews";
 import "./SpotDetails.css";
 
-// How to use OpenModalMenuItem? Make it the onClick for the leave a review button?
-// Compare to signup modal
-//
-
 function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
@@ -22,15 +18,30 @@ function SpotDetails() {
 
     const spot = useSelector(state => state.spots.currentSpot);
     const reviews = useSelector(state => state.reviews.currentSpotReviews);
+
     const user = useSelector(state => state.session.user);
 
-    if (!spot) return <h1>Loading...</h1>
-    console.log("reviews length: " + Object.keys(reviews).length)
+    if (!spot || !reviews) return <h1>Loading...</h1>
+
+    let currentReviews = reviews.Reviews;
+
+    console.log("reviews length: " + Object.keys(currentReviews).length);
+    // console.log("revs keys: " + Object.keys(reviews))
+    // console.log("revs vals: " + Object.values(reviews))
+
+    // if there are no reviews, display "new"
 
     console.log("spot keys: " + Object.keys(spot))
     const { name, city, state, country, description, Owner, price, numReviews, avgRating, previewImage, SpotImages } = spot;
     const nonPreviewImages = SpotImages.map((image) => image.previewImage = false);
     const spotImagesToUse = nonPreviewImages.slice(0, 4);
+
+    let reviewForCalloutStr = "";
+    if (Object.keys(reviews).length === 0) {
+        reviewForCalloutStr = "";
+    } else {
+        reviewForCalloutStr = numReviews;
+    }
 
     let ratingString;
     if (typeof avgRating === "number" && avgRating > 0) {
@@ -44,10 +55,11 @@ function SpotDetails() {
         ratingString = "New";
     }
 
+    console.log("length to det reveiw vs reviews: " + Object.keys(currentReviews).length)
     let reviewString;
-    if (Object.keys(reviews).length === 0) {
-        reviewString = "New";
-    } else if (Object.keys(reviews).length === 1) {
+    if (Object.keys(currentReviews).length === 0) {
+        reviewString = "" //"New";
+    } else if (Object.keys(currentReviews).length === 1) {
         reviewString = "Review";
     } else {
         reviewString = "Reviews";
@@ -103,17 +115,18 @@ function SpotDetails() {
             <h2>Hosted by {`${Owner.firstName} ${Owner.lastName}`}</h2>
             <p>{`${description}`}</p>
             <div className="callout-box">
-                <div className="first-row">
-                    <div className="price-div">{`$${price}/night`}</div>
-                    <div className="ratings-reviews-div">
-                        <i className="fas fa-star"></i>
-                        <div>{ratingString}</div>
-                        <div className="num-reviews">{`  ${numReviews}`}</div>
+
+                    <div className="price-and-ratings-div">
+                        <div className="price-div">{`$${price}/`}<span className="night">night</span></div>
+                        <div className="ratings-reviews-div">
+                            <i className="fas fa-star"></i>
+                            <div className="num-reviews">{`${ratingString} ${numReviews > 0 ? `${numReviews} ${reviewString}` : ""}`}</div>
+                        </div>
                     </div>
-                    <div className="button-div">
-                        <button onClick={showAlert}>Reserve</button>
-                    </div>
-                </div>
+                        <div className="button-div">
+                            <button onClick={showAlert} className="clickable reserve-button">Reserve</button>
+                        </div>
+
             </div>
             <div className="review-div">
                     <h3><i className="fas fa-star"></i>{ratingString} {reviewInfo}</h3>

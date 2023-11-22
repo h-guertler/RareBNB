@@ -10,6 +10,17 @@ form {
 
   button {
     margin: 5px;
+    width: 80%;
+  }
+
+  .signup-button.true {
+    background-color: lightgray;
+    color: darkgrey;
+  }
+
+  .signup-button.false {
+    background-color: red;
+    color: white
   }
 
   #signup-modal-div {

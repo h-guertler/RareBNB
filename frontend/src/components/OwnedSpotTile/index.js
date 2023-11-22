@@ -45,8 +45,8 @@ function OwnedSpotTile({spot}) {
                     <div className="price">{` $${price}/night `}</div>
                 </div>
                 <div className="button-div">
-                    <button onClick={handleUpdate}>Update</button>
-                    <button onClick={handleDelete}>Delete</button>
+                    <button onClick={handleUpdate} className="clickable">Update</button>
+                    <button onClick={handleDelete} className="clickable">Delete</button>
                 </div>
             </div>
         </div>

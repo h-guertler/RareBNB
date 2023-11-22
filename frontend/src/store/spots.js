@@ -68,14 +68,32 @@ export const createSpot = (spot) => async (dispatch) => {
     });
     // should dispatch something here?
     const data = await response.json();
-    console.log("response from inside: " + response)
-    console.log("data from spots file: " + data)
-    console.log("data: " + Object.keys(data) + Object.values(data))
 
-    console.log("about to dispatch(?)")
     dispatch(getOneSpot(data)); // if (response.ok)  this may not be right, shoudl redirect in cmponent?
-    console.log("get one spot completed")
 
+    return data;
+}
+
+const updateSpot = (spot) => async (dispatch) => {
+    const { address, city, state, country, lat, lng, name, description, price } = spot;
+    const response = await csrfFetch(`/api/spots/${spot.id}`, {
+        method: "POST",
+        body: JSON.stringify({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
+        })
+    });
+
+    const data = await response.json();
+
+    dispatch(getOneSpot(data));
     return data;
 }
 

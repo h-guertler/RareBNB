@@ -1,6 +1,5 @@
 import React from "react";
 import "./SpotTile.css";
-// import testImg from "./hobbitbnb.JPG";
 import { useHistory } from "react-router-dom";
 
 function SpotTile({spot}) {

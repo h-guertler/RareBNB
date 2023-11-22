@@ -11,18 +11,19 @@ function ProfileButton({user}) {
     const history = useHistory();
 
     const [showMenu, setShowMenu] = useState(false);
+
     const ulRef = useRef();
+
+    const openMenu = () => {
+        if (showMenu) return;
+        setShowMenu(true);
+      };
 
     const logout = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout());
         closeMenu();
         history.push("/");
-      };
-
-      const openMenu = () => {
-        if (showMenu) return;
-        setShowMenu(true);
       };
 
       useEffect(() => {
@@ -40,12 +41,13 @@ function ProfileButton({user}) {
       }, [showMenu]);
 
     const closeMenu = () => setShowMenu(false);
-    const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     const navToManageSpots = () => {
         // push the page to the history
         history.push("/spots/current");
     }
+
+    const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
         <>
@@ -67,7 +69,7 @@ function ProfileButton({user}) {
                     </li>
                     </>
                 ) : (
-                    <>
+                    <div className="clickable">
                         <OpenModalMenuItem
                         itemText={"Log In"}
                         onItemClick={closeMenu}
@@ -78,7 +80,7 @@ function ProfileButton({user}) {
                         onItemClick={closeMenu}
                         modalComponent={<SignupFormModal />}
                         />
-                </>
+                </div>
                 )}
             </ul>
         </>

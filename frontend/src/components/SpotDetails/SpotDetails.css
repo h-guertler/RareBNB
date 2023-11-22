@@ -3,10 +3,20 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-
-    width: 20%;
+    border-radius: 10px;
+    border: 2px solid black;
+    width: 25%;
+    align-self: flex-end;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
+.price-and-ratings-div {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-top: 10px;
+}
 
 .first-row {
     display: flex;
@@ -17,25 +27,43 @@
 
   .price-div {
     align-self: flex-start;
+    width: 50%;
+  }
+
+  .night {
+    font-size: small;
   }
 
   .ratings-reviews-div {
     display: flex;
     align-items: center;
     margin-right: 5px;
+    width: 50%;
   }
 
   .num-reviews {
+    display: flex;
+    flex-direction: row;
     padding: 4px;
   }
 
 
   .button-div {
     align-self: flex-end;
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+    padding-bottom: 10px;
   }
 
   .review-div {
     border-top: 1px solid black;
+  }
+
+  .reserve-button {
+    width: 80%;
+    color: white;
+    background-color: red;
   }
 
   * {
