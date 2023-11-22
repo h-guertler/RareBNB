@@ -24,13 +24,11 @@ function SpotDetails() {
     if (!spot || !reviews) return <h1>Loading...</h1>
 
     let currentReviews = reviews.Reviews;
+    let spotImagesToUse = [];
 
-    console.log("reviews length: " + Object.keys(currentReviews).length);
-
-    console.log("spot keys: " + Object.keys(spot))
     const { name, city, state, country, description, Owner, price, numReviews, avgRating, previewImage, SpotImages } = spot;
-    const nonPreviewImages = SpotImages.map((image) => image.previewImage = false);
-    const spotImagesToUse = nonPreviewImages.slice(0, 4);
+    if (SpotImages) {const nonPreviewImages = SpotImages.map((image) => image.previewImage = false);
+    spotImagesToUse = nonPreviewImages.slice(0, 4);}
 
     let reviewForCalloutStr = "";
     if (Object.keys(reviews).length === 0) {
@@ -51,7 +49,6 @@ function SpotDetails() {
         ratingString = "New";
     }
 
-    console.log("length to det reveiw vs reviews: " + Object.keys(currentReviews).length)
     let reviewString;
     if (Object.keys(currentReviews).length === 0) {
         reviewString = "";

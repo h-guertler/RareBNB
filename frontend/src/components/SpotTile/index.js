@@ -15,10 +15,11 @@ function SpotTile({spot}) {
         if (avgRating % 1 === 0) {
             ratingString = `${avgRating}.0`;
         } else {
-            ratingString = avgRating.toString();
+            let longRatingString = avgRating.toString();
+            ratingString = longRatingString.slice(0, 3);
         }
     } else {
-        ratingString = "new"
+        ratingString = "New";
     }
 
     return (

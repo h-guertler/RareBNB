@@ -10,12 +10,13 @@ function Navigation({isLoaded}) {
 
     const history = useHistory();
 
-    const navigateToHome = () => {
-        return history.push("/");
+    const navigateToCreateSpot = () => {
+        console.log("should nav to create spot")
+        return history.push("/spots/new");
     }
 
-    const navigateToCreateSpot = () => {
-        return history.push("/spots/new");
+    const navigateToHome = () => {
+        return history.push("/");
     }
 
     return (

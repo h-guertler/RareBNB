@@ -5,10 +5,14 @@ import './CreateSpot.css';
 import * as spotsActions from "../../store/spots";
 
 function CreateSpot() {
-    const dispatch = useDispatch();
-    const history = useHistory();
+    // const dispatch = useDispatch();
+    // const history = useHistory();
 
     const currUser = useSelector(state => state.session.user);
+    //below causing issues
+    //const createdSpot = useSelector(state => state.spots.currentSpot);
+    //const savedId = createdSpot.id;
+    //console.log("id: " + savedId)
 
     const [country, setCountry] = useState("");
     const [address, setAddress] = useState("");
@@ -26,84 +30,97 @@ function CreateSpot() {
     const [spotImgFour, setSpotImgFour] = useState("");
     const [errors, setErrors] = useState({});
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setErrors({});
+    // useEffect(() => {
+    //     if (createdSpot && createdSpot.id !== savedId) {
+    //         history.push(`/spots/${createdSpot.id}`);
+    //     }
+    // }, [createdSpot, history]);
 
-        const currErrors = {};
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     setErrors({});
 
-        if (!country) {
-            currErrors.country = "Country is required";
-        }
-        if (!city) {
-            currErrors.city = "City is required";
-        }
-        if (!state) {
-            currErrors.state = "State is required";
-        }
-        if (!lat) {
-            currErrors.lat = "Latitude is required";
-        }
-        if (!lng) {
-            currErrors.lng = "Longitude is required";
-        }
-        if (!address) {
-            currErrors.address = "Address is required";
-        }
-        if (!description || description.length < 30) {
-            currErrors.description = "Description needs 30 or more characters";
-        }
-        if (!name) {
-            currErrors.name = "Title is required";
-        }
-        if (!price || price < 1 || (typeof price !== "number")) {
-            currErrors.price = "Price must be 1 or greater";
-        }
-        if (!previewImgUrl) {
-            currErrors.previewImgUrl = "Preview Image URL is required";
-        }
+    //     const currErrors = {};
 
-        setErrors(currErrors);
+    //     if (!country) {
+    //         currErrors.country = "Country is required";
+    //     }
+    //     if (!city) {
+    //         currErrors.city = "City is required";
+    //     }
+    //     if (!state) {
+    //         currErrors.state = "State is required";
+    //     }
+    //     if (!lat) {
+    //         currErrors.lat = "Latitude is required";
+    //     }
+    //     if (!lng) {
+    //         currErrors.lng = "Longitude is required";
+    //     }
+    //     if (!address) {
+    //         currErrors.address = "Address is required";
+    //     }
+    //     if (!description || description.length < 30) {
+    //         currErrors.description = "Description needs 30 or more characters";
+    //     }
+    //     if (!name) {
+    //         currErrors.name = "Title is required";
+    //     }
+    //     if (!price || price < 1 || (typeof price !== "number")) {
+    //         currErrors.price = "Price must be 1 or greater";
+    //     }
+    //     if (!previewImgUrl) {
+    //         currErrors.previewImgUrl = "Preview Image URL is required";
+    //     }
 
-        if (Object.keys(errors).length === 0) {
+    //     setErrors(currErrors);
 
-            let newSpotInfo = {
-                country,
-                address,
-                city,
-                state,
-                lat,
-                lng,
-                description,
-                name,
-                price,
-                // previewImgUrl
-            }
+    //     if (Object.keys(currErrors).length === 0) {
 
-            dispatch(spotsActions.createSpot(newSpotInfo))
-                .then((data) => {
-                    console.log("get one spot completed");
-                    console.log("res keys: " + Object.keys(data));
-                    console.log("res.vals: " + Object.values(data))
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                    setErrors(error);
-                })
-        }
+    //         let newSpotInfo = {
+    //             country,
+    //             address,
+    //             city,
+    //             state,
+    //             lat,
+    //             lng,
+    //             description,
+    //             name,
+    //             price,
+    //             previewImgUrl,
+    //             Owner: {
+    //                 id: currUser.id,
+    //                 firstName: currUser.firstName,
+    //                 lastName: currUser.lastName
+    //             }
+    //         }
 
-        return;
-    };
+    //         dispatch(spotsActions.createSpot(newSpotInfo))
+    //             .then((data) => {
+    //                 console.log("get one spot completed");
+    //                 console.log("res keys: " + Object.keys(data));
+    //                 console.log("res.vals: " + Object.values(data));
 
-    const createdSpot = useSelector(state => state.spots.currentSpot);
-    history.push(`/spots/${createdSpot.id}`);
+
+    //             })
+    //             .catch((error) => {
+    //                 console.error("Error:", error);
+    //                 setErrors(error);
+    //             })
+
+    //             history.push(`/spots/${createdSpot.id}`);
+    //     }
+
+    //     return;
+    // };
 
     if (!currUser) return (<h1>Please log in to access this resource</h1>)
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+              <form>
                 <h2>Create a New Spot</h2>
+
                 <div className="location-div">
                 <h3>Where's your place located?</h3>
                 <p>Guests will only get your exact address once they booked a reservation.</p>
@@ -253,7 +270,7 @@ function CreateSpot() {
                     >
                     </input>
                 </div>
-                <button type="submit">Create Spot</button>
+                <button type="submit" className="clickable">Create Spot</button>
             </form>
         </>
     );
