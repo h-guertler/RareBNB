@@ -69,7 +69,11 @@ export const createSpot = (spot) => async (dispatch) => {
     // should dispatch something here?
     const data = await response.json();
 
-    dispatch(getOneSpot(data)); // if (response.ok)  this may not be right, shoudl redirect in cmponent?
+    if (response.ok) {
+        dispatch(getOneSpot(data));
+     } else {
+        console.log("bad data: " + data)
+     } // if (response.ok)  this may not be right, shoudl redirect in cmponent?
 
     return data;
 }

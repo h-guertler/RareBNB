@@ -87,6 +87,13 @@ function SpotDetails() {
         return dateString = date.slice(5, 7) + " " + date.slice(0, 4);
     }
 
+    const reviewArray = reviews.Reviews;
+    const pageReviews = [];
+
+    for (let i = 0; i < reviewArray.length; i++) {
+        pageReviews.unshift(reviewArray[i]);
+    }
+
     return (
         <div className="spot-details">
             <h2>{name}</h2>
@@ -129,7 +136,7 @@ function SpotDetails() {
                     </div>
                     {reviews.Reviews.length > 0 ? (
                         <div className="reviews-list">
-                            {reviews.Reviews.map(review => (
+                            {pageReviews.map(review => (
                                 <div className="single-review" key={review.id}>
                                     <h4 className="user-name">{review.User.firstName}</h4>
                                     <h5 className="review-date">{makeDateString(review.createdAt)}</h5>

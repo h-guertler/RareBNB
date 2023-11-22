@@ -5,8 +5,8 @@ import './CreateSpot.css';
 import * as spotsActions from "../../store/spots";
 
 function CreateSpot() {
-    // const dispatch = useDispatch();
-    // const history = useHistory();
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const currUser = useSelector(state => state.session.user);
     //below causing issues
@@ -36,89 +36,93 @@ function CreateSpot() {
     //     }
     // }, [createdSpot, history]);
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     setErrors({});
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setErrors({});
+        console.log("submitting")
 
-    //     const currErrors = {};
+        const currErrors = {};
 
-    //     if (!country) {
-    //         currErrors.country = "Country is required";
-    //     }
-    //     if (!city) {
-    //         currErrors.city = "City is required";
-    //     }
-    //     if (!state) {
-    //         currErrors.state = "State is required";
-    //     }
-    //     if (!lat) {
-    //         currErrors.lat = "Latitude is required";
-    //     }
-    //     if (!lng) {
-    //         currErrors.lng = "Longitude is required";
-    //     }
-    //     if (!address) {
-    //         currErrors.address = "Address is required";
-    //     }
-    //     if (!description || description.length < 30) {
-    //         currErrors.description = "Description needs 30 or more characters";
-    //     }
-    //     if (!name) {
-    //         currErrors.name = "Title is required";
-    //     }
-    //     if (!price || price < 1 || (typeof price !== "number")) {
-    //         currErrors.price = "Price must be 1 or greater";
-    //     }
-    //     if (!previewImgUrl) {
-    //         currErrors.previewImgUrl = "Preview Image URL is required";
-    //     }
+        if (!country) {
+            currErrors.country = "Country is required";
+        }
+        if (!city) {
+            currErrors.city = "City is required";
+        }
+        if (!state) {
+            currErrors.state = "State is required";
+        }
+        if (!lat) {
+            currErrors.lat = "Latitude is required";
+        }
+        if (!lng) {
+            currErrors.lng = "Longitude is required";
+        }
+        if (!address) {
+            currErrors.address = "Address is required";
+        }
+        if (!description || description.length < 30) {
+            currErrors.description = "Description needs 30 or more characters";
+        }
+        if (!name) {
+            currErrors.name = "Title is required";
+        }
+        if (!price || price < 1 || (typeof parseInt(price) !== "number")) {
+            currErrors.price = "Price must be 1 or greater";
+        }
+        if (!previewImgUrl) {
+            currErrors.previewImgUrl = "Preview Image URL is required";
+        }
 
-    //     setErrors(currErrors);
+        setErrors(currErrors);
 
-    //     if (Object.keys(currErrors).length === 0) {
-
-    //         let newSpotInfo = {
-    //             country,
-    //             address,
-    //             city,
-    //             state,
-    //             lat,
-    //             lng,
-    //             description,
-    //             name,
-    //             price,
-    //             previewImgUrl,
+        console.log("about to enter if currerrs is 0")
+        if (Object.keys(currErrors).length === 0) {
+            console.log("currerrs was 0")
+            let newSpotInfo = {
+                country,
+                address,
+                city,
+                state,
+                lat,
+                lng,
+                description,
+                name,
+                price,
+                previewImgUrl,
     //             Owner: {
     //                 id: currUser.id,
     //                 firstName: currUser.firstName,
     //                 lastName: currUser.lastName
     //             }
-    //         }
+            }
 
-    //         dispatch(spotsActions.createSpot(newSpotInfo))
-    //             .then((data) => {
-    //                 console.log("get one spot completed");
-    //                 console.log("res keys: " + Object.keys(data));
-    //                 console.log("res.vals: " + Object.values(data));
+            console.log("about to dispatch")
+            dispatch(spotsActions.createSpot(newSpotInfo))
+                .then((data) => {
+                    console.log("res keys: " + Object.keys(data));
+                    console.log("res.vals: " + Object.values(data));
 
 
-    //             })
-    //             .catch((error) => {
-    //                 console.error("Error:", error);
-    //                 setErrors(error);
-    //             })
+                })
+                .catch((error) => {
+                    console.error("Error: ", error);
+                    setErrors(error);
+                })
 
     //             history.push(`/spots/${createdSpot.id}`);
-    //     }
+        }
 
-    //     return;
-    // };
+        console.log("current errors: " + Object.keys(currErrors) + Object.values(currErrors));
+        setErrors(currErrors);
+        return;
+    };
 
     if (!currUser) return (<h1>Please log in to access this resource</h1>)
 
     return (
         <>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <h2>Create a New Spot</h2>
 
                 <div className="location-div">

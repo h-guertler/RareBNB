@@ -54,4 +54,11 @@ i {
   .button-div {
     padding-right: 5px;
     align-self: flex-start;
+    display: flex;
+    flex-flow: row;
+  }
+
+  .management-button {
+    color: white;
+    background-color: darkgray;
   }
