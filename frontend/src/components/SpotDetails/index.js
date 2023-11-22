@@ -114,7 +114,7 @@ function SpotDetails() {
                         <div className="price-div">{`$${price}/`}<span className="night">night</span></div>
                         <div className="ratings-reviews-div">
                             <i className="fas fa-star"></i>
-                            <div className="num-reviews">{`${ratingString} · ${numReviews > 0 ? `${numReviews} ${reviewString}` : ""}`}</div>
+                            <div className="num-reviews">{`${ratingString} ${numReviews > 0 ? ` · ${numReviews} ${reviewString}` : ""}`}</div>
                         </div>
                     </div>
                         <div className="button-div">
@@ -123,8 +123,8 @@ function SpotDetails() {
 
             </div>
             <div className="review-div">
-                    <h3><i className="fas fa-star"></i>{ratingString} {reviewInfo}</h3>
-                    <div className={`clickable ${createReviewIsHidden}`}>
+                    <h3><i className="fas fa-star"></i>{`${ratingString} ${numReviews > 0 ? ` · ${numReviews} ${reviewString}` : ""}`}</h3>
+                    <div className={`clickable review-button ${createReviewIsHidden}`}>
                         <OpenModalButton
                         buttonText="Post Your Review"
                         modalComponent={<ReviewFormModal/>}
@@ -133,10 +133,10 @@ function SpotDetails() {
                     {reviews.Reviews.length > 0 ? (
                         <div className="reviews-list">
                             {reviews.Reviews.map(review => (
-                                <div key={review.id}>
-                                    <h4>{review.User.firstName}</h4>
-                                    <h5>{makeDateString(review.createdAt)}</h5>
-                                    <p>{review.review}</p>
+                                <div className="single-review" key={review.id}>
+                                    <h4 className="user-name">{review.User.firstName}</h4>
+                                    <h5 className="review-date">{makeDateString(review.createdAt)}</h5>
+                                    <p className="review-text">{review.review}</p>
                                 </div>
                             ))}
                         </div>

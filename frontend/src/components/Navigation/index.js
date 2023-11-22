@@ -15,7 +15,7 @@ function Navigation({isLoaded}) {
     }
 
     const navigateToCreateSpot = () => {
-        return history.push("/spots/new")
+        return history.push("/spots/new");
     }
 
     return (
