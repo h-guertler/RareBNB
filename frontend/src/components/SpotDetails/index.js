@@ -26,10 +26,6 @@ function SpotDetails() {
     let currentReviews = reviews.Reviews;
 
     console.log("reviews length: " + Object.keys(currentReviews).length);
-    // console.log("revs keys: " + Object.keys(reviews))
-    // console.log("revs vals: " + Object.values(reviews))
-
-    // if there are no reviews, display "new"
 
     console.log("spot keys: " + Object.keys(spot))
     const { name, city, state, country, description, Owner, price, numReviews, avgRating, previewImage, SpotImages } = spot;
@@ -58,7 +54,7 @@ function SpotDetails() {
     console.log("length to det reveiw vs reviews: " + Object.keys(currentReviews).length)
     let reviewString;
     if (Object.keys(currentReviews).length === 0) {
-        reviewString = "" //"New";
+        reviewString = "";
     } else if (Object.keys(currentReviews).length === 1) {
         reviewString = "Review";
     } else {
@@ -77,8 +73,6 @@ function SpotDetails() {
     if (user) {
         existingReviewByUser = reviews.Reviews.find(review => review.userId === user.id);
     }
-    // console.log("ex rev: " + Object.keys(existingReviewByUser))
-    // console.log("ex rev values:" + Object.values(existingReviewByUser))
 
     let createReviewIsHidden;
     if (!user || ( user && user.id === Owner.id) || existingReviewByUser) {
@@ -120,7 +114,7 @@ function SpotDetails() {
                         <div className="price-div">{`$${price}/`}<span className="night">night</span></div>
                         <div className="ratings-reviews-div">
                             <i className="fas fa-star"></i>
-                            <div className="num-reviews">{`${ratingString} ${numReviews > 0 ? `${numReviews} ${reviewString}` : ""}`}</div>
+                            <div className="num-reviews">{`${ratingString} · ${numReviews > 0 ? `${numReviews} ${reviewString}` : ""}`}</div>
                         </div>
                     </div>
                         <div className="button-div">
