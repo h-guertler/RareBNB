@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const GET_SPOTS = "spots/getSpots";
 const GET_ONE_SPOT = "spots/getOneSpot";
 const GET_USERS_SPOTS = "spots/getUsersSpots";
+const REMOVE_SPOT = "spots/removeSpot";
 
 export const getSpots = (spots) => {
     return {
@@ -24,6 +25,12 @@ export const getUsersSpots = (spots) => {
     return {
         type: GET_USERS_SPOTS,
         payload: spots
+    }
+}
+
+export const removeSpot = () => {
+    return {
+        type: REMOVE_SPOT,
     }
 }
 
@@ -101,6 +108,15 @@ export const updateSpot = (spot) => async (dispatch) => {
     return data;
 }
 
+export const deleteSpot = (spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "DELETE"
+    });
+
+    dispatch(removeSpot());
+    return response;
+}
+
 const initialState = {};
 
 const spotsReducer = (state = initialState, action) => {
@@ -120,6 +136,12 @@ const spotsReducer = (state = initialState, action) => {
         case GET_USERS_SPOTS: {
             newState = Object.assign({}, state);
             newState.currentUsersSpots = action.payload;
+            return newState;
+        }
+        case REMOVE_SPOT: {
+            newState = Object.assign({}, state);
+            // do stuff to delete the spot from the state here
+            // newState.currentUsersSpots.Spots is an array of all the user's spots. each item in the array is an object with a unique identifier at the key id
             return newState;
         }
         default:

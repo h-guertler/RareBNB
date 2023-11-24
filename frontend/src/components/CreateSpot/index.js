@@ -121,13 +121,14 @@ function CreateSpot() {
     if (!currUser) return (<h1>Please log in to access this resource</h1>)
 
     return (
-        <>
+        <div className="new-spot-form-div">
               <form onSubmit={handleSubmit}>
                 <h2>Create a New Spot</h2>
 
                 <div className="location-div">
                 <h3>Where's your place located?</h3>
                 <p>Guests will only get your exact address once they booked a reservation.</p>
+                <div className="country">
                 <label>
                     Country
                     {errors.country && <p>{errors.country}</p>}
@@ -139,6 +140,8 @@ function CreateSpot() {
                         >
                     </input>
                 </label>
+                </div>
+                <div className="address">
                 <label>
                 {errors.address && <p>{errors.address}</p>}
                     Street Address
@@ -150,7 +153,9 @@ function CreateSpot() {
                         >
                     </input>
                 </label>
+                </div>
                 <div className="city-state-div">
+                <div className="city">
                 <label>
                     City
                     {errors.city && <p>{errors.city}</p>}
@@ -159,9 +164,12 @@ function CreateSpot() {
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
                         placeholder="City"
+                        className="city-input"
                         >
                     </input>
                 </label>
+                </div>
+                <div className="state">
                 <label>
                     State
                     {errors.state && <p>{errors.state}</p>}
@@ -170,9 +178,14 @@ function CreateSpot() {
                         value={state}
                         onChange={(e) => setState(e.target.value)}
                         placeholder="State"
+                        className="state-input"
                         >
                     </input>
                 </label>
+                </div>
+                </div>
+                <div className="lat-lng-div">
+                <div className="lat">
                 <label>
                     Latitude
                     {errors.lat && <p>{errors.lat}</p>}
@@ -181,9 +194,12 @@ function CreateSpot() {
                         value={lat}
                         onChange={(e) => setLat(e.target.value)}
                         placeholder="Latitude"
+                        className="lat-input"
                         >
                     </input>
                 </label>
+                </div>
+                <div className="lng">
                 <label>
                     Longitude
                     {errors.lng && <p>{errors.lng}</p>}
@@ -192,9 +208,11 @@ function CreateSpot() {
                         value={lng}
                         onChange={(e) => setLng(e.target.value)}
                         placeholder="Longitude"
+                        className="lng-input"
                         >
                     </input>
                 </label>
+                </div>
                 </div>
                 </div>
                 <div className="description-div">
@@ -224,6 +242,8 @@ function CreateSpot() {
                     <h3>Set a base price for your spot</h3>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
                     {errors.price && <p>{errors.price}</p>}
+                    <label>
+                        $
                     <input
                         type="number"
                         value={price}
@@ -232,6 +252,7 @@ function CreateSpot() {
 
                     >
                     </input>
+                    </label>
                 </div>
                 <div className="photos-div">
                     <h3>Liven up your spot with photos</h3>
@@ -276,7 +297,7 @@ function CreateSpot() {
                 </div>
                 <button type="submit" className="clickable">Create Spot</button>
             </form>
-        </>
+        </div>
     );
 }
 

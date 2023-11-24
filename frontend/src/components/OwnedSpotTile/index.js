@@ -18,7 +18,8 @@ function OwnedSpotTile({spot}) {
         return history.push(`/spots/${id}/edit`);
     }
 
-    const handleDelete = () => {
+    const handleDelete = (e) => {
+        e.stopPropagation();
         console.log("handle delete clicked")
     }
 

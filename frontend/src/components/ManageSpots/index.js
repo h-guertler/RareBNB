@@ -1,26 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as spotsActions from "../../store/spots";
 import UsersSpotsGrid from "./UsersSpotsGrid";
-// model thunk after get all spots, fetchUsersSpots()
-// make a list of current spots in the state, maybe in the step above
-// if the length is 0:
-// make a link to Create a new spot
-// if not 0:
-// get all a user's spots; make it similar to the home page
-// add an update button below city/state
-// add a delete button below city/state
-// like home, clicking a spotTile should nav to its detail page
 
 function ManageSpots() {
     const dispatch = useDispatch();
+    const currentUsersSpots = useSelector(state => state.spots.currentUsersSpots);
+
+    const [spotsArray, setSpotsArray] = useState([]);
 
     useEffect(() => {
         dispatch(spotsActions.fetchUsersSpots());
     }, [dispatch]);
 
-    const currentUsersSpots = useSelector(state => state.spots.currentUsersSpots);
+    // useEffect(() => {
+    //     if (currentUsersSpots) {
+    //         setSpotsArray(currentUsersSpots.Spots);
+    //     }
+    // }, [currentUsersSpots]);
+
+    const handleUsersSpotsChange = async () => {
+        dispatch(spotsActions.fetchUsersSpots());
+    }
 
     if (!currentUsersSpots) {
         return (
@@ -28,13 +30,13 @@ function ManageSpots() {
         );
      }
      else {
-        const spotsArray = currentUsersSpots.Spots;
-
+        const spotsPlaceholder = currentUsersSpots.Spots;
         return (
-            spotsArray.length >= 1 ? (
+            //
+            spotsPlaceholder.length >= 1 ? (
                 <div>
                     <h1>Manage Spots</h1>
-                    <UsersSpotsGrid usersSpots={spotsArray}/>
+                    <UsersSpotsGrid usersSpots={currentUsersSpots.Spots}/>
                 </div>
             ) : (
                 <NavLink to="/spots/new">Create a New Spot</NavLink>
