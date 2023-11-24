@@ -1,6 +1,8 @@
 import React from "react";
+import OpenModalButton from "../OpenModalButton";
+import DeleteSpotModal from "../DeleteSpotModal";
 import "./OwnedSpotTile.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
 function OwnedSpotTile({spot}) {
     const { previewImage, city, state, price, avgRating, name, id } = spot;
@@ -10,8 +12,10 @@ function OwnedSpotTile({spot}) {
         return history.push(`/spots/${id}`);
     };
 
-    const handleUpdate = () => {
+    const handleUpdate = (e) => {
+        e.stopPropagation();
         console.log("handle update clicked")
+        return history.push(`/spots/${id}/edit`);
     }
 
     const handleDelete = () => {
@@ -46,7 +50,10 @@ function OwnedSpotTile({spot}) {
                 </div>
                 <div className="button-div">
                     <button onClick={handleUpdate} className="clickable management-button">Update</button>
-                    <button onClick={handleDelete} className="clickable management-button">Delete</button>
+                    <OpenModalButton
+                        buttonText="Delete"
+                        modalComponent={<DeleteSpotModal/>}
+                        />
                 </div>
             </div>
         </div>

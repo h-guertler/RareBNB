@@ -78,7 +78,7 @@ export const createSpot = (spot) => async (dispatch) => {
     return data;
 }
 
-const updateSpot = (spot) => async (dispatch) => {
+export const updateSpot = (spot) => async (dispatch) => {
     const { address, city, state, country, lat, lng, name, description, price } = spot;
     const response = await csrfFetch(`/api/spots/${spot.id}`, {
         method: "POST",

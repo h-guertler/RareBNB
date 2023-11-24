@@ -1,0 +1,18 @@
+.yes {
+    width: 90%;
+    background-color: red;
+    color: white;
+}
+
+.no {
+    width: 90%;
+    background-color: darkgrey;
+    color: white;
+}
+
+.delete-spot-modal-div {
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
