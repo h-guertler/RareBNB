@@ -6,6 +6,7 @@ import ReviewFormModal from "../ReviewFormModal";
 import * as spotsActions from "../../store/spots";
 import * as reviewsActions from "../../store/reviews";
 import "./SpotDetails.css";
+import "../ReviewFormModal/ReviewFormModal.css";
 
 function SpotDetails() {
     const dispatch = useDispatch();
@@ -21,6 +22,8 @@ function SpotDetails() {
 
     const user = useSelector(state => state.session.user);
 
+    const placeholderUrl = "https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg";
+
     if (!spot || !reviews) return <h1>Loading...</h1>
 
     let currentReviews = reviews.Reviews;
@@ -28,7 +31,18 @@ function SpotDetails() {
 
     const { name, city, state, country, description, Owner, price, numReviews, avgRating, previewImage, SpotImages } = spot;
     if (SpotImages) {const nonPreviewImages = SpotImages.map((image) => image.previewImage = false);
-    spotImagesToUse = nonPreviewImages.slice(0, 4);}
+
+    nonPreviewImages.length <= 4 ? spotImagesToUse = nonPreviewImages : spotImagesToUse = nonPreviewImages.slice(0, 4);}
+
+    let spotImgOne = "";
+    let spotImgTwo = "";
+    let spotImgThree = "";
+    let spotImgFour = "";
+
+    spotImagesToUse[0] ? spotImgOne = spotImagesToUse[0].url : spotImgOne = placeholderUrl;
+    spotImagesToUse[1] ? spotImgTwo = spotImagesToUse[1].url : spotImgTwo = placeholderUrl;
+    spotImagesToUse[2] ? spotImgThree = spotImagesToUse[2].url : spotImgThree = placeholderUrl;
+    spotImagesToUse[3] ? spotImgFour = spotImagesToUse[3].url : spotImgFour = placeholderUrl;
 
     let reviewForCalloutStr = "";
     if (Object.keys(reviews).length === 0) {
@@ -100,18 +114,20 @@ function SpotDetails() {
             <h4>{`${city}, ${state}, ${country}`}</h4>
             <div className="spot-detail-images">
                 <div className="main-image">
-                    <img src={previewImage} alt="preview"/>
+                    <img id="main-image" src={previewImage ? previewImage : placeholderUrl} alt="preview"/>
                 </div>
                 <div className="spot-image-grid">
-                {spotImagesToUse.map((image) => (
-                    <div key={image.id}>
-                        <img src={image.url} alt={`${spot.name} preview`}/>
-                    </div>
-                ))}
+                    <img id="image-one" src={spotImgOne} alt={`${name}`}/>
+                    <img id="image-two" src={spotImgTwo} alt={`${name}`}/>
+                    <img id="image-three" src={spotImgThree} alt={`${name}`}/>
+                    <img id="image-four" src={spotImgFour} alt={`${name}`}/>
                 </div>
             </div>
+            <div className="info-and-callout">
+            <div className="spot-info">
             <h2>Hosted by {`${Owner.firstName} ${Owner.lastName}`}</h2>
             <p>{`${description}`}</p>
+            </div>
             <div className="callout-box">
 
                     <div className="price-and-ratings-div">
@@ -126,10 +142,12 @@ function SpotDetails() {
                         </div>
 
             </div>
+            </div>
             <div className="review-div">
                     <h3><i className="fas fa-star"></i>{`${ratingString} ${numReviews > 0 ? ` · ${numReviews} ${reviewString}` : ""}`}</h3>
-                    <div className={`clickable review-button ${createReviewIsHidden}`}>
+                    <div className={`review-button ${createReviewIsHidden}`}>
                         <OpenModalButton
+                        className="post-review-button clickable"
                         buttonText="Post Your Review"
                         modalComponent={<ReviewFormModal/>}
                         />
@@ -152,8 +170,4 @@ function SpotDetails() {
     )
 }
 
-// post your review button
-    // this can only be visible if:
-    // there is no existing review by the user
-    // and user.id is not Owner.id
 export default SpotDetails;

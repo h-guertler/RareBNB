@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as reviewsActions from "../../store/reviews";
-import * as sessionActions from "../../store/session";
+// import * as sessionActions from "../../store/session";
 import "./ReviewFormModal.css";
 
 function ReviewFormModal() {
@@ -13,6 +13,7 @@ function ReviewFormModal() {
     const [stars, setStars] = useState("");
     const [isDisabled, setIsDisabled] = useState(true);
     const [errors, setErrors] = useState({});
+    const [hoveredStarNum, setHoveredStarNum] = useState(null);
 
     const { closeModal } = useModal();
 
@@ -26,13 +27,17 @@ function ReviewFormModal() {
 
     }, [reviewText, stars]);
 
-    // how to handle shading?
 
-    const handleStars = (e) => {
-        setStars(e.target.value);
+    const handleStarHover = (num) => {
+        setHoveredStarNum(num);
     };
 
-    // make a handleSubmit here
+    const handleStarClick = () => {
+        setStars(hoveredStarNum);
+    };
+
+    let starArray = [1, 2, 3, 4, 5];
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -64,47 +69,32 @@ function ReviewFormModal() {
         <form className="review-form" onSubmit={handleSubmit}>
             <h1>How was your stay?</h1>
             {Object.keys(errors).length !== 0 && <p>{`Errors: ${Object.keys(errors)}`}</p>}
-            <input
+            <textarea
             type="textarea"
+            id="review-text-input"
             placeholder="Leave your review here..."
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
-            ></input>
-            <label>
-                <input
-                    type="radio"
-                    value="1"
-                    onChange={handleStars}
-                    checked={stars == 1}
-                />
-                <input
-                    type="radio"
-                    value="2"
-                    onChange={handleStars}
-                    checked={stars == 2}
-                />
-                <input
-                    type="radio"
-                    value="3"
-                    onChange={handleStars}
-                    checked={stars == 3}
-                />
-                <input
-                    type="radio"
-                    value="4"
-                    onChange={handleStars}
-                    checked={stars == 4}
-                />
-                <input
-                    type="radio"
-                    value="5"
-                    onChange={handleStars}
-                    checked={stars == 5}
-                />
-                Stars
-            </label>
+            ></textarea>
+            <div className="star-container">
+                {
+                starArray.map((starVal) => (
+                    <i key={starVal}
+                        className={`fa-solid fa-star star ${starVal <= (hoveredStarNum || stars) ? "active" : ""}`}
+                        onMouseEnter={() => handleStarHover(starVal)}
+                        onMouseLeave={() => handleStarHover(null)}
+                        onClick={handleStarClick}
+                    ></i>
+                ))
+                }
+            <label id="label-for-stars">Stars</label>
+            </div>
             <button
-            type="submit" disabled={isDisabled}>
+            type="submit"
+            disabled={isDisabled}
+            className={isDisabled.toString()}
+            id="submit-review-button"
+            >
             Submit Your Review
             </button>
         </form>
