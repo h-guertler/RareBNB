@@ -25,7 +25,7 @@ function SpotTile({spot}) {
     return (
         <div className="spot-tile clickable tooltip" onClick={directToSpotDetails}>
             <span className="tooltiptext">{name}</span>
-            <img src={previewImage} className="previewImage" alt="spot preview"/>
+            <img src={previewImage ? previewImage : "https://img2.cgtrader.com/items/3310379/5158213a16/large/fantasy-stylized-medieval-house-b8-3d-model-obj-fbx-blend-gltf.jpg"} className="previewImage" alt="spot preview"/>
             <div className="tile-text">
                 <div className="first-row">
                     <div className="city-and-state">{`${city}, ${state} `}</div>
@@ -35,7 +35,7 @@ function SpotTile({spot}) {
                     </div>
                 </div>
                 <div className="second-row">
-                    <div className="price">{` $${price}/night `}</div>
+                    <div className="price">{` $${price} night `}</div>
                 </div>
             </div>
         </div>

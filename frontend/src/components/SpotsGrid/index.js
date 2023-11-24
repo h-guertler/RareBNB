@@ -13,11 +13,13 @@ function SpotsGrid() {
     }, [dispatch])
 
     return (
+        <div className="container-for-grid">
         <div className="spots-grid">
             {allSpots && allSpots.Spots &&
                 allSpots.Spots.map((spot) => (
                     <SpotTile spot={spot} key={spot.id} className="spot-tile"/>
                 ))}
+        </div>
         </div>
     )
 }

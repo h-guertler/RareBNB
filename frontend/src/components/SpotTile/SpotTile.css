@@ -23,6 +23,8 @@
 .second-row {
     align-self: flex-end;
     margin-right: 6px;
+    display: flex;
+    width: 100%;
 }
 
 .city-and-state {
@@ -31,6 +33,7 @@
 
 .price {
     align-self: flex-start;
+    margin-left: 4px;
 }
 
 .rating-div {
