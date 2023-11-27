@@ -28,7 +28,7 @@ function ManageSpots() {
 
     if (!currentUsersSpots) {
         return (
-            <h1>Loading current spots...</h1>
+            <h1>Loading your spots...</h1>
         );
      }
      else {
