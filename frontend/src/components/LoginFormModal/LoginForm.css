@@ -30,6 +30,8 @@ form {
     background-color: white;
     color: black;
     border: 1px solid white;
+    padding-bottom: 10px;
+    text-decoration: underline;
   }
 
   .login-modal-div {
@@ -41,4 +43,8 @@ form {
 
   h1 {
     font-family: "Comic Sans MS", "Comic Sans", cursive;
+  }
+
+  p {
+    color: red;
   }

@@ -21,7 +21,7 @@ function LoginFormModal() {
       .catch(async (res) => {
         const data = await res.json();
         if (data.message === "Invalid credentials") {
-          setErrors({credential: "The provided credentials were invalid"});
+          setErrors({credential: "The provided credentials were invalid."});
         }
 
         else if (data && data.errors) { // added else
@@ -49,6 +49,9 @@ function LoginFormModal() {
   return (
     <div className="login-modal-div">
       <h1>Log In</h1>
+      {errors.credential && (
+          <p>{errors.credential}</p>
+        )}
       <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -64,10 +67,6 @@ function LoginFormModal() {
             placeholder="Password"
             required
           />
-        {errors.credential && (
-          <p>{errors.credential}</p>
-        )}
-        {}
         <button type="submit" disabled={isDisabled} className={`login-button clickable ${isDisabled.toString()}`}>Log In</button>
       </form>
       <button onClick={demoLogin} className={`demo-login clickable`}>Demo User</button>

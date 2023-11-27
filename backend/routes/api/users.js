@@ -60,12 +60,10 @@ router.post(
             });
 
             // return any errors
-            console.log("error from route: " + error);
             return error;
 
     }
     catch (error) {
-        console.error("error from route: " + error);
         return res.status(500).json({ error: error });
     }
 }

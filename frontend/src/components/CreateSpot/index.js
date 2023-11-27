@@ -12,7 +12,6 @@ function CreateSpot() {
     //below causing issues
     //const createdSpot = useSelector(state => state.spots.currentSpot);
     //const savedId = createdSpot.id;
-    //console.log("id: " + savedId)
 
     const [country, setCountry] = useState("");
     const [address, setAddress] = useState("");
@@ -30,6 +29,12 @@ function CreateSpot() {
     const [spotImgFour, setSpotImgFour] = useState("");
     const [errors, setErrors] = useState({});
 
+    const checkUrl = (url) => {
+        return (url.endsWith(".jpg")
+        || url.endsWith(".png")
+        || url.endsWith(".jpeg"))
+    }
+
     // useEffect(() => {
     //     if (createdSpot && createdSpot.id !== savedId) {
     //         history.push(`/spots/${createdSpot.id}`);
@@ -39,7 +44,6 @@ function CreateSpot() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
-        console.log("submitting")
 
         const currErrors = {};
 
@@ -74,11 +78,29 @@ function CreateSpot() {
             currErrors.previewImgUrl = "Preview Image URL is required";
         }
 
+        if (previewImgUrl && !checkUrl(previewImgUrl)) {
+            currErrors.previewImgUrl = "Image URL must end in .png, .jpg, or .jpeg"
+        }
+
+        if (spotImgOne && !checkUrl(spotImgOne)) {
+            currErrors.spotImgOne = "Image URL must end in .png, .jpg, or .jpeg"
+        }
+
+        if (spotImgTwo && !checkUrl(spotImgTwo)) {
+            currErrors.spotImgTwo = "Image URL must end in .png, .jpg, or .jpeg"
+        }
+
+        if (spotImgThree && !checkUrl(spotImgThree)) {
+            currErrors.spotImgThree = "Image URL must end in .png, .jpg, or .jpeg"
+        }
+
+        if (spotImgFour && !checkUrl(spotImgFour)) {
+            currErrors.spotImgFour = "Image URL must end in .png, .jpg, or .jpeg"
+        }
+
         setErrors(currErrors);
 
-        console.log("about to enter if currerrs is 0")
         if (Object.keys(currErrors).length === 0) {
-            console.log("currerrs was 0")
             let newSpotInfo = {
                 country,
                 address,
@@ -89,31 +111,37 @@ function CreateSpot() {
                 description,
                 name,
                 price,
-                previewImgUrl,
-    //             Owner: {
-    //                 id: currUser.id,
-    //                 firstName: currUser.firstName,
-    //                 lastName: currUser.lastName
-    //             }
             }
 
-            console.log("about to dispatch")
             dispatch(spotsActions.createSpot(newSpotInfo))
                 .then((data) => {
-                    console.log("res keys: " + Object.keys(data));
-                    console.log("res.vals: " + Object.values(data));
+                    const newId = data.id;
+                    dispatch(spotsActions.addSpotImage(newId, {url: previewImgUrl, preview: true}));
 
-
+                    if (spotImgOne) {
+                        dispatch(spotsActions.addSpotImage(newId, {url: spotImgOne, preview: false}));
+                    }
+                    if (spotImgTwo) {
+                        dispatch(spotsActions.addSpotImage(newId, {url: spotImgTwo, preview: false}));
+                    }
+                    if (spotImgThree) {
+                        dispatch(spotsActions.addSpotImage(newId, {url: spotImgThree, preview: false}));
+                    }
+                    if (spotImgFour) {
+                        dispatch(spotsActions.addSpotImage(newId, {url: spotImgFour, preview: false}));
+                    }
                 })
                 .catch((error) => {
-                    console.error("Error: ", error);
                     setErrors(error);
                 })
 
     //             history.push(`/spots/${createdSpot.id}`);
+                // dispatch to create a new spotimage with all given urls
+                // addSpotImage = (spotId, imgInfo)
+
+
         }
 
-        console.log("current errors: " + Object.keys(currErrors) + Object.values(currErrors));
         setErrors(currErrors);
         return;
     };
@@ -131,7 +159,7 @@ function CreateSpot() {
                 <div className="country">
                 <label>
                     Country
-                    {errors.country && <p>{errors.country}</p>}
+                    {errors.country && <p className="errorsP">{errors.country}</p>}
                     <input
                         type="text"
                         value={country}
@@ -143,7 +171,7 @@ function CreateSpot() {
                 </div>
                 <div className="address">
                 <label>
-                {errors.address && <p>{errors.address}</p>}
+                {errors.address && <p className="errorsP">{errors.address}</p>}
                     Street Address
                     <input
                         type="text"
@@ -158,7 +186,7 @@ function CreateSpot() {
                 <div className="city">
                 <label>
                     City
-                    {errors.city && <p>{errors.city}</p>}
+                    {errors.city && <p className="errorsP">{errors.city}</p>}
                     <input
                         type="text"
                         value={city}
@@ -172,7 +200,7 @@ function CreateSpot() {
                 <div className="state">
                 <label>
                     State
-                    {errors.state && <p>{errors.state}</p>}
+                    {errors.state && <p className="errorsP">{errors.state}</p>}
                     <input
                         type="text"
                         value={state}
@@ -188,7 +216,7 @@ function CreateSpot() {
                 <div className="lat">
                 <label>
                     Latitude
-                    {errors.lat && <p>{errors.lat}</p>}
+                    {errors.lat && <p className="errorsP">{errors.lat}</p>}
                     <input
                         type="text"
                         value={lat}
@@ -202,7 +230,7 @@ function CreateSpot() {
                 <div className="lng">
                 <label>
                     Longitude
-                    {errors.lng && <p>{errors.lng}</p>}
+                    {errors.lng && <p className="errorsP">{errors.lng}</p>}
                     <input
                         type="text"
                         value={lng}
@@ -218,7 +246,7 @@ function CreateSpot() {
                 <div className="description-div">
                     <h3>Describe your place to guests</h3>
                     <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
-                    {errors.description && <p>{errors.description}</p>}
+                    {errors.description && <p className="errorsP">{errors.description}</p>}
                     <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
@@ -229,7 +257,7 @@ function CreateSpot() {
                 <div className="title-div">
                     <h3>Create a title for your spot</h3>
                     <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
-                    {errors.name && <p>{errors.name}</p>}
+                    {errors.name && <p className="errorsP">{errors.name}</p>}
                     <input
                         type="text"
                         value={name}
@@ -241,7 +269,7 @@ function CreateSpot() {
                 <div className="pricing-div">
                     <h3>Set a base price for your spot</h3>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-                    {errors.price && <p>{errors.price}</p>}
+                    {errors.price && <p className="errorsP">{errors.price}</p>}
                     <label>
                         $
                     <input
@@ -257,7 +285,7 @@ function CreateSpot() {
                 <div className="photos-div">
                     <h3>Liven up your spot with photos</h3>
                     <p>Submit a link to at least one photo to publish your spot</p>
-                    {errors.previewImgUrl && <p>{errors.previewImgUrl}</p>}
+                    {errors.previewImgUrl && <p className="errorsP">{errors.previewImgUrl}</p>}
                     <input
                         type="text"
                         value={previewImgUrl}
@@ -266,6 +294,7 @@ function CreateSpot() {
 
                     >
                     </input>
+                    {errors.spotImgOne && <p className="errorsP">{errors.spotImgOne}</p>}
                     <input
                         type="text"
                         value={spotImgOne}
@@ -273,6 +302,7 @@ function CreateSpot() {
                         placeholder="Image URL"
                     >
                     </input>
+                    {errors.spotImgTwo && <p className="errorsP">{errors.spotImgTwo}</p>}
                     <input
                         type="text"
                         value={spotImgTwo}
@@ -280,6 +310,7 @@ function CreateSpot() {
                         placeholder="Image URL"
                     >
                     </input>
+                    {errors.spotImgThree && <p className="errorsP">{errors.spotImgThree}</p>}
                     <input
                         type="text"
                         value={spotImgThree}
@@ -287,6 +318,7 @@ function CreateSpot() {
                         placeholder="Image URL"
                     >
                     </input>
+                    {errors.spotImgFour && <p className="errorsP">{errors.spotImgFour}</p>}
                     <input
                         type="text"
                         value={spotImgFour}

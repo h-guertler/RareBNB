@@ -44,8 +44,6 @@ function ReviewFormModal() {
         setErrors({});
         const spotId = spot.id;
 
-        console.log("about to dispatch from handleSubmit")
-
         try {
         await dispatch(
             reviewsActions.addReview(spotId, {
@@ -89,7 +87,7 @@ function ReviewFormModal() {
             <button
             type="submit"
             disabled={isDisabled}
-            className={isDisabled.toString()}
+            className={`${isDisabled.toString()}  clickable`}
             id="submit-review-button"
             >
             Submit Your Review

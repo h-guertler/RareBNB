@@ -13,7 +13,6 @@ export const getSpots = (spots) => {
 }
 
 export const getOneSpot = (spot) => {
-    console.log("get one spot tiny function")
     return {
         type: GET_ONE_SPOT,
         payload: spot
@@ -21,7 +20,6 @@ export const getOneSpot = (spot) => {
 }
 
 export const getUsersSpots = (spots) => {
-    console.log("in get users spots")
     return {
         type: GET_USERS_SPOTS,
         payload: spots
@@ -42,12 +40,27 @@ export const fetchAllSpots = () => async (dispatch) => {
 };
 
 export const fetchUsersSpots = () => async (dispatch) => {
-    console.log("in fetchUsersSpots")
     const response = await csrfFetch("/api/spots/current");
     const data = await response.json();
-    console.log(data.keys)
     dispatch(getUsersSpots(data));
     return response;
+}
+
+// pass in preview and url
+export const addSpotImage = (spotId, imgInfo) => async (dispatch) => {
+    const { preview, url } = imgInfo;
+
+    const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+        method: "POST",
+        body: JSON.stringify({
+            url,
+            preview
+        })
+    });
+
+    const data = await response.json();
+    // do i need to do anything else for store to update?
+
 }
 
 export const fetchOneSpot = (spotId) => async (dispatch) => {
@@ -73,14 +86,12 @@ export const createSpot = (spot) => async (dispatch) => {
             price
         })
     });
-    // should dispatch something here?
+
     const data = await response.json();
 
     if (response.ok) {
         dispatch(getOneSpot(data));
-     } else {
-        console.log("bad data: " + data)
-     } // if (response.ok)  this may not be right, shoudl redirect in cmponent?
+     }
 
     return data;
 }
@@ -128,7 +139,6 @@ const spotsReducer = (state = initialState, action) => {
             return newState;
         }
         case GET_ONE_SPOT: {
-            console.log("get one dispatched in reducer")
             newState = Object.assign({}, state);
             newState.currentSpot = action.payload;
             return newState;

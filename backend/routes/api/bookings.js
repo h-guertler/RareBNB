@@ -37,7 +37,6 @@ const validateBooking = [
                     ]
                 }
             }});
-            console.log("errors here!!!!!: ")
             return (!existingBookings);
         })
         .withMessage("End date conflicts with an existing booking"),

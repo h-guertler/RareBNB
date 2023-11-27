@@ -102,10 +102,11 @@ form {
 .pricing-div {
     border-bottom: 1px solid black;
     padding-bottom: 20px;
+    display: inline-block;
 }
 
 .pricing-div input {
-    width: 100%;
+    width: 90%;
 }
 
 .photos-div {
@@ -127,4 +128,12 @@ button {
     width: 20%;
     margin-top: 15px;
     border: 1px solid black;
+}
+
+p {
+    color: black;
+}
+
+.errorsP {
+    color: red;
 }

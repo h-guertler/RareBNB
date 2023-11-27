@@ -14,7 +14,6 @@ function OwnedSpotTile({spot}) {
 
     const handleUpdate = (e) => {
         e.stopPropagation();
-        console.log("handle update clicked")
         return history.push(`/spots/${id}/edit`);
     }
 

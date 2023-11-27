@@ -54,7 +54,6 @@ function SignupFormModal() {
             let errorOriginField = jsonRes.error.errors[0].path;
 
             if (errorMessage) return setErrors({[errorOriginField]: errorMessage});
-            console.log("msg: " + errorMessage + " " + "field " + errorOriginField)
 
             // res.text()
             //   .then((resText) => {
@@ -70,11 +69,6 @@ function SignupFormModal() {
 
           const data = await res.json();
 
-          // if (!res.ok) {
-          //   console.log("response to str: " + Object.keys(res) + Object.values(res))
-          //   return
-          // }
-          // getting Uncaught (in promise) SyntaxError: JSON.parse: unexpected character at line 1 column 1 of the JSON data
           console.log("data message: " + data.message)
           console.log("keys: " + Object.keys(data) + " vals: " + Object.values(data))
           console.log("errors before: " + errors)

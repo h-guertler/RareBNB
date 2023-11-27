@@ -6,13 +6,12 @@
   cursor: pointer;
 }
 
-.main-image {
-  width: 100%;
-  grid-area: main-img;
-}
-
 #main-image {
-  height: 100%;
+  width: 200%;
+  height: auto;
+  overflow: hidden;
+  grid-area: main-img;
+  /* object-fit: contain; */
 }
 
 .info-and-callout {
@@ -61,7 +60,7 @@
 .callout-box {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     border-radius: 10px;
     border: 2px solid black;
@@ -89,7 +88,13 @@
 
   .price-div {
     align-self: flex-start;
-    width: 50%;
+    width: 40%;
+    /* align-items: flex-start;
+    display: flex; */
+  }
+
+  .space-div {
+    width: 20%;
   }
 
   .night {
@@ -100,7 +105,7 @@
     display: flex;
     align-items: center;
     margin-right: 5px;
-    width: 50%;
+    width: 40%;
   }
 
   .num-reviews {
@@ -111,7 +116,10 @@
 
 
   .button-div {
+    display: flex;
     align-self: flex-end;
+    justify-content: center;
+    align-items: center;
     margin-right: auto;
     margin-left: auto;
     width: 100%;
@@ -135,6 +143,8 @@
   .spot-details {
     display: flex;
     flex-direction: column;
+    /* max-width: 1000px;
+    align-items: center; */
   }
 
 .user-name {

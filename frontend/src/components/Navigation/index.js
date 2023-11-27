@@ -11,7 +11,6 @@ function Navigation({isLoaded}) {
     const history = useHistory();
 
     const navigateToCreateSpot = () => {
-        console.log("should nav to create spot")
         return history.push("/spots/new");
     }
 

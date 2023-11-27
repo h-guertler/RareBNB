@@ -45,17 +45,10 @@ export const login = (user) => async (dispatch) => {
         })
     });
 
-    if (!response) console.log("no response")
-    console.log("response: " + response);
-
-    //console.log("res from thunk: " + Object.keys(response) + Object.values(response)) // logs nothing
     const data = await response.json(); // returns the user obj if successful
-    //console.log("data from thunk: " + Object.keys(data) + Object.values(data)) // logs user [object object]
 
     if (response.ok) {
       dispatch(setUser(data.user));
-    } else {
-      console.log("signup failed with status: " + response.status + " and errors " + response.errors)
     }
 
     return response;

@@ -44,7 +44,8 @@ function SpotDetails() {
     const { name, city, state, country, description, Owner, price, numReviews, avgRating, previewImage, SpotImages } = spot;
     // setDynamicAvgRating(avgRating);
 
-    if (SpotImages) {const nonPreviewImages = SpotImages.map((image) => image.previewImage = false);
+
+    if (SpotImages.length) {const nonPreviewImages = SpotImages.filter((image) => image.preview === false);
 
     nonPreviewImages.length <= 4 ? spotImagesToUse = nonPreviewImages : spotImagesToUse = nonPreviewImages.slice(0, 4);}
 
@@ -83,11 +84,11 @@ function SpotDetails() {
     // avgRating = updateAverageRating();
 
     let ratingString;
-    if (typeof dynamicAvgRating === "number" && dynamicAvgRating > 0) {
-        if (dynamicAvgRating % 1 === 0) {
-            ratingString = `${dynamicAvgRating}.0`;
+    if (typeof avgRating === "number" && avgRating > 0) {
+        if (avgRating % 1 === 0) {
+            ratingString = `${avgRating}.0`;
         } else {
-            let longRatingString = dynamicAvgRating.toString();
+            let longRatingString = avgRating.toString();
             ratingString = longRatingString.slice(0, 3);
         }
     } else {
@@ -117,7 +118,7 @@ function SpotDetails() {
     }
 
     let createReviewIsHidden;
-    if (!user || ( user && user.id === Owner.id) || existingReviewByUser) {
+    if (!user || ( user && user.id === spot.Owner.id) || existingReviewByUser) {
         createReviewIsHidden = "hidden";
     } else  {
         createReviewIsHidden = "";
@@ -134,6 +135,7 @@ function SpotDetails() {
 
     const reviewArray = reviews.Reviews;
     const pageReviews = [];
+
 
     for (let i = 0; i < reviewArray.length; i++) {
         pageReviews.unshift(reviewArray[i]);
@@ -162,7 +164,8 @@ function SpotDetails() {
             <div className="callout-box">
 
                     <div className="price-and-ratings-div">
-                        <div className="price-div">{`$${price}/`}<span className="night">night</span></div>
+                        <div className="price-div">{`$${price} `}<span className="night">night</span></div>
+                        <div className="space-div"></div>
                         <div className="ratings-reviews-div">
                             <i className="fas fa-star"></i>
                             {/* should be updating */}
@@ -189,10 +192,10 @@ function SpotDetails() {
                         <div className="reviews-list">
                             {pageReviews.map(review => (
                                 <div className="single-review" key={review.id}>
-                                    <h4 className="user-name">{review.User.firstName ? review.User.firstName : "loading..."}</h4>
+                                    <h4 className="user-name">{review.User ? review.User.firstName : ""}</h4>
                                     <h5 className="review-date">{makeDateString(review.createdAt)}</h5>
                                     <p className="review-text">{review.review}</p>
-                                    <div className={`delete-review-button-div clickable ${user ? (user.id === review.User.id ? "" : " hidden") : " hidden"}`}>
+                                    <div className={`delete-review-button-div clickable ${user && review.User ? (user.id === review.User.id ? "" : " hidden") : " hidden"}`}>
                                         <OpenModalButton
                                             className={`delete-review-button`}
                                             buttonText="Delete"
@@ -203,7 +206,7 @@ function SpotDetails() {
                             ))}
                         </div>
                     ) : (
-                        <p>Be the first to post a review!</p>
+                        <p className={`review-invite-p ${createReviewIsHidden}`}>Be the first to post a review!</p>
                     )}
             </div>
         </div>
