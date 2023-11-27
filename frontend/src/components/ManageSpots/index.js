@@ -37,7 +37,6 @@ function ManageSpots() {
             //
             spotsPlaceholder.length >= 1 ? (
                 <div className="manage-spots">
-                    <h1>Manage Spots</h1>
                     <UsersSpotsGrid usersSpots={currentUsersSpots.Spots}/>
                 </div>
             ) : (

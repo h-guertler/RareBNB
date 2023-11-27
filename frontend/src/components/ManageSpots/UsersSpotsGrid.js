@@ -1,6 +1,7 @@
 import * as spotsActions from "../../store/spots";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import "../SpotsGrid/SpotsGrid.css";
 import OwnedSpotTile from "../../components/OwnedSpotTile";
 import "./UsersSpotsGrid.css"
@@ -9,6 +10,7 @@ import "./UsersSpotsGrid.css"
 // ensure they are aligned with left side of image
 function UsersSpotsGrid({usersSpots}) {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     // console.log("users spots: " + usersSpots) // an obj
     // console.log("Input Keys: " + Object.keys(usersSpots)) // a series of numbers
@@ -29,8 +31,15 @@ function UsersSpotsGrid({usersSpots}) {
     //     console.log(singleSpot[innerInfo]) // this lists vals of the spot
     // }
 
+    const navToCreateSpot = (e) => {
+        e.stopPropagation();
+        history.push("/spots/new");
+    }
+
     return (
-        <div>
+        <div className="h1-and-grid">
+            <h1>Manage Spots</h1>
+            <button className="create-spot-button clickable" onClick={navToCreateSpot}>Create a New Spot</button>
         <div className="container-for-grid">
         <div className="spots-grid">
             {spotsArray.map((spot) => (

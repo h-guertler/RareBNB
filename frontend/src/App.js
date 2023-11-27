@@ -27,7 +27,7 @@ function App() {
         <Route exact path="/spots/current">
           <ManageSpots/>
         </Route>
-        <Route exact path="/spots/:spotId/edit">
+        <Route path="/spots/:spotId/edit">
           <UpdateSpotForm />
         </Route>
         <Route exact path="/spots/:spotId">

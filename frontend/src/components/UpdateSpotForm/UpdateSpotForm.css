@@ -3,7 +3,7 @@ form {
     max-width: 40%;
 }
 
-.new-spot-form-div {
+.update-spot-form-div {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -102,10 +102,6 @@ form {
 .pricing-div {
     border-bottom: 1px solid black;
     padding-bottom: 20px;
-}
-
-.pricing-div input {
-    width: 100%;
 }
 
 .photos-div {

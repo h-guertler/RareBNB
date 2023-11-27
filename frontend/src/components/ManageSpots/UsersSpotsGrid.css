@@ -3,8 +3,28 @@
   justify-content: center;
 }
 
+.create-spot-button {
+  margin-top: 0px;
+  color: white;
+  background-color: darkgrey;
+}
+
+.h1-and-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* justify-content: flex-start;
+  text-align: flex-start; */
+}
+
+h1 {
+  margin-left: 0;
+  margin-bottom: 5px;
+}
+
   .spots-grid {
       display: grid;
+      width: fit-content;
       max-width: 870px;
       min-width: 206px;
       grid-template-columns: repeat(auto-fill, minmax(206px, 1fr));
@@ -35,4 +55,6 @@
     .manage-spots {
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
