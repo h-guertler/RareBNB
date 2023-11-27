@@ -1,0 +1,45 @@
+#review-text-input {
+    width: 90%;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+#submit-review-button {
+    width: 90%;
+    margin-bottom: 10px;
+}
+
+#submit-review-button.true {
+    background-color: darkgrey;
+    color: white;
+}
+
+#submit-review-button.false {
+    background-color: red;
+    color: white;
+}
+
+.stars-container {
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    font-size: 20px;
+    cursor: pointer;
+    margin-right: 5px;
+    background-color: white;
+}
+
+.star:hover,
+.star.active {
+    color: gold;
+}
+
+#label-for-stars {
+    margin-left: 10px;
+}
+
+h1 {
+    padding-bottom: 10px;
+}

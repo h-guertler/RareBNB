@@ -1,0 +1,139 @@
+form {
+    min-width: 400px;
+    max-width: 40%;
+}
+
+.new-spot-form-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.country label input {
+    display: block;
+}
+
+.country input {
+    width: 100%;
+}
+
+.address label input {
+    display: block;
+}
+
+.address input {
+    width: 100%;
+}
+
+.city label input {
+    display: block;
+}
+
+.state label input {
+    display: block;
+}
+
+.city-state-div {
+    display: flex;
+    justify-content: center;
+}
+
+.city-input {
+    width: 90%
+}
+
+.state-input {
+    width: 100%;
+}
+
+.city {
+    width: 60%
+}
+
+.state {
+    width: 40%
+}
+
+.lat-lng-div {
+    display: flex;
+    justify-content: center;
+}
+
+.lat-input {
+    width: 90%
+}
+
+.lng-input {
+    width: 100%;
+}
+
+.lat {
+    width: 50%
+}
+
+.lng {
+    width: 50%
+}
+
+.location-div {
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+}
+
+.description-div {
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+}
+
+.description-div textarea {
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+.title-div {
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+}
+
+.title-div input  {
+    width: 100%;
+}
+
+.pricing-div {
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+    display: inline-block;
+}
+
+.pricing-div input {
+    width: 90%;
+}
+
+.photos-div {
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.photos-div input {
+    width: 100%;
+}
+
+button {
+    color: white;
+    background-color: red;
+    width: 20%;
+    margin-top: 15px;
+    border: 1px solid black;
+}
+
+p {
+    color: black;
+}
+
+.errorsP {
+    color: red;
+}

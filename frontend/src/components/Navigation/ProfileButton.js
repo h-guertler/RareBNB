@@ -11,18 +11,19 @@ function ProfileButton({user}) {
     const history = useHistory();
 
     const [showMenu, setShowMenu] = useState(false);
+
     const ulRef = useRef();
+
+    const openMenu = () => {
+        if (showMenu) return;
+        setShowMenu(true);
+      };
 
     const logout = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout());
         closeMenu();
         history.push("/");
-      };
-
-      const openMenu = () => {
-        if (showMenu) return;
-        setShowMenu(true);
       };
 
       useEffect(() => {
@@ -40,6 +41,12 @@ function ProfileButton({user}) {
       }, [showMenu]);
 
     const closeMenu = () => setShowMenu(false);
+
+    const navToManageSpots = () => {
+        // push the page to the history
+        history.push("/spots/current");
+    }
+
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
@@ -53,15 +60,15 @@ function ProfileButton({user}) {
                 {user ? (
                     <>
                     <li>Hello, {user.firstName}</li>
-                    <li>{user.username}</li>
                     <li>{user.firstName} {user.lastName}</li>
                     <li>{user.email}</li>
-                    <li>
-                        <button onClick={logout} className="logout-button">Log Out</button>
-                    </li>
+                    <div className="flex-buttons">
+                    <button onClick={navToManageSpots} className="clickable menu-button-inner" id="manage-spots-button">Manage Spots</button>
+                    <button onClick={logout} className="logout-button clickable menu-button-inner">Log Out</button>
+                    </div>
                     </>
                 ) : (
-                    <>
+                    <div className="clickable">
                         <OpenModalMenuItem
                         itemText={"Log In"}
                         onItemClick={closeMenu}
@@ -72,7 +79,7 @@ function ProfileButton({user}) {
                         onItemClick={closeMenu}
                         modalComponent={<SignupFormModal />}
                         />
-                </>
+                </div>
                 )}
             </ul>
         </>

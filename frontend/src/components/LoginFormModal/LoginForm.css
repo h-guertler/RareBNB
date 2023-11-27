@@ -12,12 +12,39 @@ form {
     margin: 5px;
   }
 
+  .login-button {
+    width: 80%;
+  }
+
+  .login-button.true {
+    background-color: lightgray;
+    color: darkgrey;
+  }
+
+  .login-button.false {
+    background-color: red;
+    color: white
+  }
+
+  .demo-login {
+    background-color: white;
+    color: black;
+    border: 1px solid white;
+    padding-bottom: 10px;
+    text-decoration: underline;
+  }
+
   .login-modal-div {
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-radius: 15px;
   }
 
   h1 {
     font-family: "Comic Sans MS", "Comic Sans", cursive;
+  }
+
+  p {
+    color: red;
   }

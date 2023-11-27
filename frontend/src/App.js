@@ -6,6 +6,9 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotsGrid from "./components/SpotsGrid";
 import SpotDetails from "./components/SpotDetails";
+import CreateSpot from "./components/CreateSpot";
+import ManageSpots from "./components/ManageSpots";
+import UpdateSpotForm from "./components/UpdateSpotForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,11 +21,23 @@ function App() {
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Switch>
-        <Route path="/spots/:spotId">
+        <Route exact path="/spots/new">
+          <CreateSpot/>
+        </Route>
+        <Route exact path="/spots/current">
+          <ManageSpots/>
+        </Route>
+        <Route path="/spots/:spotId/edit">
+          <UpdateSpotForm />
+        </Route>
+        <Route exact path="/spots/:spotId">
           <SpotDetails />
         </Route>
         <Route exact path="/">
           <SpotsGrid />
+        </Route>
+        <Route>
+          <h1>404 Page Not Found</h1>
         </Route>
         </Switch>}
     </>

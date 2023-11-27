@@ -4,7 +4,7 @@
     align-items: flex-start;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     width: 206px;
-    height: 260px;
+    height: 280px;
     font-size: 12px;
     margin: 15px;
 }
@@ -23,8 +23,6 @@
 .second-row {
     align-self: flex-end;
     margin-right: 6px;
-    display: flex;
-    width: 100%;
 }
 
 .city-and-state {
@@ -33,7 +31,6 @@
 
 .price {
     align-self: flex-start;
-    margin-left: 4px;
 }
 
 .rating-div {
@@ -51,6 +48,23 @@ i {
     flex-direction: column;
     width: 100%;
     justify-content: space-between;
-    margin-left: 5px;
-    padding-top: 5px;
+    /* margin-left: 5px; */
+  }
+
+  .button-div {
+    padding-right: 5px;
+    align-self: flex-start;
+    display: flex;
+    flex-flow: row;
+
+  }
+
+  .management-button {
+    color: white;
+    background-color: darkgray;
+    width: fit-content;
+  }
+
+  #open-delete-modal {
+    width: fit-content;
   }

@@ -1,5 +1,17 @@
-.hidden {
+ul.hidden {
     display: none;
+}
+
+.menu-button-inner {
+    width: 80%;
+    justify-content: space-around;
+}
+
+.flex-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 #nav {
@@ -28,6 +40,17 @@
 
 #profile-button {
     margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#manage-spots-button {
+    color: black;
+    background-color: white;
+    border: 1px solid white;
+    width: 100%;
 }
 
 .menu-button {
@@ -51,10 +74,16 @@ li {
     cursor: pointer;
 }
 
+.profile-dropdown li {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .profile-dropdown {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     align-items: center;
+
 }
 
 .logout-button {
@@ -62,4 +91,17 @@ li {
     background-color: #999999;
     border: 1px solid black;
     border-radius: 12px;
+}
+
+.create-new-spot-profile-button {
+    display: flex;
+    flex-direction: row;
+}
+
+#create-spot-button {
+    background-color: white;
+    color: black;
+    border: 1px solid white;
+    padding-top: 5px;
+    width: 100%;
 }

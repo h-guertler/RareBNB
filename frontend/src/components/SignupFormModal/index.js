@@ -33,7 +33,7 @@ function SignupFormModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({}); // moved from password comp block
+    setErrors({});
 
     if (password === confirmPassword) {
       return dispatch(
@@ -47,26 +47,28 @@ function SignupFormModal() {
       )
         .then(closeModal)
         .catch(async (res) => {
-          console.log("fetching data...")
-
           if (!res.ok) { //
-            res.text()
-              .then((resText) => {
-                console.log("resText: " + resText);
-              })
-              .catch((error) => {
-                console.error(error);
-              });
+            let jsonRes = await res.json();
+
+            let errorMessage = jsonRes.error.errors[0].message;
+            let errorOriginField = jsonRes.error.errors[0].path;
+
+            if (errorMessage) return setErrors({[errorOriginField]: errorMessage});
+
+            // res.text()
+            //   .then((resText) => {
+            //     console.log("resText from not ok: " + resText);
+            //     const jsonResText = resText.json();
+            //     console.log("jsonResText: " + jsonResText)
+            //   })
+            //   .catch((error) => {
+            //     console.error("error from not ok: " + error);
+            //   });
             return;
           } //
 
           const data = await res.json();
 
-          if (!res.ok) {
-            console.log("response to str: " + Object.keys(res) + Object.values(res))
-            return
-          }
-          // getting Uncaught (in promise) SyntaxError: JSON.parse: unexpected character at line 1 column 1 of the JSON data
           console.log("data message: " + data.message)
           console.log("keys: " + Object.keys(data) + " vals: " + Object.values(data))
           console.log("errors before: " + errors)
@@ -85,6 +87,11 @@ function SignupFormModal() {
     <div id="signup-modal-div">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
+        {errors.email && <p>{errors.email}</p>}
+        {errors.username && <p>{errors.username}</p>}
+        {errors.firstName && <p>{errors.firstName}</p>}
+        {errors.lastName && <p>{errors.lastName}</p>}
+        {errors.password && <p>{errors.password}</p>}
           <input
             type="text"
             value={email}
@@ -92,7 +99,7 @@ function SignupFormModal() {
             placeholder="Email"
             required
           />
-        {errors.email && <p>{errors.email}</p>}
+
           <input
             type="text"
             value={username}
@@ -100,7 +107,7 @@ function SignupFormModal() {
             placeholder="Username"
             required
           />
-        {errors.username && <p>{errors.username}</p>}
+
           <input
             type="text"
             value={firstName}
@@ -108,7 +115,7 @@ function SignupFormModal() {
             placeholder="First Name"
             required
           />
-        {errors.firstName && <p>{errors.firstName}</p>}
+
           <input
             type="text"
             value={lastName}
@@ -116,7 +123,7 @@ function SignupFormModal() {
             placeholder="Last Name"
             required
           />
-        {errors.lastName && <p>{errors.lastName}</p>}
+
           <input
             type="password"
             value={password}
@@ -124,7 +131,7 @@ function SignupFormModal() {
             placeholder="Password"
             required
           />
-        {errors.password && <p>{errors.password}</p>}
+
           <input
             type="password"
             value={confirmPassword}
@@ -135,7 +142,7 @@ function SignupFormModal() {
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}
-        <button type="submit" disabled={isDisabled}>Sign Up</button>
+        <button type="submit" disabled={isDisabled} className={`signup-button ${isDisabled.toString()}`}>Sign Up</button>
       </form>
     </div>
   );

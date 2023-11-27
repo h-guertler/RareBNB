@@ -9,11 +9,14 @@ function Navigation({isLoaded}) {
     const currUser = useSelector(state => state.session.user);
 
     const history = useHistory();
+
+    const navigateToCreateSpot = () => {
+        return history.push("/spots/new");
+    }
+
     const navigateToHome = () => {
         return history.push("/");
     }
-
-    // <i className="fas fa-building"/>
 
     return (
         <div id="nav">
@@ -24,13 +27,23 @@ function Navigation({isLoaded}) {
             >
         </button>
         <>
-            { // <li>
-                // <NavLink exact to="/">Home</NavLink>
-            // </li>
-             }
+
+        </>
+        <>
             {isLoaded && (
-                <div id="profile-button">
-                    <ProfileButton user={currUser}/>
+                <div className="create-new-spot-profile-button">
+                    {currUser && (
+                        <div>
+                            <button
+                            id="create-spot-button"
+                            className="clickable"
+                            onClick={navigateToCreateSpot}
+                            >Create a New Spot</button>
+                        </div>
+                    )}
+                    <div id="profile-button">
+                        <ProfileButton user={currUser}/>
+                    </div>
                 </div>
             )}
         </>
