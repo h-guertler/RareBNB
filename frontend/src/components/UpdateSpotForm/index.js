@@ -49,8 +49,6 @@ function UpdateSpotForm() {
 
     if (loading) return (<h1>Loading...</h1>)
 
-    console.log("spot keys: " + Object.keys(currSpot)) // works
-
     // // const [previewImgUrl, setPreviewImgUrl] = useState(spot.previewImgUrl);
     // // const [spotImgOne, setSpotImgOne] = useState(spot.spotImgOne ? spot.spotImgOne : "");
     // // const [spotImgTwo, setSpotImgTwo] = useState(spot.spotImgTwo ? spot.spotImgTwo : "");

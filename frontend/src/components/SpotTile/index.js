@@ -4,8 +4,6 @@ import { useHistory } from "react-router-dom";
 
 function SpotTile({spot}) {
     const { previewImage, city, state, price, avgRating, name, id } = spot;
-    console.log("spot keys: " + Object.keys(spot))
-    console.log("preview image: " + previewImage)
     const history = useHistory();
 
     const directToSpotDetails = () => {
