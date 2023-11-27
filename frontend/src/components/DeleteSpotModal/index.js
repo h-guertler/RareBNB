@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import * as spotsActions from "../../store/session";
-import { useDispatch } from "react-redux";
+// import React, { useState, useEffect } from "react";
+import React from "react";
+// import * as spotsActions from "../../store/session";
+// import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./DeleteSpotModal.css";
 
 function DeleteSpotModal() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { closeModal } = useModal();
 
   // create a delete thunk and action that immediately updates the store to reflect deletion

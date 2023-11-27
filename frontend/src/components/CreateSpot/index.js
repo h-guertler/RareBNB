@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react"; // and useEffect
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import './CreateSpot.css';
 import * as spotsActions from "../../store/spots";
 
 function CreateSpot() {
     const dispatch = useDispatch();
-    const history = useHistory();
+    // const history = useHistory();
 
     const currUser = useSelector(state => state.session.user);
     //below causing issues

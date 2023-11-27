@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"; // usHistory
 import "./UpdateSpotForm.css";
 import * as spotsActions from "../../store/spots";
 
@@ -10,6 +10,7 @@ function UpdateSpotForm() {
 
     const { spotId } = useParams();
 
+    // eslint-disable-next-line
     const currUser = useSelector(state => state.session.user);
 
     const [loading, setLoading] = useState(true);
@@ -25,17 +26,25 @@ function UpdateSpotForm() {
         setLoading(!currSpot);
     }, [currSpot]);
 
-    console.log(`${currSpot ? currSpot : "current spot not loaded"}`)
-
+    // eslint-disable-next-line
     const [country, setCountry] = useState(currSpot ? currSpot.country : "");
+    // eslint-disable-next-line
     const [address, setAddress] = useState(currSpot ? currSpot.address : "");
+    // eslint-disable-next-line
     const [city, setCity] = useState(currSpot ? currSpot.city : "");
+    // eslint-disable-next-line
     const [state, setState] = useState(currSpot ? currSpot.state : "");
+    // eslint-disable-next-line
     const [lat, setLat] = useState(currSpot ? currSpot.lat : "");
+    // eslint-disable-next-line
     const [lng, setLng] = useState(currSpot ? currSpot.lng : "");
+    // eslint-disable-next-line
     const [description, setDescription] = useState(currSpot ? currSpot.description : "");
+    // eslint-disable-next-line
     const [name, setName] = useState(currSpot ? currSpot.name : "");
+    // eslint-disable-next-line
     const [price, setPrice] = useState(currSpot ? currSpot.price : "");
+    // eslint-disable-next-line
     const [errors, setErrors] = useState({});
 
     if (loading) return (<h1>Loading...</h1>)

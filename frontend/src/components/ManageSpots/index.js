@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react"; // and useState
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as spotsActions from "../../store/spots";
@@ -10,7 +10,7 @@ function ManageSpots() {
     const dispatch = useDispatch();
     const currentUsersSpots = useSelector(state => state.spots.currentUsersSpots);
 
-    const [spotsArray, setSpotsArray] = useState([]);
+    // const [spotsArray, setSpotsArray] = useState([]);
 
     useEffect(() => {
         dispatch(spotsActions.fetchUsersSpots());
@@ -22,9 +22,9 @@ function ManageSpots() {
     //     }
     // }, [currentUsersSpots]);
 
-    const handleUsersSpotsChange = async () => {
-        dispatch(spotsActions.fetchUsersSpots());
-    }
+    // const handleUsersSpotsChange = async () => {
+    //     dispatch(spotsActions.fetchUsersSpots());
+    // }
 
     if (!currentUsersSpots) {
         return (

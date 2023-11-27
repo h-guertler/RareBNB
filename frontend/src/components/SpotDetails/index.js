@@ -18,7 +18,7 @@ function SpotDetails() {
     const { currentSpotReviews } = allReviews;
     const reviews = currentSpotReviews; // SHOULD update from store
 
-    const [dynamicAvgRating, setDynamicAvgRating] = useState(null);
+    // const [dynamicAvgRating, setDynamicAvgRating] = useState(null);
     const [prevSpotId, setPrevSpotId] = useState(null);
     const [reviewsUpdated, setReviewsUpdated] = useState(false);
 
@@ -29,7 +29,7 @@ function SpotDetails() {
             setPrevSpotId(spotId);
             setReviewsUpdated(false);
         }
-    }, [dispatch, spotId, prevSpotId]);
+    }, [dispatch, spotId, prevSpotId, reviewsUpdated]);
 
     const spot = useSelector(state => state.spots.currentSpot);
     const user = useSelector((state) => state.session.user);
@@ -59,21 +59,21 @@ function SpotDetails() {
     spotImagesToUse[2] ? spotImgThree = spotImagesToUse[2].url : spotImgThree = placeholderUrl;
     spotImagesToUse[3] ? spotImgFour = spotImagesToUse[3].url : spotImgFour = placeholderUrl;
 
-    let reviewForCalloutStr = "";
-    if (Object.keys(reviews).length === 0) {
-        reviewForCalloutStr = "";
-    } else {
-        reviewForCalloutStr = numReviews;
-    }
+    // let reviewForCalloutStr = "";
+    // if (Object.keys(reviews).length === 0) {
+    //     reviewForCalloutStr = "";
+    // } else {
+    //     reviewForCalloutStr = numReviews;
+    // }
 
-    const updateAverageRating = () => {
-        const totalRating = reviews.Reviews.reduce((sum, review) => sum + review.rating, 0);
-        const updatedAvgRating = totalRating / reviews.Reviews.length;
+    // const updateAverageRating = () => {
+    //     const totalRating = reviews.Reviews.reduce((sum, review) => sum + review.rating, 0);
+    //     const updatedAvgRating = totalRating / reviews.Reviews.length;
 
-        setDynamicAvgRating(updatedAvgRating);
+    //     setDynamicAvgRating(updatedAvgRating);
 
-        return updatedAvgRating;
-    };
+    //     return updatedAvgRating;
+    // };
 
     // useEffect(() => {
     //     if (reviews.Reviews.length > 0) {
@@ -104,12 +104,12 @@ function SpotDetails() {
         reviewString = "Reviews";
     }
 
-    let reviewInfo;
-    if (Object.keys(reviews).length === 0) {
-        reviewInfo = "";
-    } else {
-        reviewInfo = `∙ ${numReviews} ${reviewString}`;
-    }
+    // let reviewInfo;
+    // if (Object.keys(reviews).length === 0) {
+    //     reviewInfo = "";
+    // } else {
+    //     reviewInfo = `∙ ${numReviews} ${reviewString}`;
+    // }
 
     let existingReviewByUser;
 
@@ -129,6 +129,7 @@ function SpotDetails() {
     }
 
     const makeDateString = (date) => {
+        // eslint-disable-next-line
         let dateString;
         return dateString = date.slice(5, 7) + " " + date.slice(0, 4);
     }

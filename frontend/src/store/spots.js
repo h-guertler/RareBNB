@@ -58,8 +58,8 @@ export const addSpotImage = (spotId, imgInfo) => async (dispatch) => {
         })
     });
 
-    const data = await response.json();
-    // do i need to do anything else for store to update?
+    return response;
+    // const data = await response.json();
 
 }
 

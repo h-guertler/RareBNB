@@ -2,7 +2,7 @@ import React from "react";
 import OpenModalButton from "../OpenModalButton";
 import DeleteSpotModal from "../DeleteSpotModal";
 import "./OwnedSpotTile.css";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function OwnedSpotTile({spot}) {
     const { previewImage, city, state, price, avgRating, name, id } = spot;
@@ -17,10 +17,10 @@ function OwnedSpotTile({spot}) {
         return history.push(`/spots/${id}/edit`);
     }
 
-    const handleDelete = (e) => {
-        e.stopPropagation();
-        console.log("handle delete clicked")
-    }
+    // const handleDelete = (e) => {
+    //     e.stopPropagation();
+    //     console.log("handle delete clicked")
+    // }
 
     let ratingString;
     if (typeof avgRating === "number" && avgRating > 0) {

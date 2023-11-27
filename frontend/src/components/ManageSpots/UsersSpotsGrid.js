@@ -1,6 +1,6 @@
-import * as spotsActions from "../../store/spots";
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+// import * as spotsActions from "../../store/spots";
+import React from "react";
+// import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "../SpotsGrid/SpotsGrid.css";
 import OwnedSpotTile from "../../components/OwnedSpotTile";
@@ -9,17 +9,9 @@ import "./UsersSpotsGrid.css"
 // align manage spots text with edge of spotsGrid
 // ensure they are aligned with left side of image
 function UsersSpotsGrid({usersSpots}) {
-    const dispatch = useDispatch();
     const history = useHistory();
 
-    // console.log("users spots: " + usersSpots) // an obj
-    // console.log("Input Keys: " + Object.keys(usersSpots)) // a series of numbers
-    // console.log("Input Values: " + Object.values(usersSpots)) // a series of objects (spots)
-
     const spotsArray = Array.from(Object.values(usersSpots)); // spotsArray is the array of spots
-    const singleSpot = spotsArray[0]; // this is a spot obj
-
-    // console.log("spot: " + singleSpot)// just the spot
 
     // useEffect(() => {
         // was passed in as prop
