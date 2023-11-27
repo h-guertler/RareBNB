@@ -38,32 +38,29 @@ function ReviewFormModal() {
 
     let starArray = [1, 2, 3, 4, 5];
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         setErrors({});
-        const currErrors = {};
         const spotId = spot.id;
 
         console.log("about to dispatch from handleSubmit")
-        return dispatch(
+
+        try {
+        await dispatch(
             reviewsActions.addReview(spotId, {
               review: reviewText,
               stars
             })
-          )
-            .then(closeModal)
-            .catch(async (res) => {
-                console.log("inside catch")
-              const data = await res.json();
-              if (data) {
-                console.log("data: " + Object.keys(data))
-                console.log("data: " + Object.values(data))
-              } else {
-                console.log("no data");
-              }
-            });
-        }
+          );
+          closeModal();
+        } catch (res) {
+                const data = await res.json();
+                if (data.errors) {
+                    setErrors(data.errors);
+                }
+            }
+        };
 
     return (
         <form className="review-form" onSubmit={handleSubmit}>

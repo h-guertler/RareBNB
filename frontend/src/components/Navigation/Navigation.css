@@ -2,6 +2,18 @@ ul.hidden {
     display: none;
 }
 
+.menu-button-inner {
+    width: 80%;
+    justify-content: space-around;
+}
+
+.flex-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 #nav {
     display: flex;
     justify-content: space-between;
@@ -28,6 +40,17 @@ ul.hidden {
 
 #profile-button {
     margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#manage-spots-button {
+    color: black;
+    background-color: white;
+    border: 1px solid white;
+    width: 100%;
 }
 
 .menu-button {
@@ -51,10 +74,16 @@ li {
     cursor: pointer;
 }
 
+.profile-dropdown li {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .profile-dropdown {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     align-items: center;
+
 }
 
 .logout-button {

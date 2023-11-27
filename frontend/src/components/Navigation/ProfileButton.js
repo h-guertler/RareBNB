@@ -63,10 +63,10 @@ function ProfileButton({user}) {
                     <li>{user.username}</li>
                     <li>{user.firstName} {user.lastName}</li>
                     <li>{user.email}</li>
-                    <li>
-                        <button onClick={navToManageSpots} className="clickable">Manage Spots</button>
-                        <button onClick={logout} className="logout-button clickable">Log Out</button>
-                    </li>
+                    <div className="flex-buttons">
+                    <button onClick={navToManageSpots} className="clickable menu-button-inner" id="manage-spots-button">Manage Spots</button>
+                    <button onClick={logout} className="logout-button clickable menu-button-inner">Log Out</button>
+                    </div>
                     </>
                 ) : (
                     <div className="clickable">

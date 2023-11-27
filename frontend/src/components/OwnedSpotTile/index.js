@@ -50,11 +50,15 @@ function OwnedSpotTile({spot}) {
                     <div className="price">{` $${price}/night `}</div>
                 </div>
                 <div className="button-div">
-                    <button onClick={handleUpdate} className="clickable management-button">Update</button>
+                    <button onClick={handleUpdate} className="clickable management-button update-button">Update</button>
+                    <div className="delete-button">
                     <OpenModalButton
+                        id="open-delete-modal"
                         buttonText="Delete"
                         modalComponent={<DeleteSpotModal/>}
-                        />
+                        className="clickable management-button"
+                    />
+                    </div>
                 </div>
             </div>
         </div>

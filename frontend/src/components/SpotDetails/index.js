@@ -1,26 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
 import ReviewFormModal from "../ReviewFormModal";
+import DeleteReviewModal from "../DeleteReviewModal";
 import * as spotsActions from "../../store/spots";
 import * as reviewsActions from "../../store/reviews";
 import "./SpotDetails.css";
 import "../ReviewFormModal/ReviewFormModal.css";
+import "../DeleteReviewModal/DeleteReviewModal.css";
 
 function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
 
+    const allReviews = useSelector((state) => state.reviews);
+    const { currentSpotReviews } = allReviews;
+    const reviews = currentSpotReviews; // SHOULD update from store
+
+    const [dynamicAvgRating, setDynamicAvgRating] = useState(null);
+    const [prevSpotId, setPrevSpotId] = useState(null);
+    const [reviewsUpdated, setReviewsUpdated] = useState(false);
+
     useEffect(() => {
-        dispatch(spotsActions.fetchOneSpot(spotId));
-        dispatch(reviewsActions.fetchReviewsBySpot(spotId));
-    }, [dispatch, spotId]);
+        if (prevSpotId !== spotId || reviewsUpdated) {
+            dispatch(spotsActions.fetchOneSpot(spotId));
+            dispatch(reviewsActions.fetchReviewsBySpot(spotId));
+            setPrevSpotId(spotId);
+            setReviewsUpdated(false);
+        }
+    }, [dispatch, spotId, prevSpotId]);
 
     const spot = useSelector(state => state.spots.currentSpot);
-    const reviews = useSelector(state => state.reviews.currentSpotReviews);
-
-    const user = useSelector(state => state.session.user);
+    const user = useSelector((state) => state.session.user);
 
     const placeholderUrl = "https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg";
 
@@ -30,6 +42,8 @@ function SpotDetails() {
     let spotImagesToUse = [];
 
     const { name, city, state, country, description, Owner, price, numReviews, avgRating, previewImage, SpotImages } = spot;
+    // setDynamicAvgRating(avgRating);
+
     if (SpotImages) {const nonPreviewImages = SpotImages.map((image) => image.previewImage = false);
 
     nonPreviewImages.length <= 4 ? spotImagesToUse = nonPreviewImages : spotImagesToUse = nonPreviewImages.slice(0, 4);}
@@ -51,12 +65,29 @@ function SpotDetails() {
         reviewForCalloutStr = numReviews;
     }
 
+    const updateAverageRating = () => {
+        const totalRating = reviews.Reviews.reduce((sum, review) => sum + review.rating, 0);
+        const updatedAvgRating = totalRating / reviews.Reviews.length;
+
+        setDynamicAvgRating(updatedAvgRating);
+
+        return updatedAvgRating;
+    };
+
+    // useEffect(() => {
+    //     if (reviews.Reviews.length > 0) {
+    //         updateAverageRating(); // Update average rating when reviews change
+    //     }
+    // }, [reviews.Reviews]);
+
+    // avgRating = updateAverageRating();
+
     let ratingString;
-    if (typeof avgRating === "number" && avgRating > 0) {
-        if (avgRating % 1 === 0) {
-            ratingString = `${avgRating}.0`;
+    if (typeof dynamicAvgRating === "number" && dynamicAvgRating > 0) {
+        if (dynamicAvgRating % 1 === 0) {
+            ratingString = `${dynamicAvgRating}.0`;
         } else {
-            let longRatingString = avgRating.toString();
+            let longRatingString = dynamicAvgRating.toString();
             ratingString = longRatingString.slice(0, 3);
         }
     } else {
@@ -134,6 +165,7 @@ function SpotDetails() {
                         <div className="price-div">{`$${price}/`}<span className="night">night</span></div>
                         <div className="ratings-reviews-div">
                             <i className="fas fa-star"></i>
+                            {/* should be updating */}
                             <div className="num-reviews">{`${ratingString} ${numReviews > 0 ? ` · ${numReviews} ${reviewString}` : ""}`}</div>
                         </div>
                     </div>
@@ -144,6 +176,7 @@ function SpotDetails() {
             </div>
             </div>
             <div className="review-div">
+                {/* should be updating */}
                     <h3><i className="fas fa-star"></i>{`${ratingString} ${numReviews > 0 ? ` · ${numReviews} ${reviewString}` : ""}`}</h3>
                     <div className={`review-button ${createReviewIsHidden}`}>
                         <OpenModalButton
@@ -156,9 +189,16 @@ function SpotDetails() {
                         <div className="reviews-list">
                             {pageReviews.map(review => (
                                 <div className="single-review" key={review.id}>
-                                    <h4 className="user-name">{review.User.firstName}</h4>
+                                    <h4 className="user-name">{review.User.firstName ? review.User.firstName : "loading..."}</h4>
                                     <h5 className="review-date">{makeDateString(review.createdAt)}</h5>
                                     <p className="review-text">{review.review}</p>
+                                    <div className={`delete-review-button-div clickable ${user ? (user.id === review.User.id ? "" : " hidden") : " hidden"}`}>
+                                        <OpenModalButton
+                                            className={`delete-review-button`}
+                                            buttonText="Delete"
+                                            modalComponent={<DeleteReviewModal/>}
+                                        />
+                                    </div>
                                 </div>
                             ))}
                         </div>
