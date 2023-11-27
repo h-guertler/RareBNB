@@ -37,7 +37,7 @@ function OwnedSpotTile({spot}) {
     return (
         <div className="owned-spot-tile spot-tile clickable tooltip" onClick={directToSpotDetails}>
             <span className="tooltiptext">{name}</span>
-            <img src={previewImage} className="previewImage" alt="spot preview"/>
+            <img src={previewImage ? previewImage : "https://img2.cgtrader.com/items/3310379/5158213a16/large/fantasy-stylized-medieval-house-b8-3d-model-obj-fbx-blend-gltf.jpg"} className="previewImage" alt="spot preview"/>
             <div className="tile-text">
                 <div className="first-row">
                     <div className="city-and-state">{`${city}, ${state} `}</div>
@@ -51,14 +51,12 @@ function OwnedSpotTile({spot}) {
                 </div>
                 <div className="button-div">
                     <button onClick={handleUpdate} className="clickable management-button update-button">Update</button>
-                    <div className="delete-button">
                     <OpenModalButton
                         id="open-delete-modal"
                         buttonText="Delete"
                         modalComponent={<DeleteSpotModal/>}
                         className="clickable management-button"
                     />
-                    </div>
                 </div>
             </div>
         </div>

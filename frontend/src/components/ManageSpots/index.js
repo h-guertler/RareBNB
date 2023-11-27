@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as spotsActions from "../../store/spots";
 import UsersSpotsGrid from "./UsersSpotsGrid";
+// import "./UsersSpotsGrid.css";
+
 
 function ManageSpots() {
     const dispatch = useDispatch();
@@ -34,7 +36,7 @@ function ManageSpots() {
         return (
             //
             spotsPlaceholder.length >= 1 ? (
-                <div>
+                <div className="manage-spots">
                     <h1>Manage Spots</h1>
                     <UsersSpotsGrid usersSpots={currentUsersSpots.Spots}/>
                 </div>

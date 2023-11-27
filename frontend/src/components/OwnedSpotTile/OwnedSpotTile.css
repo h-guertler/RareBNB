@@ -48,7 +48,7 @@ i {
     flex-direction: column;
     width: 100%;
     justify-content: space-between;
-    margin-left: 5px;
+    /* margin-left: 5px; */
   }
 
   .button-div {
@@ -56,18 +56,15 @@ i {
     align-self: flex-start;
     display: flex;
     flex-flow: row;
+
   }
 
   .management-button {
     color: white;
     background-color: darkgray;
-
-  }
-
-  /* .update-button {
-    width: 55px;
+    width: fit-content;
   }
 
   #open-delete-modal {
-    width: 60px;
-  } */
+    width: fit-content;
+  }

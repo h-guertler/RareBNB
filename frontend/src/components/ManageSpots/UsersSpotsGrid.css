@@ -1,0 +1,38 @@
+.container-for-grid {
+  display: flex;
+  justify-content: center;
+}
+
+  .spots-grid {
+      display: grid;
+      max-width: 870px;
+      min-width: 206px;
+      grid-template-columns: repeat(auto-fill, minmax(206px, 1fr));
+      gap: 15px;
+  }
+
+  .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 120px;
+      background-color: white;
+      color: red;
+      text-align: center;
+      padding: 5px 0;
+      border-radius: 6px;
+      position: absolute;
+      z-index: 1;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+    }
+
+    .manage-spots {
+      display: flex;
+      flex-direction: column;
+    }
